@@ -8,22 +8,25 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
                                          Vector2D<double>(randomRange(10, m_width - 10),
                                                           randomRange(10, m_height - 10)),
                                          Vector2D<double>(1, 1),
-                                         Vector2D<double>(0, 0),
-                                         Vector2D<double>(0, 0),
-                                         Vector2D<double>(0, 0),
+                                         Vector2D<double>(0, 300),
+                                         Vector2D<double>(0, 1),
+                                         Vector2D<double>(1, 0),
                                          1,
-                                         5,
+                                         1000,
                                          5,
                                          1));
     }
 }
 
-void GameWorld::update() {
+void GameWorld::update(double timeElapsed) {
     // check if paused
 
     // smooth frame rate
 
     // update all vehicles
+    for (auto &m_vehicle : m_vehicles) {
+        m_vehicle->update(timeElapsed);
+    }
 }
 
 /**
@@ -31,7 +34,7 @@ void GameWorld::update() {
  */
 void GameWorld::render() {
 
-    for (unsigned int i=0; i<m_vehicles.size(); ++i) {
-        m_vehicles[i]->render();
+    for (auto &m_vehicle : m_vehicles) {
+        m_vehicle->render();
     }
 }

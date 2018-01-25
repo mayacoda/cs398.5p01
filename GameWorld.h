@@ -22,9 +22,14 @@ private:
 public:
     GameWorld(int m_width, int m_height);
 
-    void update();
+    void update(double timeElapsed);
 
     void render();
+
+
+    int getWidth() { return m_width; }
+
+    int getHeight() { return m_height; }
 };
 
 

@@ -27,6 +27,10 @@ inline int randomRange(int min, int max) {
     return random;
 }
 
+inline double r2d(double rad) {
+    return rad * 180 / M_PI;
+}
+
 template<typename T>
 T min(T a, T b) {
     return a > b ? b : a;

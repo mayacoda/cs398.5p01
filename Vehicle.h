@@ -15,6 +15,7 @@ private:
 
     double m_timeElapsed;
 
+
 public:
     virtual ~Vehicle();
 

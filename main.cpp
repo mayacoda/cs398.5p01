@@ -20,12 +20,13 @@ clock_t currentTime = clock();
 int main(int argc, char *argv[]) {
     std::cout << "Hello, World!" << std::endl;
 
-    bool quit = false;
-
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(iWidth, iHeight);
     glutCreateWindow("Steering Behavior");
+
+    // maybe replace this behavior with lambda expressions
+    // https://msdn.microsoft.com/en-us/library/dd293608.aspx
     glutDisplayFunc(render);
     glutReshapeFunc(reshape);
     glutTimerFunc(0, loop, 0);
@@ -38,8 +39,8 @@ int main(int argc, char *argv[]) {
 
 void render() {
 
-    glClearColor( 0.8, 0.8, 0.8, 1 );  // (In fact, this is the default.)
-    glClear( GL_COLOR_BUFFER_BIT );
+    glClearColor(0.8, 0.8, 0.8, 1);  // (In fact, this is the default.)
+    glClear(GL_COLOR_BUFFER_BIT);
 
     // listen to inputs from the user
     clock_t newTime = clock();
@@ -49,7 +50,7 @@ void render() {
     while (frameTime > 0.0) {
         double deltaTime = min(frameTime, dt);
         frameTime -= deltaTime;
-        gameWorld.update();
+        gameWorld.update(deltaTime);
         t += deltaTime;
     }
 
@@ -70,8 +71,7 @@ void reshape(int w, int h) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
 
-    // keep our logical coordinate system constant
-    gluOrtho2D(0.0, 160.0, 0.0, 120.0);
+    gluOrtho2D(0.0, w, 0.0, h);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }

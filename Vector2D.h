@@ -60,6 +60,11 @@ public:
         return Vector2D<T>(nX, nY);
     }
 
+    friend std::ostream &operator<<(std::ostream &os, const Vector2D &d) {
+        os << "x: " << d.x << " y: " << d.y;
+        return os;
+    }
+
     bool operator==(const Vector2D &v2) const {
         return (x == v2.x) && (y == v2.y);
     }
@@ -108,13 +113,26 @@ public:
 
     void truncate(double max) {
         if (magnitude() > max) {
-            normalize();
+            Vector2D<T> norm = normalize();
+            x = norm.x;
+            y = norm.y;
             *this *= max;
         }
     }
 
     Vector2D ortho() const {
         return Vector2D(-y, x);
+    }
+
+    //treats a window as a toroid
+    void wrapAround(int MaxX, int MaxY) {
+        if (x > MaxX) { x = 0.0; }
+
+        if (x < 0) { x = (double) MaxX; }
+
+        if (y < 0) { y = (double) MaxY; }
+
+        if (y > MaxY) { y = 0.0; }
     }
 };
 
