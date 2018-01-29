@@ -1,12 +1,9 @@
 
 #include "Vehicle.h"
 #include <GLUT/glut.h>
-#include <iostream>
 #include "GameWorld.h"
 
-Vehicle::~Vehicle() {
-
-}
+Vehicle::~Vehicle() = default;
 
 void Vehicle::update(double timeElapsed) {
     Vector2D<double> oldPos = m_pos;
@@ -30,24 +27,25 @@ void Vehicle::update(double timeElapsed) {
 
         m_side = m_heading.ortho();
     }
-
-    // visualization stuff
 }
 
 
 void Vehicle::render() {
 
-    double angle = m_heading.angle(Vector2D<double>(1, 0));
+    // angle between the direction in which the vehicle is rotated
+    // and the positive x-axis
+    double angle = r2d(m_heading.angle(Vector2D<double>(1, 0)));
 
     glPushMatrix();
 
-    glRotated(angle, m_pos.x, m_pos.y, 0.0);
-    glBegin(GL_POLYGON);
-        glColor3f(0.5, 0.2, 0);
-        glVertex2d(m_pos.x - 10, m_pos.y + 10);
-        glVertex2d(m_pos.x - 10, m_pos.y - 10);
-        glVertex2d(m_pos.x + 10, m_pos.y - 10);
-        glVertex2d(m_pos.x + 10, m_pos.y + 10);
+    glTranslated(m_pos.x, m_pos.y, 0.0);
+    glRotated(angle, 0.0, 0.0, 1.0);
+
+    glColor3f(0.5, 0.2, 0);
+    glBegin(GL_TRIANGLES);
+        glVertex2d(-10, 15);
+        glVertex2d(-10, -15);
+        glVertex2d(20, 0.0);
     glEnd();
 
     glPopMatrix();

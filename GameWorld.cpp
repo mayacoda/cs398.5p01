@@ -38,3 +38,8 @@ void GameWorld::render() {
         m_vehicle->render();
     }
 }
+
+void GameWorld::setDimensions(int width, int height) {
+    m_width = width;
+    m_height = height;
+}

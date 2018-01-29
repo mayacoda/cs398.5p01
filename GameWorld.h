@@ -26,6 +26,7 @@ public:
 
     void render();
 
+    void setDimensions(int width, int height);
 
     int getWidth() { return m_width; }
 
