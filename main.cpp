@@ -1,6 +1,12 @@
 #include <iostream>
 #include "GameWorld.h"
+
+#ifdef _WIN32
+#include <GL\glut.h>
+#elif __APPLE__
 #include <GLUT/glut.h>
+#endif
+
 
 int iWidth = 800;
 int iHeight = 600;

@@ -4,7 +4,6 @@
 
 
 #include "Vehicle.h"
-#include "Graphics.h"
 #include <vector>
 
 class Wall2D;

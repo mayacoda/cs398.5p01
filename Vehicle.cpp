@@ -1,10 +1,16 @@
 
 #include "Vehicle.h"
-#include <GLUT/glut.h>
 #include "GameWorld.h"
 #include "opengl_helpers.h"
 #include "Matrix.h"
 #include "geometry.h"
+
+#ifdef _WIN32
+#include <GL\glut.h>
+#elif __APPLE__
+#include <GLUT/glut.h>
+#endif
+
 
 Vehicle::~Vehicle() = default;
 

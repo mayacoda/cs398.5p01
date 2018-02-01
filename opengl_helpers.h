@@ -1,4 +1,9 @@
+#ifdef _WIN32
+#include <GL\glut.h>
+#elif __APPLE__
 #include <GLUT/glut.h>
+#endif
+
 #include <cmath>
 #include "Vector2D.h"
 
