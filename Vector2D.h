@@ -32,6 +32,20 @@ public:
         return *this;
     }
 
+    const Vector2D operator-(const Vector2D &v2) {
+        T nX = x - v2.x;
+        T nY = y - v2.y;
+
+        return Vector2D<T>(nX, nY);
+    }
+
+    const Vector2D operator+(const Vector2D &v2) {
+        T nX = x + v2.x;
+        T nY = y + v2.y;
+
+        return Vector2D<T>(nX, nY);
+    }
+
     const Vector2D operator*=(const T scalar) {
         x *= scalar;
         y *= scalar;
@@ -88,7 +102,7 @@ public:
         return sqrt((xSep * xSep) + (ySep * ySep));
     }
 
-    Vector2D normalize() const {
+    Vector2D getNormalized() const {
         Vector2D v = *this;
         v /= this->magnitude();
         return v;
@@ -102,8 +116,8 @@ public:
         return arccosine(this->dotProduct(v2) / (this->magnitude() * v2.magnitude()));
     }
 
-    Vector2D project(const Vector2D &v2) const {
-        Vector2D temp = v2.normalize();
+    Vector2D getProjection(const Vector2D &v2) const {
+        Vector2D temp = v2.getNormalized();
         T mag = magnitude();
         double theta = angle(v2);
 
@@ -113,11 +127,16 @@ public:
 
     void truncate(double max) {
         if (magnitude() > max) {
-            Vector2D<T> norm = normalize();
+            Vector2D<T> norm = getNormalized();
             x = norm.x;
             y = norm.y;
             *this *= max;
         }
+    }
+
+    void zero() {
+        x = 0;
+        y = 0;
     }
 
     Vector2D ortho() const {

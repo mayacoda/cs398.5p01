@@ -41,7 +41,7 @@ void reshape(GLint width, GLint height) {
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(0, width, 0, height);
+    glOrtho(0, width, 0, height, -1, 1);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -49,6 +49,9 @@ void reshape(GLint width, GLint height) {
 }
 
 int main(int argc, char **argv) {
+    // seed random numbers only once
+    srand(time(NULL));
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowPosition(150, 150);

@@ -4,7 +4,6 @@
 
 #include <cmath>
 
-
 // Korišćena aproksimacija Tejlorov polinom https://www.mathportal.org/formulas/pdf/taylor-series-formulas.pdf
 template<typename T>
 double cosine(T theta) {
@@ -21,10 +20,15 @@ double arccosine(T x) {
            63 * pow(x, 11) / 2816 - 231 * pow(x, 13) / 13312 - 143 * pow(x, 15) / 10240 - 6435 * pow(x, 17) / 557056;
 }
 
-inline int randomRange(int min, int max) {
-    srand(time(NULL));
+inline int iRandomRange(int min, int max) {
     int random = rand() % (max + 1) + min;
     return random;
+}
+
+inline float fRandomRange(int min, int max) {
+    int nMax = max - min;
+    int random = rand() % ((nMax*100000) + 1) + min * 100000;
+    return static_cast<float>(random / 100000.0);
 }
 
 inline double r2d(double rad) {
