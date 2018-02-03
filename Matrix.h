@@ -145,7 +145,9 @@ void Matrix2D::rotate(const Vector2D<double> &fwd, const Vector2D<double> &side)
 }
 
 void Matrix2D::transformVector2Ds(std::vector<Vector2D<double>> &points) {
-    for (auto &point : points) {
+	for(unsigned int i = 0; i < points.size(); i++ ) {
+		Vector2D<double> point = points.at(i);
+
         double tempX = (m_matrix._11 * point.x) + (m_matrix._21 * point.y) + (m_matrix._31);
 
         double tempY = (m_matrix._12 * point.x) + (m_matrix._22 * point.y) + (m_matrix._32);

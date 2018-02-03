@@ -26,7 +26,7 @@ protected:
     Vector2D<double> m_scale;
 
 public:
-    virtual ~BaseGameEntity() = default;
+	virtual ~BaseGameEntity() {};
 
     BaseGameEntity(const Vector2D<double> &pos, const Vector2D<double> &scale) : m_pos(pos), m_scale(scale) {}
 

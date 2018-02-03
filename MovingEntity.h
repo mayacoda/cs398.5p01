@@ -18,7 +18,7 @@ protected:
 
 
 public:
-    ~MovingEntity() override = default;
+	~MovingEntity() {};
 
     MovingEntity(const Vector2D<double> &pos,
                  const Vector2D<double> &scale,

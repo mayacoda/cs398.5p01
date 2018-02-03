@@ -1,8 +1,11 @@
 #include <iostream>
 #include "GameWorld.h"
+#include <ctime>
+
 
 #ifdef _WIN32
 #include <GL\glut.h>
+#include <Windows.h>
 #elif __APPLE__
 #include <GLUT/glut.h>
 #endif
@@ -13,7 +16,7 @@ int iHeight = 600;
 GameWorld gameWorld(iWidth, iHeight);
 
 double t = 0.0;
-double dt = 1 / 60.0;
+double dt = 0.0166666666666667;
 
 clock_t currentTime = clock();
 

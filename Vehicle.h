@@ -13,12 +13,12 @@ private:
     GameWorld *m_world;
     SteeringBehaviors *m_steeringBehavior;
 
-    Vector2D<double> m_steeringForce = Vector2D<double> {0.0, 0.0};
+    Vector2D<double> m_steeringForce;
 
     double m_timeElapsed;
 
 public:
-    ~Vehicle() override;
+	~Vehicle() {};
 
     Vehicle(GameWorld *m_world,
             const Vector2D<double> &pos,
@@ -31,7 +31,7 @@ public:
             double m_maxForce,
             double m_maxTurnRate);
 
-    Vector2D<double> m_wanderTarget = Vector2D<double> {0.0, 0.0};
+    Vector2D<double> m_wanderTarget;
 
     Vector2D<double> getPos() { return m_pos; }
 
