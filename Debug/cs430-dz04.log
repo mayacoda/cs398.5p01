@@ -1,4 +1,4 @@
-﻿Build started 2/3/2018 10:08:19 AM.
+﻿Build started 2/3/2018 10:16:18 AM.
      1>Project "C:\Users\Maya\Documents\CS430\cs430-dz04\cs430-dz04.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\cs430-dz04.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -26,4 +26,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.04
+Time Elapsed 00:00:01.06
