@@ -16,15 +16,15 @@ private:
 
     Vector2D<float> m_wanderTarget;
 
-    double m_panicDistanceSq = 10000;
+    double m_panicDistanceSq;
 
 public:
 
-    double m_wanderRadius = 100;
+    double m_wanderRadius;
 
-    double m_wanderJitter = 20;
+    double m_wanderJitter;
 
-    double m_wanderDistance = 200;
+    double m_wanderDistance;
 
     explicit SteeringBehaviors(Vehicle *m_vehicle);
 

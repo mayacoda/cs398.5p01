@@ -18,6 +18,11 @@ public:
         this->y = y;
     };
 
+	Vector2D() {
+		this->x = 0;
+		this->y = 0;
+	}
+
     const Vector2D operator+=(const Vector2D &v2) {
         x += v2.x;
         y += v2.y;

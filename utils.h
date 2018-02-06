@@ -3,6 +3,7 @@
 #define DZ01_UTILS_H
 
 #include <cmath>
+#define M_PI 3.14159265359
 
 // Korišćena aproksimacija Tejlorov polinom https://www.mathportal.org/formulas/pdf/taylor-series-formulas.pdf
 template<typename T>
@@ -26,9 +27,13 @@ inline int iRandomRange(int min, int max) {
 }
 
 inline float fRandomRange(int min, int max) {
-    int nMax = max - min;
-    int random = rand() % ((nMax*100000) + 1) + min * 100000;
-    return static_cast<float>(random / 100000.0);
+
+	float r3 = min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
+	return r3;
+
+    //int nMax = max - min;
+    //int random = rand() % ((nMax*100000) + 1) + min * 100000;
+    //return static_cast<float>(random / 100000.0);
 }
 
 inline double r2d(double rad) {
