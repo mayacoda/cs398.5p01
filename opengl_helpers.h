@@ -12,12 +12,12 @@
 
 const double DEG2RAD = 3.14159 / 180;
 
-void drawCircle(double radius, Vector2D<double> pos) {
+void drawCircle(double radius, Vector2D<float> pos) {
     glBegin(GL_LINE_LOOP);
 
     for (int i = 0; i < 360; i++) {
         double degInRad = i * DEG2RAD;
-        glVertex2d(cos(degInRad) * radius + pos.x, sin(degInRad) * radius + pos.y);
+        glVertex2f(cos(degInRad) * radius + pos.x, sin(degInRad) * radius + pos.y);
     }
 
     glEnd();

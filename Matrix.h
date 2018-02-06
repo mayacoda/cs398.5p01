@@ -40,11 +40,11 @@ public:
 
     inline void rotate(double rotation);
 
-    inline void rotate(const Vector2D<double> &fwd, const Vector2D<double> &side);
+    inline void rotate(const Vector2D<float> &fwd, const Vector2D<float> &side);
 
-    inline void transformVector2Ds(std::vector<Vector2D<double>> &points);
+    inline void transformVector2Ds(std::vector<Vector2D<float>> &points);
 
-    inline void transformVector2Ds(Vector2D<double> &point);
+    inline void transformVector2Ds(Vector2D<float> &point);
 };
 
 inline void Matrix2D::identity() {
@@ -124,7 +124,7 @@ void Matrix2D::rotate(double rotation) {
 }
 
 
-void Matrix2D::rotate(const Vector2D<double> &fwd, const Vector2D<double> &side) {
+void Matrix2D::rotate(const Vector2D<float> &fwd, const Vector2D<float> &side) {
     Matrix2D::Matrix mat;
 
     mat._11 = fwd.x;
@@ -144,7 +144,7 @@ void Matrix2D::rotate(const Vector2D<double> &fwd, const Vector2D<double> &side)
 
 }
 
-void Matrix2D::transformVector2Ds(std::vector<Vector2D<double>> &points) {
+void Matrix2D::transformVector2Ds(std::vector<Vector2D<float>> &points) {
     for (auto &point : points) {
         double tempX = (m_matrix._11 * point.x) + (m_matrix._21 * point.y) + (m_matrix._31);
 
@@ -156,7 +156,7 @@ void Matrix2D::transformVector2Ds(std::vector<Vector2D<double>> &points) {
     }
 }
 
-void Matrix2D::transformVector2Ds(Vector2D<double> &point) {
+void Matrix2D::transformVector2Ds(Vector2D<float> &point) {
 
     double tempX = (m_matrix._11 * point.x) + (m_matrix._21 * point.y) + (m_matrix._31);
 

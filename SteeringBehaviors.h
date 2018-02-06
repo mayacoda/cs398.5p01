@@ -12,9 +12,9 @@ class SteeringBehaviors {
 private:
     Vehicle* m_vehicle;
 
-    Vector2D<double> m_steeringForce;
+    Vector2D<float> m_steeringForce;
 
-    Vector2D<double> m_wanderTarget;
+    Vector2D<float> m_wanderTarget;
 
     double m_panicDistanceSq = 10000;
 
@@ -28,13 +28,13 @@ public:
 
     explicit SteeringBehaviors(Vehicle *m_vehicle);
 
-    Vector2D<double> calculate();
+    Vector2D<float> calculate();
 
-    Vector2D<double> seek(Vector2D<double> target);
+    Vector2D<float> seek(Vector2D<float> target);
 
-    Vector2D<double> flee(Vector2D<double> target);
+    Vector2D<float> flee(Vector2D<float> target);
 
-    Vector2D<double> wander();
+    Vector2D<float> wander();
 
 };
 

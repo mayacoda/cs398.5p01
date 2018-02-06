@@ -5,12 +5,12 @@
 #include "Vector2D.h"
 #include "Matrix.h"
 
-inline Vector2D<double> pointToWorldSpace(const Vector2D<double> &point,
-                                          const Vector2D<double> &heading,
-                                          const Vector2D<double> &side,
-                                          const Vector2D<double> &position) {
+inline Vector2D<float> pointToWorldSpace(const Vector2D<float> &point,
+                                          const Vector2D<float> &heading,
+                                          const Vector2D<float> &side,
+                                          const Vector2D<float> &position) {
     //make a copy of the point
-    Vector2D<double> transPoint = point;
+    Vector2D<float> transPoint = point;
 
     Matrix2D mat;
 
