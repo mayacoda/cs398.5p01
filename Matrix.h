@@ -42,7 +42,7 @@ public:
 
     inline void rotate(const Vector2D<float> &fwd, const Vector2D<float> &side);
 
-    inline void transformVector2Ds(std::vector<Vector2D<float>> &points);
+    inline void transformVector2Ds(std::vector<Vector2D<float> > &points);
 
     inline void transformVector2Ds(Vector2D<float> &point);
 };
@@ -144,7 +144,7 @@ void Matrix2D::rotate(const Vector2D<float> &fwd, const Vector2D<float> &side) {
 
 }
 
-void Matrix2D::transformVector2Ds(std::vector<Vector2D<float>> &points) {
+void Matrix2D::transformVector2Ds(std::vector<Vector2D<float> > &points) {
 	for(unsigned int i = 0; i < points.size(); i++ ) {
 		Vector2D<float> point = points.at(i);
 

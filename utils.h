@@ -3,7 +3,10 @@
 #define DZ01_UTILS_H
 
 #include <cmath>
+
+#ifndef M_PI
 #define M_PI 3.14159265359
+#endif
 
 // Korišćena aproksimacija Tejlorov polinom https://www.mathportal.org/formulas/pdf/taylor-series-formulas.pdf
 template<typename T>

@@ -41,9 +41,9 @@ public:
 
     const double getMaxSpeed() { return m_maxSpeed; }
 
-    void update(double timeElapsed) override;
+    void update(double timeElapsed);
 
-    void render() override;
+    void render();
 };
 
 

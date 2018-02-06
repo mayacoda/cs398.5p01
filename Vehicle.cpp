@@ -77,9 +77,9 @@ void Vehicle::render() {
     glBegin(GL_TRIANGLES);
     Matrix2D mat;
     mat.rotate(m_heading, m_side);
-    auto top = pointToWorldSpace(Vector2D<float>(-10.0, 15.0), m_heading, m_side, m_pos);
-    auto bottom = pointToWorldSpace(Vector2D<float>(-10.0, -15.0), m_heading, m_side, m_pos);
-    auto right = pointToWorldSpace(Vector2D<float>(40.0, 0), m_heading, m_side, m_pos);
+    auto top = pointToWorldSpace(Vector2D<float>(-10.0f, 15.0f), m_heading, m_side, m_pos);
+    auto bottom = pointToWorldSpace(Vector2D<float>(-10.0f, -15.0f), m_heading, m_side, m_pos);
+    auto right = pointToWorldSpace(Vector2D<float>(40.0f, 0f), m_heading, m_side, m_pos);
 
     glVertex2f(top.x, top.y);
     glVertex2f(bottom.x, bottom.y);
@@ -107,8 +107,8 @@ Vehicle::Vehicle(GameWorld *m_world,
                                                       m_maxTurnRate),
                                          m_world(m_world) {
 
-	m_steeringForce = Vector2D<double>(0.0, 0.0);
-	m_wanderTarget = Vector2D<double>(0.0, 0.0);
+	m_steeringForce = Vector2D<float>(0.0, 0.0);
+	m_wanderTarget = Vector2D<float>(0.0, 0.0);
 
     m_steeringBehavior = new SteeringBehaviors(this);
 }
