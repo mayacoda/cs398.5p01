@@ -8,9 +8,9 @@
 class Matrix2D {
 private:
     struct Matrix {
-        float _11, _12, _13;
-        float _21, _22, _23;
-        float _31, _32, _33;
+        double _11, _12, _13;
+        double _21, _22, _23;
+        double _31, _32, _33;
 
         Matrix() {
             _11 = 0.0;
@@ -34,17 +34,17 @@ public:
 
     inline void identity();
 
-    inline void translate(float x, float y);
+    inline void translate(double x, double y);
 
     inline void matrixMultiply(Matrix matrix);
 
-    inline void rotate(float rotation);
+    inline void rotate(double rotation);
 
-    inline void rotate(const Vector2D<float> &fwd, const Vector2D<float> &side);
+    inline void rotate(const Vector2D<double> &fwd, const Vector2D<double> &side);
 
-    inline void transformVector2Ds(std::vector<Vector2D<float> > &points);
+    inline void transformVector2Ds(std::vector<Vector2D<double> > &points);
 
-    inline void transformVector2Ds(Vector2D<float> &point);
+    inline void transformVector2Ds(Vector2D<double> &point);
 };
 
 inline void Matrix2D::identity() {
@@ -61,7 +61,7 @@ inline void Matrix2D::identity() {
     m_matrix._33 = 1;
 }
 
-inline void Matrix2D::translate(float x, float y) {
+inline void Matrix2D::translate(double x, double y) {
     Matrix mat;
 
     mat._11 = 1;
@@ -102,11 +102,11 @@ inline void Matrix2D::matrixMultiply(Matrix2D::Matrix matrix) {
 }
 
 
-void Matrix2D::rotate(float rotation) {
+void Matrix2D::rotate(double rotation) {
     Matrix2D::Matrix mat;
 
-    float sinVal = sin(rotation);
-    float cosVal = cos(rotation);
+    double sinVal = sin(rotation);
+    double cosVal = cos(rotation);
 
     mat._11 = cosVal;
     mat._12 = sinVal;
@@ -124,7 +124,7 @@ void Matrix2D::rotate(float rotation) {
 }
 
 
-void Matrix2D::rotate(const Vector2D<float> &fwd, const Vector2D<float> &side) {
+void Matrix2D::rotate(const Vector2D<double> &fwd, const Vector2D<double> &side) {
     Matrix2D::Matrix mat;
 
     mat._11 = fwd.x;
@@ -144,13 +144,13 @@ void Matrix2D::rotate(const Vector2D<float> &fwd, const Vector2D<float> &side) {
 
 }
 
-void Matrix2D::transformVector2Ds(std::vector<Vector2D<float> > &points) {
-	for(unsigned int i = 0; i < points.size(); i++ ) {
-		Vector2D<float> point = points.at(i);
+void Matrix2D::transformVector2Ds(std::vector<Vector2D<double> > &points) {
+    for (unsigned int i = 0; i < points.size(); i++) {
+        Vector2D<double> point = points.at(i);
 
-        float tempX = (m_matrix._11 * point.x) + (m_matrix._21 * point.y) + (m_matrix._31);
+        double tempX = (m_matrix._11 * point.x) + (m_matrix._21 * point.y) + (m_matrix._31);
 
-        float tempY = (m_matrix._12 * point.x) + (m_matrix._22 * point.y) + (m_matrix._32);
+        double tempY = (m_matrix._12 * point.x) + (m_matrix._22 * point.y) + (m_matrix._32);
 
         point.x = tempX;
 
@@ -158,11 +158,11 @@ void Matrix2D::transformVector2Ds(std::vector<Vector2D<float> > &points) {
     }
 }
 
-void Matrix2D::transformVector2Ds(Vector2D<float> &point) {
+void Matrix2D::transformVector2Ds(Vector2D<double> &point) {
 
-    float tempX = (m_matrix._11 * point.x) + (m_matrix._21 * point.y) + (m_matrix._31);
+    double tempX = (m_matrix._11 * point.x) + (m_matrix._21 * point.y) + (m_matrix._31);
 
-    float tempY = (m_matrix._12 * point.x) + (m_matrix._22 * point.y) + (m_matrix._32);
+    double tempY = (m_matrix._12 * point.x) + (m_matrix._22 * point.y) + (m_matrix._32);
 
     point.x = tempX;
 

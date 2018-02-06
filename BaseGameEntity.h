@@ -21,14 +21,14 @@ private:
     }
 
 protected:
-    Vector2D<float> m_pos;
+    Vector2D<double> m_pos;
 
-    Vector2D<float> m_scale;
+    Vector2D<double> m_scale;
 
 public:
 	virtual ~BaseGameEntity() {};
 
-    BaseGameEntity(const Vector2D<float> &pos, const Vector2D<float> &scale) : m_pos(pos), m_scale(scale) {}
+    BaseGameEntity(const Vector2D<double> &pos, const Vector2D<double> &scale) : m_pos(pos), m_scale(scale) {}
 
     virtual void update(double timeElapsed) {};
 

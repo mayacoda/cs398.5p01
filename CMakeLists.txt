@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 98)
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 
-add_executable(DZ04 main.cpp GameWorld.cpp GameWorld.h BaseGameEntity.h Vector2D.h utils.h MovingEntity.h Vehicle.cpp Vehicle.h SteeringBehaviors.cpp SteeringBehaviors.h geometry.h Matrix.h opengl_helpers.h)
+add_executable(DZ04 main.cpp GameWorld.cpp GameWorld.h BaseGameEntity.h Vector2D.h utils.h MovingEntity.h Vehicle.cpp Vehicle.h SteeringBehaviors.cpp SteeringBehaviors.h geometry.h Matrix.h opengl_helpers.h Path.cpp Path.h)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)

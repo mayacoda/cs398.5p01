@@ -13,31 +13,34 @@ private:
     GameWorld *m_world;
     SteeringBehaviors *m_steeringBehavior;
 
-    Vector2D<float> m_steeringForce;
+    Vector2D<double> m_steeringForce;
 
     double m_timeElapsed;
 
+    void renderAids();
+
 public:
-	~Vehicle() {};
 
     Vehicle(GameWorld *m_world,
-            const Vector2D<float> &pos,
-            const Vector2D<float> &scale,
-            const Vector2D<float> &m_velocity,
-            const Vector2D<float> &m_heading,
-            const Vector2D<float> &m_side,
+            const Vector2D<double> &pos,
+            const Vector2D<double> &scale,
+            const Vector2D<double> &m_velocity,
+            const Vector2D<double> &m_heading,
+            const Vector2D<double> &m_side,
             double m_mass,
             double m_maxSpeed,
             double m_maxForce,
             double m_maxTurnRate);
 
-    Vector2D<float> m_wanderTarget;
+    Vector2D<double> m_wanderTarget;
 
-    Vector2D<float> getPos() { return m_pos; }
+    Vector2D<double> getPos() { return m_pos; }
 
-    Vector2D<float> getHeading() { return m_heading; }
+    Vector2D<double> getHeading() { return m_heading; }
 
-    Vector2D<float> getSide() { return m_side; }
+    Vector2D<double> getSide() { return m_side; }
+
+    GameWorld* getWorld() {return m_world; }
 
     const double getMaxSpeed() { return m_maxSpeed; }
 

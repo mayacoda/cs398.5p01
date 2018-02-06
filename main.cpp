@@ -6,8 +6,10 @@
 #ifdef _WIN32
 #include <GL\glut.h>
 #include <Windows.h>
+#define TIME_CORRECTION 1.0
 #elif __APPLE__
 #include <GLUT/glut.h>
+#define TIME_CORRECTION 0.01
 #endif
 
 
@@ -24,7 +26,7 @@ void render() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     clock_t newTime = clock();
-    double frameTime = ((double) newTime - currentTime) / CLOCKS_PER_SEC;
+    double frameTime = ((double) newTime - currentTime) / (CLOCKS_PER_SEC * TIME_CORRECTION);
     currentTime = newTime;
 
     while (frameTime > 0.0) {

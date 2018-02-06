@@ -5,12 +5,12 @@
 #include "Vector2D.h"
 #include "Matrix.h"
 
-inline Vector2D<float> pointToWorldSpace(const Vector2D<float> &point,
-                                          const Vector2D<float> &heading,
-                                          const Vector2D<float> &side,
-                                          const Vector2D<float> &position) {
+inline Vector2D<double> pointToWorldSpace(const Vector2D<double> &point,
+                                          const Vector2D<double> &heading,
+                                          const Vector2D<double> &side,
+                                          const Vector2D<double> &position) {
     //make a copy of the point
-    Vector2D<float> transPoint = point;
+    Vector2D<double> transPoint = point;
 
     Matrix2D mat;
 
@@ -24,6 +24,18 @@ inline Vector2D<float> pointToWorldSpace(const Vector2D<float> &point,
     mat.transformVector2Ds(transPoint);
 
     return transPoint;
+}
+
+inline void rotateAroundOrigin(Vector2D<double>& v, double ang)
+{
+    //create a transformation matrix
+    Matrix2D mat;
+
+    //rotate
+    mat.rotate(ang);
+
+    //now transform the object's vertices
+    mat.transformVector2Ds(v);
 }
 
 #endif //DZ04_GEOMETRY_H

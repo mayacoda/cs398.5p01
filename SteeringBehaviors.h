@@ -5,6 +5,7 @@
 
 #include <vector>
 #include "Vector2D.h"
+#include "Path.h"
 
 class Vehicle;
 
@@ -12,13 +13,27 @@ class SteeringBehaviors {
 private:
     Vehicle* m_vehicle;
 
-    Vector2D<float> m_steeringForce;
+    Vector2D<double> m_steeringForce;
 
-    Vector2D<float> m_wanderTarget;
+    Vector2D<double> m_wanderTarget;
 
     double m_panicDistanceSq;
 
+    double m_followPathDistance;
+
+    int m_flags;
+
 public:
+    enum behaviorType {
+        none         = 0x00000,
+        fSeek        = 0x00002,
+        fFlee        = 0x00004,
+        fArrive      = 0x00008,
+        fWander      = 0x00010,
+        fFollow_path = 0x00020
+    };
+
+    Path* m_path;
 
     double m_wanderRadius;
 
@@ -26,16 +41,31 @@ public:
 
     double m_wanderDistance;
 
-    explicit SteeringBehaviors(Vehicle *m_vehicle);
+    explicit SteeringBehaviors(Vehicle* m_vehicle);
 
-    Vector2D<float> calculate();
+    void turnOn(behaviorType behavior) {
+        m_flags |= behavior;
+    }
 
-    Vector2D<float> seek(Vector2D<float> target);
+    void turnOff(behaviorType behavior) {
+        m_flags ^= behavior;
+    }
 
-    Vector2D<float> flee(Vector2D<float> target);
+    bool isOn(behaviorType behavior) {
+        return (m_flags & behavior) != 0;
+    }
 
-    Vector2D<float> wander();
+    Vector2D<double> calculate();
 
+    Vector2D<double> seek(Vector2D<double> target);
+
+    Vector2D<double> flee(Vector2D<double> target);
+
+    Vector2D<double> arrive(Vector2D<double>);
+
+    Vector2D<double> wander();
+
+    Vector2D<double> followPath();
 };
 
 

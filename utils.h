@@ -33,14 +33,14 @@ inline float fRandomRange(int min, int max) {
 
 	float r3 = min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
 	return r3;
-
-    //int nMax = max - min;
-    //int random = rand() % ((nMax*100000) + 1) + min * 100000;
-    //return static_cast<float>(random / 100000.0);
 }
 
 inline double r2d(double rad) {
     return rad * 180 / M_PI;
+}
+
+inline double d2r(double deg) {
+    return deg * M_PI / 180;
 }
 
 template<typename T>

@@ -7,9 +7,9 @@
 
 class MovingEntity : public BaseGameEntity {
 protected:
-    Vector2D<float> m_velocity;
-    Vector2D<float> m_heading;
-    Vector2D<float> m_side;
+    Vector2D<double> m_velocity;
+    Vector2D<double> m_heading;
+    Vector2D<double> m_side;
 
     double m_mass;
     double m_maxSpeed;
@@ -20,11 +20,11 @@ protected:
 public:
 	~MovingEntity() {};
 
-    MovingEntity(const Vector2D<float> &pos,
-                 const Vector2D<float> &scale,
-                 const Vector2D<float> &m_velocity,
-                 const Vector2D<float> &m_heading,
-                 const Vector2D<float> &m_side,
+    MovingEntity(const Vector2D<double> &pos,
+                 const Vector2D<double> &scale,
+                 const Vector2D<double> &m_velocity,
+                 const Vector2D<double> &m_heading,
+                 const Vector2D<double> &m_side,
                  double m_mass,
                  double m_maxSpeed,
                  double m_maxForce,
@@ -37,7 +37,7 @@ public:
                                          m_maxForce(m_maxForce),
                                          m_maxTurnRate(m_maxTurnRate) {}
 
-    Vector2D<float> getVelocity() const { return m_velocity; };
+    Vector2D<double> getVelocity() const { return m_velocity; };
 };
 
 
