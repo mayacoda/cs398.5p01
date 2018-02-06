@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include "SteeringBehaviors.h"
 #include "Vehicle.h"
 #include "geometry.h"
@@ -12,13 +13,13 @@ SteeringBehaviors::SteeringBehaviors(Vehicle *m_vehicle) : m_vehicle(m_vehicle),
 
     m_wanderRadius = 40;
 
-    m_wanderJitter = 10;
+    m_wanderJitter = 5;
 
     m_wanderDistance = 100;
 
     m_panicDistanceSq = 10000;
 
-    m_followPathDistance = 50;
+    m_followPathDistanceSq = 10000;
 
 	double theta = fRandomRange(-1, 1) * 2.0 * M_PI;  // range from -2pi to 2pi
     m_wanderTarget = Vector2D<double>(m_wanderRadius * cos(theta), m_wanderRadius * sin(theta));
@@ -99,7 +100,8 @@ Vector2D<double> SteeringBehaviors::wander() {
 }
 
 Vector2D<double> SteeringBehaviors::followPath() {
-    if ((m_vehicle->getPos() - m_path->getCurrentPoint()).squareMagnitude() < m_followPathDistance) {
+    if ((m_vehicle->getPos() - m_path->getCurrentPoint()).squareMagnitude() < m_followPathDistanceSq) {
+
         m_path->setNextPoint();
     }
 

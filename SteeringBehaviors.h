@@ -19,7 +19,7 @@ private:
 
     double m_panicDistanceSq;
 
-    double m_followPathDistance;
+    double m_followPathDistanceSq;
 
     int m_flags;
 

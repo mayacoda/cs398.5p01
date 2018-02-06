@@ -13,8 +13,8 @@
 #endif
 
 
-int iWidth = 800;
-int iHeight = 600;
+int iWidth = 1680;
+int iHeight = 1050;
 GameWorld gameWorld(iWidth, iHeight);
 
 double t = 0.0;

@@ -15,8 +15,6 @@ std::list<Vector2D<double> > Path::createRandomPath(int numPoints, double minX, 
 
     m_points.clear();
 
-    std::cout << maxX << " by " << maxY << std::endl;
-
     double midX = (maxX + minX) / 2.0;
     double midY = (maxY + minY) / 2.0;
 
