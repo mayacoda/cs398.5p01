@@ -18,9 +18,8 @@ protected:
 
 
 public:
-	~MovingEntity() {};
-
     MovingEntity(const Vector2D<double> &pos,
+                 double radius,
                  const Vector2D<double> &scale,
                  const Vector2D<double> &m_velocity,
                  const Vector2D<double> &m_heading,
@@ -28,7 +27,7 @@ public:
                  double m_mass,
                  double m_maxSpeed,
                  double m_maxForce,
-                 double m_maxTurnRate) : BaseGameEntity(pos, scale),
+                 double m_maxTurnRate) : BaseGameEntity(0, pos, radius),
                                          m_velocity(m_velocity),
                                          m_heading(m_heading),
                                          m_side(m_side),
@@ -37,7 +36,9 @@ public:
                                          m_maxForce(m_maxForce),
                                          m_maxTurnRate(m_maxTurnRate) {}
 
-    Vector2D<double> getVelocity() const { return m_velocity; };
+    Vector2D<double> getVelocity() const { return m_velocity; }
+
+    double getVelocityMagnitude() const { return m_velocity.magnitude(); }
 };
 
 

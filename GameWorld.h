@@ -4,6 +4,7 @@
 
 
 #include "Vehicle.h"
+#include "Obstacle.h"
 #include <vector>
 
 class Wall2D;
@@ -11,8 +12,8 @@ class Wall2D;
 class GameWorld {
 
 private:
-    std::vector<Vehicle *> m_vehicles;
-    std::vector<BaseGameEntity *> m_obstacles;
+    std::vector<Vehicle*>  m_vehicles;
+    std::vector<Obstacle*> m_obstacles;
     //std::vector<Wall2D> m_walls;
 
     int m_width;
@@ -30,6 +31,8 @@ public:
     int getWidth() { return m_width; }
 
     int getHeight() { return m_height; }
+
+    std::vector<Obstacle*> getObstacles() { return m_obstacles; }
 };
 
 

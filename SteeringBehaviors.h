@@ -30,7 +30,9 @@ public:
         fFlee        = 0x00004,
         fArrive      = 0x00008,
         fWander      = 0x00010,
-        fFollow_path = 0x00020
+        fFollow_path = 0x00020,
+        fAvoid_obs   = 0x00040,
+        fHide        = 0x00080
     };
 
     Path* m_path;
@@ -61,11 +63,19 @@ public:
 
     Vector2D<double> flee(Vector2D<double> target);
 
+    Vector2D<double> evade(const Vehicle* agent);
+
     Vector2D<double> arrive(Vector2D<double>);
 
     Vector2D<double> wander();
 
     Vector2D<double> followPath();
+
+    Vector2D<double> avoidObstacles();
+
+    Vector2D<double> hide();
+
+    Vector2D<double> getHidingPosition(Vector2D<double> obsPos, double obsRadius, Vector2D<double> hunterPos);
 };
 
 

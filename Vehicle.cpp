@@ -10,6 +10,7 @@
 #elif __APPLE__
 #endif
 
+
 void Vehicle::update(double timeElapsed) {
     m_timeElapsed = timeElapsed;
 
@@ -36,35 +37,38 @@ void Vehicle::update(double timeElapsed) {
 
 void Vehicle::renderAids() {
 
+    // heading vector RED
+    glColor3f(1.0, 0.0, 0.0);
+    glBegin(GL_LINES);
+    glVertex2d(m_pos.x, m_pos.y);
+    Vector2D<double> heading = m_heading * 100;
+    heading += m_pos;
+    glVertex2d(heading.x, heading.y);
+    glEnd();
+
+    // side vector GREEN
+    glColor3f(0.0, 1.0, 0.0);
+    glBegin(GL_LINES);
+    glVertex2d(m_pos.x, m_pos.y);
+    Vector2D<double> side = m_side * 100;
+    side += m_pos;
+    glVertex2d(side.x, side.y);
+    glEnd();
+
+    // steering force BLUE
+    glColor3f(0.0, 0.0, 1.0);
+    glBegin(GL_LINES);
+    glVertex2d(m_pos.x, m_pos.y);
+    glVertex2d(m_steeringForce.x + m_pos.x, m_steeringForce.y + m_pos.y);
+    glEnd();
+
+
     if (m_steeringBehavior->isOn(SteeringBehaviors::fWander)) {
         // wandering target
         glColor3f(0.0, 0.0, 1.0);
         glPointSize(5.0f);
         glBegin(GL_POINTS);
         glVertex2d(m_wanderTarget.x, m_wanderTarget.y);
-        glEnd();
-
-        glBegin(GL_LINES);
-        glVertex2d(m_pos.x, m_pos.y);
-        glVertex2d(m_steeringForce.x + m_pos.x, m_steeringForce.y + m_pos.y);
-        glEnd();
-
-        // heading vector RED
-        glColor3f(1.0, 0.0, 0.0);
-        glBegin(GL_LINES);
-        glVertex2d(m_pos.x, m_pos.y);
-        Vector2D<double> heading = m_heading * 100;
-        heading += m_pos;
-        glVertex2d(heading.x, heading.y);
-        glEnd();
-
-        // side vector GREEN
-        glColor3f(0.0, 1.0, 0.0);
-        glBegin(GL_LINES);
-        glVertex2d(m_pos.x, m_pos.y);
-        Vector2D<double> side = m_side * 100;
-        side += m_pos;
-        glVertex2d(side.x, side.y);
         glEnd();
 
         // wandering circle
@@ -82,12 +86,12 @@ void Vehicle::render() {
     renderAids();
 
     // @todo move to local space rather than global
-    glColor3f(0.4, 0.3, 0.3);
+    glColor3f(m_color.r, m_color.g, m_color.b);
     glBegin(GL_TRIANGLES);
     Matrix2D mat;
     mat.rotate(m_heading, m_side);
-    Vector2D<double> top    = pointToWorldSpace(Vector2D<double>(-10.0, 15.0), m_heading, m_side, m_pos);
-    Vector2D<double> bottom = pointToWorldSpace(Vector2D<double>(-10.0, -15.0), m_heading, m_side, m_pos);
+    Vector2D<double> top    = pointToWorldSpace(Vector2D<double>(-10.0, m_boundingRadius), m_heading, m_side, m_pos);
+    Vector2D<double> bottom = pointToWorldSpace(Vector2D<double>(-10.0, -m_boundingRadius), m_heading, m_side, m_pos);
     Vector2D<double> right  = pointToWorldSpace(Vector2D<double>(40.0, 0), m_heading, m_side, m_pos);
 
     glVertex2d(top.x, top.y);
@@ -106,7 +110,9 @@ Vehicle::Vehicle(GameWorld* m_world,
                  double m_mass,
                  double m_maxSpeed,
                  double m_maxForce,
-                 double m_maxTurnRate) : MovingEntity(pos, scale,
+                 double m_maxTurnRate) : MovingEntity(pos,
+                                                      15,
+                                                      scale,
                                                       m_velocity,
                                                       m_heading,
                                                       m_side,
@@ -114,13 +120,18 @@ Vehicle::Vehicle(GameWorld* m_world,
                                                       m_maxSpeed,
                                                       m_maxForce,
                                                       m_maxTurnRate),
-                                         m_world(m_world), m_timeElapsed(0) {
+                                         m_world(m_world),
+                                         m_timeElapsed(0),
+                                         m_color(0.3, 0.3, 0.6) {
 
     m_steeringForce = Vector2D<double>(0.0, 0.0);
     m_wanderTarget  = Vector2D<double>(0.0, 0.0);
 
+    m_detectionBoxLength = 200;
+
     m_steeringBehavior = new SteeringBehaviors(this);
 
 //    m_steeringBehavior->turnOn(SteeringBehaviors::fWander);
-    m_steeringBehavior->turnOn(SteeringBehaviors::fFollow_path);
+//    m_steeringBehavior->turnOn(SteeringBehaviors::fFollow_path);
+//    m_steeringBehavior->turnOn(SteeringBehaviors::fAvoid_obs);
 }

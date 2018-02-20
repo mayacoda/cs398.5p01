@@ -45,6 +45,25 @@ public:
     inline void transformVector2Ds(std::vector<Vector2D<double> > &points);
 
     inline void transformVector2Ds(Vector2D<double> &point);
+
+    void _11(double val) { m_matrix._11 = val; }
+
+    void _12(double val) { m_matrix._12 = val; }
+
+    void _13(double val) { m_matrix._13 = val; }
+
+    void _21(double val) { m_matrix._21 = val; }
+
+    void _22(double val) { m_matrix._22 = val; }
+
+    void _23(double val) { m_matrix._23 = val; }
+
+    void _31(double val) { m_matrix._31 = val; }
+
+    void _32(double val) { m_matrix._32 = val; }
+
+    void _33(double val) { m_matrix._33 = val; }
+
 };
 
 inline void Matrix2D::identity() {

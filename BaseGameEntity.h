@@ -25,12 +25,20 @@ protected:
 
     Vector2D<double> m_scale;
 
-public:
-	virtual ~BaseGameEntity() {};
+    double m_boundingRadius;
 
-    BaseGameEntity(const Vector2D<double> &pos, const Vector2D<double> &scale) : m_pos(pos), m_scale(scale) {}
+public:
+    BaseGameEntity(int entity_type, const Vector2D<double> &pos, double r) : m_entityType(defaultEntityType),
+                                                                             m_boundingRadius(r),
+                                                                             m_id(nextValidID()),
+                                                                             m_pos(pos),
+                                                                             m_scale(Vector2D<double>(1.0, 1.0)) {}
 
     virtual void update(double timeElapsed) {};
+
+    Vector2D<double> getPos() const { return m_pos; }
+
+    double getBoundingRadius() { return m_boundingRadius; }
 
     virtual void render() {};
 };
