@@ -19,6 +19,8 @@ private:
     int m_width;
     int m_height;
 
+    Vehicle * m_player;
+
 public:
     GameWorld(int m_width, int m_height);
 
@@ -31,6 +33,8 @@ public:
     int getWidth() { return m_width; }
 
     int getHeight() { return m_height; }
+
+    void clickHandler(int button, int state, int x, int y);
 
     std::vector<Obstacle*> getObstacles() { return m_obstacles; }
 };

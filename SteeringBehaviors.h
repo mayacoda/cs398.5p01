@@ -25,14 +25,15 @@ private:
 
 public:
     enum behaviorType {
-        none         = 0x00000,
-        fSeek        = 0x00002,
-        fFlee        = 0x00004,
-        fArrive      = 0x00008,
-        fWander      = 0x00010,
-        fFollow_path = 0x00020,
-        fAvoid_obs   = 0x00040,
-        fHide        = 0x00080
+        none            = 0x00000,
+        fSeek           = 0x00002,
+        fFlee           = 0x00004,
+        fArrive         = 0x00008,
+        fWander         = 0x00010,
+        fFollow_path    = 0x00020,
+        fAvoid_obs      = 0x00040,
+        fHide           = 0x00080,
+        fOffset_pursuit = 0x00100
     };
 
     Path* m_path;
@@ -66,6 +67,8 @@ public:
     Vector2D<double> evade(const Vehicle* agent);
 
     Vector2D<double> arrive(Vector2D<double>);
+
+    Vector2D<double> offsetPursuit(const Vehicle* leader, Vector2D<double> offset);
 
     Vector2D<double> wander();
 

@@ -122,16 +122,14 @@ Vehicle::Vehicle(GameWorld* m_world,
                                                       m_maxTurnRate),
                                          m_world(m_world),
                                          m_timeElapsed(0),
+                                         m_leader(nullptr),
                                          m_color(0.3, 0.3, 0.6) {
 
     m_steeringForce = Vector2D<double>(0.0, 0.0);
     m_wanderTarget  = Vector2D<double>(0.0, 0.0);
+    m_offset        = Vector2D<double>(0.0, 0.0);
 
     m_detectionBoxLength = 200;
 
     m_steeringBehavior = new SteeringBehaviors(this);
-
-//    m_steeringBehavior->turnOn(SteeringBehaviors::fWander);
-//    m_steeringBehavior->turnOn(SteeringBehaviors::fFollow_path);
-//    m_steeringBehavior->turnOn(SteeringBehaviors::fAvoid_obs);
 }

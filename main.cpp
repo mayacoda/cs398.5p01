@@ -59,6 +59,10 @@ void reshape(GLint width, GLint height) {
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
+void clickHandler(int b, int s, int x, int y) {
+    gameWorld.clickHandler(b, s, x, y);
+}
+
 int main(int argc, char **argv) {
     // seed random numbers only once
     srand(time(NULL));
@@ -68,6 +72,9 @@ int main(int argc, char **argv) {
     glutInitWindowPosition(150, 150);
     glutInitWindowSize(iWidth, iHeight);
     glutCreateWindow("Steering Behavior");
+
+    glutMouseFunc(clickHandler);
+
     glClearColor(1.0, 1.0, 1.0, 0.0);
     glutDisplayFunc(render);
     glutReshapeFunc(reshape);

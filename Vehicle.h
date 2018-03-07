@@ -22,6 +22,12 @@ private:
 
     std::vector<Vehicle*> m_antagonists;
 
+    Vehicle* m_leader;
+
+    Vector2D<double> m_offset;
+
+    Vector2D<double> m_destination;
+
 public:
 
     struct Color {
@@ -52,9 +58,9 @@ public:
 
     Vector2D<double> m_wanderTarget;
 
-    Vector2D<double> getHeading() { return m_heading; }
+    Vector2D<double> getHeading() const { return m_heading; }
 
-    Vector2D<double> getSide() { return m_side; }
+    Vector2D<double> getSide() const { return m_side; }
 
     GameWorld* getWorld() { return m_world; }
 
@@ -65,6 +71,19 @@ public:
     std::vector<Vehicle*> getAntagonists() { return m_antagonists; }
 
     void addAntagonist(Vehicle* a) { m_antagonists.push_back(a); }
+
+    void setLeaderAndOffset(Vehicle* l, Vector2D<double> v) {
+        m_leader = l;
+        m_offset = v;
+    }
+
+    Vehicle* getLeader() { return m_leader; }
+
+    Vector2D<double> getOffset() { return m_offset; }
+
+    void setDestination(Vector2D<double> dest) { m_destination = dest; }
+
+    Vector2D<double> getDestination() { return m_destination; }
 
     void turnOnBehavior(SteeringBehaviors::behaviorType behavior) {
         m_steeringBehavior->turnOn(behavior);

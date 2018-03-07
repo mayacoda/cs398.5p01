@@ -38,7 +38,7 @@ public:
 
     Vector2D<double> getVelocity() const { return m_velocity; }
 
-    double getVelocityMagnitude() const { return m_velocity.magnitude(); }
+    double getSpeed() const { return m_velocity.magnitude(); }
 };
 
 
