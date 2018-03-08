@@ -1,4 +1,5 @@
 #include <vector>
+#include <limits>
 
 #include "SteeringBehaviors.h"
 #include "Vehicle.h"
@@ -86,7 +87,7 @@ Vector2D<double> SteeringBehaviors::arrive(Vector2D<double> target) {
     double           dist     = toTarget.magnitude();
 
     if (dist > 0) {
-        const double deceleration = 0.3;
+        const double deceleration = 3.0;
 
         double speed = dist / deceleration;
 
@@ -150,7 +151,7 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
     std::vector<Obstacle*>::iterator iterator = allObstacles.begin();
     Obstacle* o;
     Obstacle* closestObs                      = nullptr;
-    double           closestX = INFINITY;
+    double           closestX = std::numeric_limits<double>::infinity();
     Vector2D<double> localPosOfClosest;
 
     while (iterator != allObstacles.end()) {
@@ -203,7 +204,7 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
 
 Vector2D<double> SteeringBehaviors::hide() {
     Vehicle* hunter = nullptr;
-    double closestAntagonistDistance = INFINITY;
+    double closestAntagonistDistance = std::numeric_limits<double>::infinity();
 
     // find the closest antagonist
     for (unsigned int i = 0; i < m_vehicle->getAntagonists().size(); i++) {
@@ -218,7 +219,7 @@ Vector2D<double> SteeringBehaviors::hide() {
 
 
     if (hunter) {
-        double           closestHidingSpotDistance = INFINITY;
+        double           closestHidingSpotDistance = std::numeric_limits<double>::infinity();
         Vector2D<double> bestHidingSpot;
 
         const std::vector<Obstacle*>           &obstacles = m_vehicle->getWorld()->getObstacles();
@@ -242,7 +243,7 @@ Vector2D<double> SteeringBehaviors::hide() {
             ++curObs;
         }
 
-        if (closestHidingSpotDistance == MAXFLOAT) {
+        if (closestHidingSpotDistance == std::numeric_limits<double>::infinity()) {
             return evade(hunter);
         }
 

@@ -75,6 +75,8 @@
   <ItemGroup>
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="SteeringBehaviors.cpp" />
     <ClCompile Include="Vehicle.cpp" />
   </ItemGroup>
@@ -84,7 +86,9 @@
     <ClInclude Include="geometry.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="MovingEntity.h" />
+    <ClInclude Include="Obstacle.h" />
     <ClInclude Include="opengl_helpers.h" />
+    <ClInclude Include="Path.h" />
     <ClInclude Include="SteeringBehaviors.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2D.h" />

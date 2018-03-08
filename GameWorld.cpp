@@ -19,7 +19,7 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
                                  Vector2D<double>(0, 1),
                                  Vector2D<double>(1, 0),
                                  1,
-                                 50,
+                                 200,
                                  10,
                                  1);
 
@@ -30,7 +30,7 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
                                   Vector2D<double>(0, 1),
                                   Vector2D<double>(1, 0),
                                   1,
-                                  50,
+                                  150,
                                   10,
                                   1);
 
@@ -41,7 +41,7 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
                                  Vector2D<double>(0, 1),
                                  Vector2D<double>(1, 0),
                                  1,
-                                 50,
+                                 150,
                                  10,
                                  1);
     m_vehicles.push_back(first);
@@ -52,7 +52,7 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
     second->m_color = Vehicle::Color(0, 1.0, 0);
     third->m_color  = Vehicle::Color(1.0, 0, 0);
 
-    second->setLeaderAndOffset(first, Vector2D<double>(60., 60));
+    second->setLeaderAndOffset(first, Vector2D<double>(-60., 60));
     third->setLeaderAndOffset(first, Vector2D<double>(-60., -60.));
 
     first->turnOnBehavior(SteeringBehaviors::fAvoid_obs);

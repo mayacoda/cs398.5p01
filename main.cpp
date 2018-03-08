@@ -9,7 +9,7 @@
 #define TIME_CORRECTION 1.0
 #elif __APPLE__
 #include <GLUT/glut.h>
-#define TIME_CORRECTION 0.02
+#define TIME_CORRECTION 0.02 // make slower
 #endif
 
 
