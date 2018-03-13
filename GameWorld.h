@@ -20,6 +20,7 @@ private:
     int m_height;
 
     Vehicle * m_player;
+    Vehicle * m_player2;
 
 public:
     GameWorld(int m_width, int m_height);

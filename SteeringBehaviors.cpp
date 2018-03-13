@@ -61,6 +61,10 @@ Vector2D<double> SteeringBehaviors::calculate() {
         m_steeringForce += avoidObstacles();
     }
 
+    if (isOn(fInterpose)) {
+        m_steeringForce += interpose(m_vehicle->m_interposeTargetA, m_vehicle->m_interposeTargetB);
+    }
+
 
     return m_steeringForce;
 }
@@ -158,7 +162,7 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
         o = *iterator++;
 
         // filter by box length
-        if (o->getPos().distance(m_vehicle->getPos()) > boxLength) {
+        if (o->getPos().distanceTo(m_vehicle->getPos()) > boxLength) {
             // go on to the next obstacle
             continue;
         }
@@ -210,7 +214,7 @@ Vector2D<double> SteeringBehaviors::hide() {
     for (unsigned int i = 0; i < m_vehicle->getAntagonists().size(); i++) {
         Vehicle* a = m_vehicle->getAntagonists().at(i);
 
-        double distanceToA = m_vehicle->getPos().distance(a->getPos());
+        double distanceToA = m_vehicle->getPos().distanceTo(a->getPos());
         if (distanceToA < closestAntagonistDistance) {
             closestAntagonistDistance = distanceToA;
             hunter                    = a;
@@ -232,7 +236,7 @@ Vector2D<double> SteeringBehaviors::hide() {
                                                             (*curObs)->getBoundingRadius(),
                                                             hunter->getPos());
 
-            double dist = hidingSpot.distance(m_vehicle->getPos());
+            double dist = hidingSpot.distanceTo(m_vehicle->getPos());
 
             if (dist < closestHidingSpotDistance) {
                 closestHidingSpotDistance = dist;
@@ -283,6 +287,18 @@ Vector2D<double> SteeringBehaviors::offsetPursuit(const Vehicle* leader, const V
     double lookAheadTime = toOffset.magnitude() / (m_vehicle->getMaxSpeed() + leader->getSpeed());
 
     return arrive(worldOffsetPos + leader->getVelocity() * lookAheadTime);
+}
+
+Vector2D<double> SteeringBehaviors::interpose(const Vehicle* a, const Vehicle* b) {
+    Vector2D<double> midpoint = (a->getPos() + b->getPos()) / 2.0;
+    
+    double timeToMidpoint = m_vehicle->getPos().distanceTo(midpoint);
+    Vector2D<double> aPos = a->getPos() + a->getVelocity() * timeToMidpoint;
+    Vector2D<double> bPos = b->getPos() + b->getVelocity() * timeToMidpoint;
+
+    midpoint = (aPos + bPos) / 2.0;
+
+    return arrive(midpoint);
 }
 
 

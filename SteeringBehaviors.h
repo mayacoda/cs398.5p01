@@ -33,7 +33,8 @@ public:
         fFollow_path    = 0x00020,
         fAvoid_obs      = 0x00040,
         fHide           = 0x00080,
-        fOffset_pursuit = 0x00100
+        fOffset_pursuit = 0x00100,
+        fInterpose      = 0x00200
     };
 
     Path* m_path;
@@ -79,6 +80,8 @@ public:
     Vector2D<double> hide();
 
     Vector2D<double> getHidingPosition(Vector2D<double> obsPos, double obsRadius, Vector2D<double> hunterPos);
+
+    Vector2D<double> interpose(const Vehicle* a, const Vehicle* b);
 };
 
 

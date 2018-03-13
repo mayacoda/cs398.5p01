@@ -58,6 +58,10 @@ public:
 
     Vector2D<double> m_wanderTarget;
 
+    const Vehicle* m_interposeTargetA;
+
+    const Vehicle* m_interposeTargetB;
+
     Vector2D<double> getHeading() const { return m_heading; }
 
     Vector2D<double> getSide() const { return m_side; }
@@ -84,6 +88,11 @@ public:
     void setDestination(Vector2D<double> dest) { m_destination = dest; }
 
     Vector2D<double> getDestination() { return m_destination; }
+
+    void interposeVehicles(const Vehicle* a, const Vehicle* b) {
+        m_interposeTargetA = a;
+        m_interposeTargetB = b;
+    }
 
     void turnOnBehavior(SteeringBehaviors::behaviorType behavior) {
         m_steeringBehavior->turnOn(behavior);

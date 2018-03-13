@@ -72,7 +72,7 @@ public:
         return *this;
     }
 
-    const Vector2D operator/(const T scalar) {
+    const Vector2D operator/(const T scalar) const {
         T nX = x / scalar;
         T nY = y / scalar;
 
@@ -100,7 +100,7 @@ public:
         return (y * y) + (x * x);
     }
 
-    double distance(const Vector2D &v2) const {
+    double distanceTo(const Vector2D &v2) const {
         T ySep = v2.y - y;
         T xSep = v2.x - x;
 
