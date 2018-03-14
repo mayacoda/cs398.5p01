@@ -55,6 +55,10 @@ public:
         m_flags ^= behavior;
     }
 
+    void turnAllOff() {
+        m_flags = none;
+    }
+
     bool isOn(behaviorType behavior) {
         return (m_flags & behavior) != 0;
     }

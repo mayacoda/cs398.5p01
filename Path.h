@@ -57,7 +57,7 @@ public:
     }
 
 
-    void render() const;
+    void render(float r, float g, float b) const;
 };
 
 

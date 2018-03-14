@@ -19,11 +19,20 @@ private:
     int m_width;
     int m_height;
 
-    Vehicle * m_player;
-    Vehicle * m_player2;
+    Vehicle* m_player;
+    Vehicle* m_player2;
 
 public:
     GameWorld(int m_width, int m_height);
+
+    enum behaviors {
+        none          = 0,
+        wander        = 1,
+        pathFollow    = 2,
+        hide          = 3,
+        offsetPursuit = 4,
+        interpose     = 5
+    };
 
     void update(double timeElapsed);
 
@@ -31,13 +40,20 @@ public:
 
     void setDimensions(int width, int height);
 
-    int getWidth() { return m_width; }
+    int getWidth() const { return m_width; }
 
-    int getHeight() { return m_height; }
+    int getHeight() const { return m_height; }
+
+    std::vector<Obstacle*> getObstacles() const { return m_obstacles; }
+
+    GameWorld::behaviors getActiveBehavior() const { return m_activeBehavior; }
 
     void clickHandler(int button, int state, int x, int y);
 
-    std::vector<Obstacle*> getObstacles() { return m_obstacles; }
+    void keyboardHandler(unsigned char i, int i1, int i2);
+
+private:
+    GameWorld::behaviors m_activeBehavior;
 };
 
 

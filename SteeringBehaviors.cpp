@@ -56,7 +56,6 @@ Vector2D<double> SteeringBehaviors::calculate() {
         m_steeringForce += arrive(m_vehicle->getDestination());
     }
 
-
     if (isOn(fAvoid_obs)) {
         m_steeringForce += avoidObstacles();
     }

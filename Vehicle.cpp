@@ -78,7 +78,7 @@ void Vehicle::renderAids() {
     }
 
     if (m_steeringBehavior->isOn(SteeringBehaviors::fFollow_path)) {
-        m_steeringBehavior->m_path->render();
+        m_steeringBehavior->m_path->render(m_color.r, m_color.g, m_color.b);
     }
 }
 

@@ -46,9 +46,9 @@ void Path::addPoint(Vector2D<double> newPoint) {
 
 }
 
-void Path::render() const {
+void Path::render(float r, float g, float b) const {
 
-    glColor3f(1.0, 0.0, 0.3);
+    glColor3f(r, g, b);
     glBegin(GL_LINES);
 
     std::list<Vector2D<double> >::const_iterator iterator = m_points.begin();

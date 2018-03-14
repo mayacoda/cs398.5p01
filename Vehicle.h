@@ -66,13 +66,13 @@ public:
 
     Vector2D<double> getSide() const { return m_side; }
 
-    GameWorld* getWorld() { return m_world; }
+    GameWorld* getWorld() const { return m_world; }
 
-    double getDetectionBoxLength() { return m_detectionBoxLength; }
+    double getDetectionBoxLength() const { return m_detectionBoxLength; }
 
-    const double getMaxSpeed() { return m_maxSpeed; }
+    const double getMaxSpeed() const { return m_maxSpeed; }
 
-    std::vector<Vehicle*> getAntagonists() { return m_antagonists; }
+    std::vector<Vehicle*> getAntagonists() const { return m_antagonists; }
 
     void addAntagonist(Vehicle* a) { m_antagonists.push_back(a); }
 
@@ -81,13 +81,13 @@ public:
         m_offset = v;
     }
 
-    Vehicle* getLeader() { return m_leader; }
+    Vehicle* getLeader() const { return m_leader; }
 
-    Vector2D<double> getOffset() { return m_offset; }
+    Vector2D<double> getOffset() const { return m_offset; }
 
     void setDestination(Vector2D<double> dest) { m_destination = dest; }
 
-    Vector2D<double> getDestination() { return m_destination; }
+    Vector2D<double> getDestination() const { return m_destination; }
 
     void interposeVehicles(const Vehicle* a, const Vehicle* b) {
         m_interposeTargetA = a;
@@ -95,7 +95,7 @@ public:
     }
 
     void turnOnBehavior(SteeringBehaviors::behaviorType behavior) {
-        m_steeringBehavior->turnOn(behavior);
+        behavior == SteeringBehaviors::none ? m_steeringBehavior->turnAllOff() : m_steeringBehavior->turnOn(behavior);
     }
 
     void update(double timeElapsed);
