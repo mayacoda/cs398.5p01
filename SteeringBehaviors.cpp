@@ -291,7 +291,7 @@ Vector2D<double> SteeringBehaviors::offsetPursuit(const Vehicle* leader, const V
 Vector2D<double> SteeringBehaviors::interpose(const Vehicle* a, const Vehicle* b) {
     Vector2D<double> midpoint = (a->getPos() + b->getPos()) / 2.0;
     
-    double timeToMidpoint = m_vehicle->getPos().distanceTo(midpoint);
+    const double timeToMidpoint = m_vehicle->getPos().distanceTo(midpoint) / m_vehicle->getSpeed();
     Vector2D<double> aPos = a->getPos() + a->getVelocity() * timeToMidpoint;
     Vector2D<double> bPos = b->getPos() + b->getVelocity() * timeToMidpoint;
 

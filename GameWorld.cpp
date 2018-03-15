@@ -3,11 +3,9 @@
 #elif __APPLE__
 
 #include <GLUT/glut.h>
-#include <iostream>
-
 #endif
 
-
+#include <iostream>
 #include "GameWorld.h"
 
 GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
