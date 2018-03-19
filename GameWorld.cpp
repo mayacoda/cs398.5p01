@@ -23,10 +23,10 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
                                Vector2D<double>(0, 1),
                                Vector2D<double>(1, 0),
                                1,
-                               20,
+                               50,
                                10,
                                1);
-    m_player->m_color = Color(.8, .1, .3);
+    m_player->m_color = Color(1.0, 1.0, 1.0);
     m_vehicles.push_back(m_player);
 }
 
