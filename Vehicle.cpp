@@ -1,7 +1,6 @@
 
 #include "Vehicle.h"
 #include "GameWorld.h"
-#include "opengl_helpers.h"
 #include "Matrix.h"
 #include "geometry.h"
 
@@ -123,7 +122,9 @@ Vehicle::Vehicle(GameWorld* m_world,
                                          m_world(m_world),
                                          m_timeElapsed(0),
                                          m_leader(nullptr),
-                                         m_color(0.3, 0.3, 0.6) {
+                                         m_color(0.3, 0.3, 0.6),
+                                         m_interposeTargetA(),
+                                         m_interposeTargetB() {
 
     m_steeringForce = Vector2D<double>(0.0, 0.0);
     m_wanderTarget  = Vector2D<double>(0.0, 0.0);

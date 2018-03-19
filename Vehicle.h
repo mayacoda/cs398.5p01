@@ -4,6 +4,7 @@
 
 #include "MovingEntity.h"
 #include "SteeringBehaviors.h"
+#include "opengl_helpers.h"
 
 class GameWorld;
 
@@ -30,19 +31,10 @@ private:
 
 public:
 
-    struct Color {
-        float r;
-        float g;
-        float b;
-
-        Color(float r, float g, float b) : r(r), g(g), b(b) {}
-    };
-
     Color m_color;
 
     ~Vehicle() {
-        delete &m_world;
-        delete &m_steeringBehavior;
+        delete m_steeringBehavior;
     }
 
     Vehicle(GameWorld* m_world,
@@ -101,6 +93,8 @@ public:
     void update(double timeElapsed);
 
     void render();
+
+    void setPath(Path* path) { m_steeringBehavior->setPath(path); }
 };
 
 

@@ -80,7 +80,7 @@ public:
     }
 
     friend std::ostream &operator<<(std::ostream &os, const Vector2D &d) {
-        os << "x: " << d.x << " y: " << d.y;
+        os << "<" << d.x << ", " << d.y << ">";
         return os;
     }
 

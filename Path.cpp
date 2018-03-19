@@ -41,17 +41,12 @@ std::list<Vector2D<double> > Path::createRandomPath(int numPoints, double minX, 
     return m_points;
 }
 
-
-void Path::addPoint(Vector2D<double> newPoint) {
-
-}
-
 void Path::render(float r, float g, float b) const {
 
     glColor3f(r, g, b);
     glBegin(GL_LINES);
 
-    std::list<Vector2D<double> >::const_iterator iterator = m_points.begin();
+    auto iterator = m_points.begin();
 
     Vector2D<double> point = *iterator++;
 

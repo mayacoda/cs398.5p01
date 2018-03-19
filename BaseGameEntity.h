@@ -38,9 +38,9 @@ public:
 
     Vector2D<double> getPos() const { return m_pos; }
 
-    double getBoundingRadius() { return m_boundingRadius; }
+    double getBoundingRadius() const { return m_boundingRadius; }
 
-    virtual void render() {};
+    virtual void render() const {};
 };
 
 

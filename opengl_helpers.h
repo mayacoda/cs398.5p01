@@ -12,6 +12,16 @@
 
 const double DEG2RAD = 3.14159 / 180;
 
+struct Color {
+    float r;
+    float g;
+    float b;
+
+    Color(float r, float g, float b) : r(r), g(g), b(b) {}
+
+    Color() = default;
+};
+
 inline void drawCircle(double radius, Vector2D<double> pos) {
     glBegin(GL_LINE_LOOP);
 
@@ -21,6 +31,18 @@ inline void drawCircle(double radius, Vector2D<double> pos) {
     }
 
     glEnd();
+}
+
+inline void drawText(const char* text, double x, double y, Color color) {
+    const char* c;
+    glPushMatrix();
+    glTranslated(x, y, 0);
+    glColor3f(color.r, color.g, color.b);
+    glScalef(0.125, 0.125, 1);
+    for (c = text; *c != '\0'; c++) {
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, *c);
+    }
+    glPopMatrix();
 }
 
 #endif //DZ04_OPENGL_HELPERS_H

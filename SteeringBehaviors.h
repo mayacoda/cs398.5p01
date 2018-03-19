@@ -63,6 +63,8 @@ public:
         return (m_flags & behavior) != 0;
     }
 
+    void setPath(Path* p) { m_path = p; }
+
     Vector2D<double> calculate();
 
     Vector2D<double> seek(Vector2D<double> target);

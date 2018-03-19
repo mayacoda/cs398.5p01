@@ -5,6 +5,7 @@
 
 #include "Vehicle.h"
 #include "Obstacle.h"
+#include "Map.h"
 #include <vector>
 
 class Wall2D;
@@ -20,10 +21,16 @@ private:
     int m_height;
 
     Vehicle* m_player;
-    Vehicle* m_player2;
+
+    Map* map;
 
 public:
     GameWorld(int m_width, int m_height);
+
+    ~GameWorld() {
+        delete m_player;
+        delete map;
+    }
 
     enum behaviors {
         none          = 0,

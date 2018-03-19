@@ -1,5 +1,4 @@
 #include <vector>
-#include <limits>
 
 #include "SteeringBehaviors.h"
 #include "Vehicle.h"
@@ -9,7 +8,8 @@
 SteeringBehaviors::SteeringBehaviors(Vehicle* m_vehicle) : m_vehicle(m_vehicle),
                                                            m_steeringForce(Vector2D<double>(0.0, 0.0)),
                                                            m_wanderTarget(Vector2D<double>(0.0, 0.0)),
-                                                           m_flags(0) {
+                                                           m_flags(0),
+                                                           m_path() {
 
 
     m_wanderRadius = 10;
@@ -20,17 +20,10 @@ SteeringBehaviors::SteeringBehaviors(Vehicle* m_vehicle) : m_vehicle(m_vehicle),
 
     m_panicDistanceSq = 10000;
 
-    m_followPathDistanceSq = 10000;
+    m_followPathDistanceSq = 16;
 
     double theta = fRandomRange(-1, 1) * 2.0 * M_PI;  // range from -2pi to 2pi
     m_wanderTarget = Vector2D<double>(m_wanderRadius * cos(theta), m_wanderRadius * sin(theta));
-
-    m_path = new Path(10,
-                      30,
-                      30,
-                      m_vehicle->getWorld()->getWidth() - 30,
-                      m_vehicle->getWorld()->getHeight() - 30,
-                      true);
 }
 
 Vector2D<double> SteeringBehaviors::calculate() {
@@ -130,12 +123,12 @@ Vector2D<double> SteeringBehaviors::wander() {
 }
 
 Vector2D<double> SteeringBehaviors::followPath() {
-    if ((m_vehicle->getPos() - m_path->getCurrentPoint()).squareMagnitude() < m_followPathDistanceSq) {
+    if ((m_vehicle->getPos() - m_path->getCurrentPoint()).squareMagnitude() < m_followPathDistanceSq && !m_path->isLastPoint()) {
 
         m_path->setNextPoint();
     }
 
-    if (!m_path->finished()) {
+    if (!m_path->isLastPoint()) {
         return seek(m_path->getCurrentPoint());
     } else {
         return arrive(m_path->getCurrentPoint());
@@ -290,10 +283,10 @@ Vector2D<double> SteeringBehaviors::offsetPursuit(const Vehicle* leader, const V
 
 Vector2D<double> SteeringBehaviors::interpose(const Vehicle* a, const Vehicle* b) {
     Vector2D<double> midpoint = (a->getPos() + b->getPos()) / 2.0;
-    
-    double timeToMidpoint = m_vehicle->getPos().distanceTo(midpoint);
-    Vector2D<double> aPos = a->getPos() + a->getVelocity() * timeToMidpoint;
-    Vector2D<double> bPos = b->getPos() + b->getVelocity() * timeToMidpoint;
+
+    double           timeToMidpoint = m_vehicle->getPos().distanceTo(midpoint);
+    Vector2D<double> aPos           = a->getPos() + a->getVelocity() * timeToMidpoint;
+    Vector2D<double> bPos           = b->getPos() + b->getVelocity() * timeToMidpoint;
 
     midpoint = (aPos + bPos) / 2.0;
 

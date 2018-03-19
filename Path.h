@@ -30,13 +30,17 @@ public:
     }
 
     Vector2D<double> getCurrentPoint() const {
-        assert(&m_currentPoint);
+        assert(&m_currentPoint && "Current point doesn't exist");
 
         return *m_currentPoint;
     }
 
     bool finished() {
-        return !(m_currentPoint != m_points.end());
+        return m_currentPoint == m_points.end();
+    }
+
+    bool isLastPoint() {
+        return *m_currentPoint == m_points.back();
     }
 
     inline void setNextPoint();
@@ -44,8 +48,6 @@ public:
     std::list<Vector2D<double> > createRandomPath(int numPoints, double minX, double minY, double maxX, double maxY);
 
     void loop(bool toLoop) { m_isLooped = toLoop; }
-
-    void addPoint(Vector2D<double> newPoint);
 
     void set(const std::list<Vector2D<double> > &newPath) {
         m_points       = newPath;
@@ -62,7 +64,7 @@ public:
 
 
 inline void Path::setNextPoint() {
-    assert (!m_points.empty());
+    assert (!m_points.empty() && "Point list is empty");
 
     if (++m_currentPoint == m_points.end()) {
         if (m_isLooped) {
