@@ -3,11 +3,9 @@
 #elif __APPLE__
 
 #include <GLUT/glut.h>
-#include <iostream>
-
 #endif
 
-
+#include <iostream>
 #include "GameWorld.h"
 #include "MapHelpers.h"
 #include "AStar.h"

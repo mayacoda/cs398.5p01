@@ -1,5 +1,6 @@
 #include <iostream>
 #include "GameWorld.h"
+#include <ctime>
 
 
 #ifdef _WIN32
@@ -14,8 +15,8 @@
 #endif
 
 
-int       iWidth  = 1680;
-int       iHeight = 1050;
+int       iWidth  = 1280;
+int       iHeight = 860;
 GameWorld gameWorld(iWidth, iHeight);
 
 double t  = 0.0;
