@@ -5,6 +5,7 @@
 struct TerrainCenter {
     int                  x, y;
     MapNode::terrainType terrain;
+
     TerrainCenter(int x, int y, MapNode::terrainType terrain) : x(x), y(y), terrain(terrain) {}
 };
 
@@ -16,7 +17,7 @@ double distanceTo(int x1, int x2, int y1, int y2) {
 }
 
 MapNode::terrainType findClosestTerrainCenter(int row, int column, std::list<TerrainCenter> terrainCenters) {
-    TerrainCenter closest = terrainCenters.front();
+    TerrainCenter closest         = terrainCenters.front();
     double        closestDistance = std::numeric_limits<double>::infinity();
 
     for (auto it = terrainCenters.begin(); it != terrainCenters.end(); ++it) {
@@ -34,13 +35,13 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
     int rows    = h / globals::TILE_SIZE;
     int columns = w / globals::TILE_SIZE;
 
-    m_rows    = rows;
-    m_columns = columns;
+    m_rows                                   = rows;
+    m_columns                                = columns;
 
     MapNode* map[rows][columns];
 
     std::list<TerrainCenter> terrainCenters;
-    int           numberOfCenters = 100;
+    int                      numberOfCenters = 100;
 
     for (int i = 0; i < numberOfCenters; i++) {
         auto terrain = static_cast<MapNode::terrainType>(iRandomRange(0, globals::MAX_TERRAIN_TYPES - 1));
@@ -72,14 +73,18 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            // skip if block is water, it has no connections
-            if (map[i][j]->getTerrain() == MapNode::terrainType::water) continue;
+            // skip if block is not traversable, it has no connections
+            if (!map[i][j]->isTraversable()) continue;
 
             for (int x = -1; x < 2; x++) {
                 for (int y = -1; y < 2; y++) {
                     // make connection to all neighbors if possible
-                    if (i + x >= 0 && i + x < rows && j + y >= 0 && j + y < columns &&
-                        map[i + x][j + y]->getTerrain() != MapNode::terrainType::water) {
+                    if (i + x >= 0 &&
+                        i + x < rows &&
+                        j + y >= 0 &&
+                        j + y < columns &&
+                        map[i + x][j + y]->isTraversable()) {
+
                         graph->addEdge(GraphEdge(map[i][j],
                                                  map[i + x][j + y],
                                                  map[i][j]->getTerrain()));

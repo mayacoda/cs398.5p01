@@ -55,6 +55,10 @@ public:
         m_color = Color(0.0, 0.0, 0.0);
     }
 
+    bool isTraversable() const {
+        return m_terrainFlag != water;
+    }
+
     terrainType getTerrain() const { return m_terrainFlag; }
 };
 

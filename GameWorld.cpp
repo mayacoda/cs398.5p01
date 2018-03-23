@@ -69,11 +69,13 @@ void GameWorld::setDimensions(int width, int height) {
 
 void GameWorld::clickHandler(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-        auto node = map->getNodeByPosition(Vector2D<double>(x, m_height - y));
+        auto goal = map->getNodeByPosition(Vector2D<double>(x, m_height - y));
         auto start = map->getNodeByPosition(m_player->getPos());
 
-        node->makeBlack();
-        Path* p = AStar::shortestPath(map->getGraph(), start, node);
+        if (!goal->isTraversable()) return;
+
+        goal->makeBlack();
+        Path* p = AStar::shortestPath(map->getGraph(), start, goal);
 
         m_player->setPath(p);
         m_player->turnOnBehavior(SteeringBehaviors::fFollow_path);
