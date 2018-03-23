@@ -20,7 +20,7 @@ SteeringBehaviors::SteeringBehaviors(Vehicle* m_vehicle) : m_vehicle(m_vehicle),
 
     m_panicDistanceSq = 10000;
 
-    m_followPathDistanceSq = 16;
+    m_followPathDistanceSq = 1024;
 
     double theta = fRandomRange(-1, 1) * 2.0 * M_PI;  // range from -2pi to 2pi
     m_wanderTarget = Vector2D<double>(m_wanderRadius * cos(theta), m_wanderRadius * sin(theta));

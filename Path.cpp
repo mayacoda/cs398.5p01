@@ -45,6 +45,7 @@ void Path::render(float r, float g, float b) const {
 
     glColor3f(r, g, b);
     glBegin(GL_LINES);
+	glLineWidth(3.0);
 
     auto iterator = m_points.begin();
 

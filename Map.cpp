@@ -13,7 +13,7 @@ double distanceTo(int x1, int x2, int y1, int y2) {
     int ySep = y1 - y2;
     int xSep = x1 - x2;
 
-    return sqrt((xSep * xSep) + (ySep * ySep));
+    return sqrt(static_cast<double>((xSep * xSep) + (ySep * ySep)));
 }
 
 MapNode::terrainType findClosestTerrainCenter(int row, int column, std::list<TerrainCenter> terrainCenters) {
@@ -38,7 +38,11 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
     m_rows                                   = rows;
     m_columns                                = columns;
 
-    MapNode* map[rows][columns];
+	MapNode*** map = new MapNode**[rows];
+	for (int i = 0; i < rows; i++)
+	{
+		map[i] = new MapNode*[columns];
+	}
 
     std::list<TerrainCenter> terrainCenters;
     int                      numberOfCenters = 100;
@@ -93,6 +97,12 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
             }
         }
     }
+
+	for (auto i = 0; i < rows; i++) {
+		delete[] map[i];
+	}
+
+	delete[] map;
 }
 
 void Map::render() const {

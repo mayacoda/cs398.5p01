@@ -30,7 +30,7 @@ public:
 
 private:
 
-    terrainType m_terrainFlag = none;
+    terrainType m_terrainFlag;
 
     Color m_color;
 

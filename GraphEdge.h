@@ -1,5 +1,6 @@
 #ifndef DZ04_GRAPHEDGE_H
 #define DZ04_GRAPHEDGE_H
+#include <string>
 
 class GraphEdge : public BaseGameEntity {
 protected:
@@ -48,7 +49,7 @@ public:
         glVertex2d(mid.x + 10, mid.y - 10);
         glEnd();
 
-        drawText(std::to_string(cost).substr(0, 1).c_str(), mid.x - 4, mid.y - 6, Color(1.0, 1.0, 1.0));
+        drawText(std::to_string(static_cast<long double>(cost)).substr(0, 1).c_str(), mid.x - 4, mid.y - 6, Color(1.0, 1.0, 1.0));
     }
 };
 

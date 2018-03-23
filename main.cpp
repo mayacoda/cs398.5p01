@@ -11,7 +11,7 @@
 
 #include <GLUT/glut.h>
 
-#define TIME_CORRECTION 0.05 // make slower
+#define TIME_CORRECTION 0.1 // make slower
 #endif
 
 
