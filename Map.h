@@ -14,6 +14,10 @@ private:
 public:
     Map(int h, int w);
 
+    virtual ~Map() {
+        delete graph;
+    };
+
     MapNode* getNodeByPosition(Vector2D<double> pos) const;
 
     Graph* getGraph() const { return graph; }

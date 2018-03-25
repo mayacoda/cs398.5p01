@@ -1,6 +1,7 @@
 #ifndef DZ04_GRAPHEDGE_H
 #define DZ04_GRAPHEDGE_H
 #include <string>
+#include "MapNode.h"
 
 class GraphEdge : public BaseGameEntity {
 protected:

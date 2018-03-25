@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include "GameWorld.h"
-#include "MapHelpers.h"
 #include "AStar.h"
 
 GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
@@ -16,7 +15,7 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
 
     map = new Map(m_width, m_height);
 
-    m_player = new Vehicle(this,
+    m_player = new Character(this,
                                Vector2D<double>(155, 155),
                                Vector2D<double>(1, 1),
                                Vector2D<double>(0, 0),
@@ -69,20 +68,20 @@ void GameWorld::setDimensions(int width, int height) {
 
 void GameWorld::clickHandler(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-        auto goal = map->getNodeByPosition(Vector2D<double>(x, m_height - y));
+        auto goal = map->getNodeByPosition(Vector2D<double>(m_Boundaries.left + x, m_Boundaries.top - y));
         auto start = map->getNodeByPosition(m_player->getPos());
 
         if (!goal->isTraversable()) return;
 
         goal->makeBlack();
-        Path* p = AStar::shortestPath(map->getGraph(), start, goal);
+        Path* p = AStar::shortestPath(map->getGraph(), start, goal, m_player->getCostFunction());
 
         m_player->setPath(p);
         m_player->turnOnBehavior(SteeringBehaviors::fFollow_path);
     }
 }
 
-void setBehavior(const std::vector<Vehicle*> &vehicles, SteeringBehaviors::behaviorType behavior) {
+void setBehavior(const std::vector<Character*> &vehicles, SteeringBehaviors::behaviorType behavior) {
     for (unsigned int i = 0; i < vehicles.size(); i++) {
         vehicles.at(i)->turnOnBehavior(behavior);
     }
@@ -90,3 +89,6 @@ void setBehavior(const std::vector<Vehicle*> &vehicles, SteeringBehaviors::behav
 
 void GameWorld::keyboardHandler(unsigned char key, int x, int y) {}
 
+void GameWorld::setClippingBoundaries(int left, int right, int bottom, int top) {
+    m_Boundaries = Boundaries(left, right, bottom, top);
+}

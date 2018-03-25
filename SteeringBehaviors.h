@@ -7,11 +7,11 @@
 #include "Vector2D.h"
 #include "Path.h"
 
-class Vehicle;
+class Character;
 
 class SteeringBehaviors {
 private:
-    Vehicle* m_vehicle;
+    Character* m_vehicle;
 
     Vector2D<double> m_steeringForce;
 
@@ -45,7 +45,7 @@ public:
 
     double m_wanderDistance;
 
-    explicit SteeringBehaviors(Vehicle* m_vehicle);
+    explicit SteeringBehaviors(Character* m_vehicle);
 
     void turnOn(behaviorType behavior) {
         m_flags |= behavior;
@@ -71,11 +71,11 @@ public:
 
     Vector2D<double> flee(Vector2D<double> target);
 
-    Vector2D<double> evade(const Vehicle* agent);
+    Vector2D<double> evade(const Character* agent);
 
     Vector2D<double> arrive(Vector2D<double>);
 
-    Vector2D<double> offsetPursuit(const Vehicle* leader, Vector2D<double> offset);
+    Vector2D<double> offsetPursuit(const Character* leader, Vector2D<double> offset);
 
     Vector2D<double> wander();
 
@@ -87,7 +87,7 @@ public:
 
     Vector2D<double> getHidingPosition(Vector2D<double> obsPos, double obsRadius, Vector2D<double> hunterPos);
 
-    Vector2D<double> interpose(const Vehicle* a, const Vehicle* b);
+    Vector2D<double> interpose(const Character* a, const Character* b);
 };
 
 

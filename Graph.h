@@ -31,6 +31,8 @@ public:
     std::vector<std::list<GraphEdge> > getEdges() const { return m_edges; }
 
     void setNodes(const std::vector<MapNode*> &nodes);
+
+    GraphEdge getEdge(const MapNode &from, const MapNode &to) const;
 };
 
 

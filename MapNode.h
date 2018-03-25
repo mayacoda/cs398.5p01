@@ -23,7 +23,7 @@ class MapNode : public GraphNode, public BaseGameEntity {
 public:
     enum terrainType {
         none,
-        forrest,
+        forest,
         mountain,
         water
     };

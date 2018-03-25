@@ -1,5 +1,5 @@
 
-#include "Vehicle.h"
+#include "Character.h"
 #include "GameWorld.h"
 #include "Matrix.h"
 #include "geometry.h"
@@ -10,7 +10,8 @@
 #endif
 
 
-void Vehicle::update(double timeElapsed) {
+
+void Character::update(double timeElapsed) {
     m_timeElapsed = timeElapsed;
 
     Vector2D<double> steeringForce = m_steeringBehavior->calculate();
@@ -34,7 +35,7 @@ void Vehicle::update(double timeElapsed) {
     }
 }
 
-void Vehicle::renderAids() {
+void Character::renderAids() {
 
     // heading vector RED
     glColor3f(1.0, 0.0, 0.0);
@@ -81,7 +82,7 @@ void Vehicle::renderAids() {
     }
 }
 
-void Vehicle::render() {
+void Character::render() {
     renderAids();
 
     // @todo move to local space rather than global
@@ -100,7 +101,7 @@ void Vehicle::render() {
     glEnd();
 }
 
-Vehicle::Vehicle(GameWorld* m_world,
+Character::Character(GameWorld* m_world,
                  const Vector2D<double> &pos,
                  const Vector2D<double> &scale,
                  const Vector2D<double> &m_velocity,

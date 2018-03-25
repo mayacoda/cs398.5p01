@@ -3,7 +3,7 @@
 #define DZ04_GAMEWORLD_H
 
 
-#include "Vehicle.h"
+#include "Character.h"
 #include "Obstacle.h"
 #include "Map.h"
 #include <vector>
@@ -13,14 +13,23 @@ class Wall2D;
 class GameWorld {
 
 private:
-    std::vector<Vehicle*>  m_vehicles;
+    struct Boundaries {
+        Boundaries(int left, int right, int bottom, int top): left(left), right(right), bottom(bottom), top(top) {}
+        Boundaries(): left(0), right(0), bottom(0), top(0) {}
+
+        int top, bottom, left, right;
+    };
+
+    std::vector<Character*>  m_vehicles;
     std::vector<Obstacle*> m_obstacles;
     //std::vector<Wall2D> m_walls;
 
     int m_width;
     int m_height;
 
-    Vehicle* m_player;
+    Boundaries m_Boundaries;
+
+    Character* m_player;
 
     Map* map;
 
@@ -58,6 +67,14 @@ public:
     void clickHandler(int button, int state, int x, int y);
 
     void keyboardHandler(unsigned char i, int i1, int i2);
+
+    void setClippingBoundaries(int left, int right, int bottom, int top);
+
+    Vector2D<double> getPlayerPos() const {
+        if (m_player == nullptr) return Vector2D<double>(0, 0);
+
+        return m_player->getPos();
+    }
 
 private:
     GameWorld::behaviors m_activeBehavior;

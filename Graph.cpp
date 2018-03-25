@@ -54,3 +54,24 @@ void Graph::render() const {
     }
 }
 
+GraphEdge Graph::getEdge(const MapNode &from, const MapNode &to) const {
+    std::list<GraphEdge> con;
+    MapNode node;
+    auto invalidEdge = GraphEdge(&node, &node, -1);;
+
+    try {
+        con = m_edges.at(static_cast<unsigned long>(from.getIndex()));
+    } catch (const std::out_of_range& oor) {
+        // throw edge not found error
+        return invalidEdge;
+    }
+
+    for (auto it = con.begin(); it != con.end(); ++it) {
+        if ((*it).getTo() == to.getIndex()) {
+            return *it;
+        }
+    }
+
+    return invalidEdge;
+}
+

@@ -1,5 +1,6 @@
 
 #include "MapNode.h"
+#include "MapGraphicsHelper.h"
 
 MapNode::MapNode(int index,
                  const Vector2D<double> &position,
@@ -12,7 +13,7 @@ MapNode::MapNode(int index,
 
     m_color = Color(0.3, 0.3, 0.3);
     switch (terrainFlag) {
-        case forrest:
+        case forest:
             m_color = Color(0.2, 0.9, 0.6);
             break;
         case mountain:
@@ -25,25 +26,28 @@ MapNode::MapNode(int index,
 }
 
 void MapNode::render() const {
-    if (m_mark) {
-        glColor3f(0.0, 0.0, 0.0);
-        glBegin(GL_POLYGON);
-        glVertex2d(m_pos.x + 10, m_pos.y + 10);
-        glVertex2d(m_pos.x - 10, m_pos.y + 10);
-        glVertex2d(m_pos.x - 10, m_pos.y - 10);
-        glVertex2d(m_pos.x + 10, m_pos.y - 10);
-        glEnd();
-    }
+    glBindTexture(GL_TEXTURE_2D, MapGraphicsHelper::getInstance().getTextureId(m_terrainFlag));
+
+    glEnable(GL_TEXTURE_2D);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     int halfSize = globals::TILE_SIZE/2;
+
     glPushMatrix();
     glTranslated(m_pos.x, m_pos.y, 0);
-    glBegin(GL_POLYGON);
-    glColor3d(m_color.r, m_color.g, m_color.b);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
     glVertex2d(-halfSize, -halfSize);
+    glTexCoord2f(1, 0);
     glVertex2d(halfSize, -halfSize);
+    glTexCoord2f(1, 1);
     glVertex2d(halfSize, halfSize);
+    glTexCoord2f(0, 1);
     glVertex2d(-halfSize, halfSize);
+
     glEnd();
+    glDisable(GL_TEXTURE_2D);
+
     glPopMatrix();
 }

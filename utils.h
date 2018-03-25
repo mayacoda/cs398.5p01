@@ -3,6 +3,8 @@
 #define DZ01_UTILS_H
 
 #include <cmath>
+#include <random>
+#include <iostream>
 
 #ifndef M_PI
 #define M_PI 3.14159265359
@@ -31,7 +33,7 @@ inline int iRandomRange(int min, int max) {
 
 inline float fRandomRange(int min, int max) {
 
-	float r3 = min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
+	float r3 = min + static_cast <float> (random()) /( static_cast <float> (RAND_MAX/(max-min)));
 	return r3;
 }
 
@@ -46,6 +48,11 @@ inline double d2r(double deg) {
 template<typename T>
 T min(T a, T b) {
     return a > b ? b : a;
+}
+
+template<typename T>
+T max(T a, T b) {
+    return a < b ? b : a;
 }
 
 

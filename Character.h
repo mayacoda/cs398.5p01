@@ -5,10 +5,12 @@
 #include "MovingEntity.h"
 #include "SteeringBehaviors.h"
 #include "opengl_helpers.h"
+#include "GraphEdge.h"
+#include "costFunctions.h"
 
 class GameWorld;
 
-class Vehicle : public MovingEntity {
+class Character : public MovingEntity {
 private:
     GameWorld        * m_world;
     SteeringBehaviors* m_steeringBehavior;
@@ -21,9 +23,9 @@ private:
 
     void renderAids();
 
-    std::vector<Vehicle*> m_antagonists;
+    std::vector<Character*> m_antagonists;
 
-    Vehicle* m_leader;
+    Character* m_leader;
 
     Vector2D<double> m_offset;
 
@@ -33,11 +35,11 @@ public:
 
     Color m_color;
 
-    ~Vehicle() {
+    ~Character() {
         delete m_steeringBehavior;
     }
 
-    Vehicle(GameWorld* m_world,
+    Character(GameWorld* m_world,
             const Vector2D<double> &pos,
             const Vector2D<double> &scale,
             const Vector2D<double> &m_velocity,
@@ -50,9 +52,9 @@ public:
 
     Vector2D<double> m_wanderTarget;
 
-    const Vehicle* m_interposeTargetA;
+    const Character* m_interposeTargetA;
 
-    const Vehicle* m_interposeTargetB;
+    const Character* m_interposeTargetB;
 
     Vector2D<double> getHeading() const { return m_heading; }
 
@@ -64,16 +66,16 @@ public:
 
     const double getMaxSpeed() const { return m_maxSpeed; }
 
-    std::vector<Vehicle*> getAntagonists() const { return m_antagonists; }
+    std::vector<Character*> getAntagonists() const { return m_antagonists; }
 
-    void addAntagonist(Vehicle* a) { m_antagonists.push_back(a); }
+    void addAntagonist(Character* a) { m_antagonists.push_back(a); }
 
-    void setLeaderAndOffset(Vehicle* l, Vector2D<double> v) {
+    void setLeaderAndOffset(Character* l, Vector2D<double> v) {
         m_leader = l;
         m_offset = v;
     }
 
-    Vehicle* getLeader() const { return m_leader; }
+    Character* getLeader() const { return m_leader; }
 
     Vector2D<double> getOffset() const { return m_offset; }
 
@@ -81,7 +83,7 @@ public:
 
     Vector2D<double> getDestination() const { return m_destination; }
 
-    void interposeVehicles(const Vehicle* a, const Vehicle* b) {
+    void interposeVehicles(const Character* a, const Character* b) {
         m_interposeTargetA = a;
         m_interposeTargetB = b;
     }
@@ -90,11 +92,18 @@ public:
         behavior == SteeringBehaviors::none ? m_steeringBehavior->turnAllOff() : m_steeringBehavior->turnOn(behavior);
     }
 
+    void setPath(Path* path) { m_steeringBehavior->setPath(path); }
+
+    typedef double (*fptr)(const GraphEdge&);
+
+    fptr getCostFunction() {
+        return basicCost;
+    }
+
     void update(double timeElapsed);
 
     void render();
 
-    void setPath(Path* path) { m_steeringBehavior->setPath(path); }
 };
 
 

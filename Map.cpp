@@ -45,7 +45,7 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
 	}
 
     std::list<TerrainCenter> terrainCenters;
-    int                      numberOfCenters = 100;
+    int                      numberOfCenters = 20;
 
     for (int i = 0; i < numberOfCenters; i++) {
         auto terrain = static_cast<MapNode::terrainType>(iRandomRange(0, globals::MAX_TERRAIN_TYPES - 1));

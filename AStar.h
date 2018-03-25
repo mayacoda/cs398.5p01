@@ -8,8 +8,7 @@
 
 class AStar {
 public:
-
-    static Path* shortestPath(Graph* graph, MapNode* start, MapNode* finish);
+    static Path* shortestPath(Graph* graph, MapNode* start, MapNode* finish, double (*costFn) (const GraphEdge&));
 };
 
 

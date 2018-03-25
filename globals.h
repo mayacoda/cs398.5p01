@@ -1,7 +1,3 @@
-//
-// Created by Maja Nedeljkovic on 3/17/18.
-//
-
 #ifndef DZ04_GLOBALS_H
 #define DZ04_GLOBALS_H
 

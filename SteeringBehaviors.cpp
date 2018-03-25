@@ -1,11 +1,11 @@
 #include <vector>
 
 #include "SteeringBehaviors.h"
-#include "Vehicle.h"
+#include "Character.h"
 #include "geometry.h"
 #include "GameWorld.h"
 
-SteeringBehaviors::SteeringBehaviors(Vehicle* m_vehicle) : m_vehicle(m_vehicle),
+SteeringBehaviors::SteeringBehaviors(Character* m_vehicle) : m_vehicle(m_vehicle),
                                                            m_steeringForce(Vector2D<double>(0.0, 0.0)),
                                                            m_wanderTarget(Vector2D<double>(0.0, 0.0)),
                                                            m_flags(0),
@@ -199,12 +199,12 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
 }
 
 Vector2D<double> SteeringBehaviors::hide() {
-    Vehicle* hunter = nullptr;
+    Character* hunter = nullptr;
     double closestAntagonistDistance = std::numeric_limits<double>::infinity();
 
     // find the closest antagonist
     for (unsigned int i = 0; i < m_vehicle->getAntagonists().size(); i++) {
-        Vehicle* a = m_vehicle->getAntagonists().at(i);
+        Character* a = m_vehicle->getAntagonists().at(i);
 
         double distanceToA = m_vehicle->getPos().distanceTo(a->getPos());
         if (distanceToA < closestAntagonistDistance) {
@@ -260,7 +260,7 @@ SteeringBehaviors::getHidingPosition(Vector2D<double> obsPos, double obsRadius, 
     return Vector2D<double>(d.x + obsPos.x, d.y + obsPos.y);
 }
 
-Vector2D<double> SteeringBehaviors::evade(const Vehicle* agent) {
+Vector2D<double> SteeringBehaviors::evade(const Character* agent) {
     Vector2D<double> toPursuer = agent->getPos() - m_vehicle->getPos();
 
     double lookAheadTime = toPursuer.magnitude() / (m_vehicle->getMaxSpeed() + agent->getSpeed());
@@ -268,7 +268,7 @@ Vector2D<double> SteeringBehaviors::evade(const Vehicle* agent) {
     return flee(agent->getPos() + agent->getVelocity() * lookAheadTime);
 }
 
-Vector2D<double> SteeringBehaviors::offsetPursuit(const Vehicle* leader, const Vector2D<double> offset) {
+Vector2D<double> SteeringBehaviors::offsetPursuit(const Character* leader, const Vector2D<double> offset) {
     Vector2D<double> worldOffsetPos = pointToWorldSpace(offset,
                                                         leader->getHeading(),
                                                         leader->getSide(),
@@ -281,7 +281,7 @@ Vector2D<double> SteeringBehaviors::offsetPursuit(const Vehicle* leader, const V
     return arrive(worldOffsetPos + leader->getVelocity() * lookAheadTime);
 }
 
-Vector2D<double> SteeringBehaviors::interpose(const Vehicle* a, const Vehicle* b) {
+Vector2D<double> SteeringBehaviors::interpose(const Character* a, const Character* b) {
     Vector2D<double> midpoint = (a->getPos() + b->getPos()) / 2.0;
 
     const double           timeToMidpoint = m_vehicle->getPos().distanceTo(midpoint) / m_vehicle->getSpeed();

@@ -46,10 +46,13 @@ Path* reconstructPath(const std::map<int, MapNode*> &cameFrom, MapNode* current)
     return path;
 }
 
-Path* AStar::shortestPath(Graph* graph, MapNode* start, MapNode* finish) {
+Path* AStar::shortestPath(Graph* graph, MapNode* start, MapNode* finish, double (*costFn) (const GraphEdge&)) {
+    auto* defaultPath = new Path();
+    defaultPath->set(std::list<Vector2D<double> >(1, start->getPos()));
+
     if (!finish->isTraversable()) {
         std::cout << "AStar::shortestPath: goal cannot be reached" << std::endl;
-        return new Path();
+        return defaultPath;
     }
     
     std::vector<MapNode*>              nodes = graph->getNodes();
@@ -93,7 +96,7 @@ Path* AStar::shortestPath(Graph* graph, MapNode* start, MapNode* finish) {
                 openSet.insert(neighbor);
             }
 
-            double tentativeScore = gScore[current->getIndex()] + edge.getCost();
+            double tentativeScore = gScore[current->getIndex()] + costFn(edge);
             
             if (tentativeScore >= gScore[neighbor->getIndex()]) {
                 // neighbor isn't a better path
@@ -107,5 +110,5 @@ Path* AStar::shortestPath(Graph* graph, MapNode* start, MapNode* finish) {
     }
 
 
-    return new Path();
+    return defaultPath;
 }
