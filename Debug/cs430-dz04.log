@@ -14,7 +14,7 @@
          Debug\Obstacle.obj
          Debug\Path.obj
          Debug\SteeringBehaviors.obj
-         Debug\Vehicle.obj
+         Debug\Character.obj
        Manifest:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\cs430-dz04.exe.embed.manifest" /manifest "Debug\cs430-dz04.exe.intermediate.manifest"
          All outputs are up-to-date.

@@ -1,8 +1,8 @@
 
 #include "Character.h"
-#include "GameWorld.h"
-#include "Matrix.h"
-#include "geometry.h"
+#include "../game-world/GameWorld.h"
+#include "../geometry/Matrix.h"
+#include "../geometry/geometry.h"
 
 #ifdef _WIN32
 #include <GL\glut.h>
@@ -22,7 +22,7 @@ void Character::update(double timeElapsed) {
 
     m_velocity += acceleration * timeElapsed;
 
-    m_velocity.truncate(m_maxSpeed);
+    m_velocity.truncate(calculateMaxSpeed());
 
     m_pos += m_velocity * timeElapsed;
 
@@ -134,4 +134,9 @@ Character::Character(GameWorld* m_world,
     m_detectionBoxLength = 200;
 
     m_steeringBehavior = new SteeringBehaviors(this);
+}
+
+// method should be overridden by derived classes
+const double Character::calculateMaxSpeed() const {
+    return m_maxSpeed;
 }

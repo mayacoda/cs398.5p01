@@ -11,7 +11,7 @@
          Release\GameWorld.obj
          Release\main.obj
          Release\SteeringBehaviors.obj
-         Release\Vehicle.obj
+         Release\Character.obj
      1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
        Manifest:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Release\cs430-dz04.exe.embed.manifest" /manifest "Release\cs430-dz04.exe.intermediate.manifest"
@@ -21,7 +21,7 @@
          Release\GameWorld.obj
          Release\main.obj
          Release\SteeringBehaviors.obj
-         Release\Vehicle.obj
+         Release\Character.obj
      1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
          cs430-dz04.vcxproj -> C:\Users\Maya\Documents\CS430\cs430-dz04\Release\cs430-dz04.exe
        FinalizeBuildStatus:

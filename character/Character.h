@@ -2,10 +2,10 @@
 #ifndef DZ04_VEHICLE_H
 #define DZ04_VEHICLE_H
 
-#include "MovingEntity.h"
+#include "../game-world/MovingEntity.h"
 #include "SteeringBehaviors.h"
-#include "opengl_helpers.h"
-#include "GraphEdge.h"
+#include "../graphics/opengl_helpers.h"
+#include "../map/GraphEdge.h"
 #include "costFunctions.h"
 
 class GameWorld;
@@ -64,7 +64,7 @@ public:
 
     double getDetectionBoxLength() const { return m_detectionBoxLength; }
 
-    const double getMaxSpeed() const { return m_maxSpeed; }
+    const double calculateMaxSpeed() const;
 
     std::vector<Character*> getAntagonists() const { return m_antagonists; }
 

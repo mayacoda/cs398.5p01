@@ -5,7 +5,7 @@
 #include <cmath>
 #include <iosfwd>
 #include <ostream>
-#include "utils.h"
+#include "../helpers/utils.h"
 
 template<class T>
 class Vector2D {

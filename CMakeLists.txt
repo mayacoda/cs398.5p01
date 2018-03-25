@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 98)
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
 
-add_executable(DZ04 main.cpp GameWorld.cpp GameWorld.h BaseGameEntity.h Vector2D.h utils.h MovingEntity.h Character.cpp Character.h SteeringBehaviors.cpp SteeringBehaviors.h geometry.h Matrix.h opengl_helpers.h Path.cpp Path.h Obstacle.cpp Obstacle.h Graph.cpp Graph.h GraphNode.h MapNode.cpp MapNode.h globals.h Map.cpp Map.h GraphEdge.h AStar.cpp AStar.h MapGraphicsHelper.h bmp-mac.cpp costFunctions.h costFunctions.cpp)
+add_executable(DZ04 main.cpp game-world/GameWorld.cpp game-world/GameWorld.h game-world/BaseGameEntity.h geometry/Vector2D.h helpers/utils.h game-world/MovingEntity.h character/Character.cpp character/Character.h character/SteeringBehaviors.cpp character/SteeringBehaviors.h geometry/geometry.h geometry/Matrix.h graphics/opengl_helpers.h map/Path.cpp map/Path.h game-world/Obstacle.cpp game-world/Obstacle.h map/Graph.cpp map/Graph.h map/GraphNode.h map/MapNode.cpp map/MapNode.h helpers/globals.h map/Map.cpp map/Map.h map/GraphEdge.h map/AStar.cpp map/AStar.h map/MapGraphicsHelper.h graphics/bmp-mac.cpp character/costFunctions.h character/costFunctions.cpp character/derived/Sneak.cpp character/derived/Sneak.h)
 
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)

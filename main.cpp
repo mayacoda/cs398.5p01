@@ -1,5 +1,5 @@
 #include <iostream>
-#include "GameWorld.h"
+#include "game-world/GameWorld.h"
 
 
 #ifdef _WIN32

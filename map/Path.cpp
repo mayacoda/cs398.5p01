@@ -1,14 +1,13 @@
+
 #ifdef _WIN32
 #include <GL\glut.h>
 #elif __APPLE__
-
 #include <OpenGL/gl.h>
-#include <iostream>
-
 #endif
 
+#include <iostream>
 #include "Path.h"
-#include "geometry.h"
+#include "../geometry/geometry.h"
 
 
 std::list<Vector2D<double> > Path::createRandomPath(int numPoints, double minX, double minY, double maxX, double maxY) {

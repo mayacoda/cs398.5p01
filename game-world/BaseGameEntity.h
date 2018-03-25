@@ -3,7 +3,7 @@
 #define DZ04_BASEGAMEENTITY_H
 
 
-#include "Vector2D.h"
+#include "../geometry/Vector2D.h"
 
 class BaseGameEntity {
 public:

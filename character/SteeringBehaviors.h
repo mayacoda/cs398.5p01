@@ -4,8 +4,8 @@
 
 
 #include <vector>
-#include "Vector2D.h"
-#include "Path.h"
+#include "../geometry/Vector2D.h"
+#include "../map/Path.h"
 
 class Character;
 

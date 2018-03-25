@@ -11,7 +11,7 @@
 #include <GL\glut.h>
 #elif __APPLE__
 
-#include "bmp-mac.h"
+#include "../graphics/bmp-mac.h"
 #include <GLUT/glut.h>
 #include <sstream>
 

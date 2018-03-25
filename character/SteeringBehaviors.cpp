@@ -2,8 +2,8 @@
 
 #include "SteeringBehaviors.h"
 #include "Character.h"
-#include "geometry.h"
-#include "GameWorld.h"
+#include "../geometry/geometry.h"
+#include "../game-world/GameWorld.h"
 
 SteeringBehaviors::SteeringBehaviors(Character* m_vehicle) : m_vehicle(m_vehicle),
                                                            m_steeringForce(Vector2D<double>(0.0, 0.0)),
@@ -62,7 +62,7 @@ Vector2D<double> SteeringBehaviors::calculate() {
 }
 
 Vector2D<double> SteeringBehaviors::seek(Vector2D<double> target) {
-    Vector2D<double> desiredVelocity = (target - m_vehicle->getPos()).getNormalized() * m_vehicle->getMaxSpeed();
+    Vector2D<double> desiredVelocity = (target - m_vehicle->getPos()).getNormalized() * m_vehicle->calculateMaxSpeed();
 
     return desiredVelocity - m_vehicle->getVelocity();
 }
@@ -72,7 +72,7 @@ Vector2D<double> SteeringBehaviors::flee(Vector2D<double> target) {
         return Vector2D<double>(0.0, 0.0);
     }
 
-    Vector2D<double> desiredVelocity = (m_vehicle->getPos() - target).getNormalized() * m_vehicle->getMaxSpeed();
+    Vector2D<double> desiredVelocity = (m_vehicle->getPos() - target).getNormalized() * m_vehicle->calculateMaxSpeed();
 
     return desiredVelocity - m_vehicle->getVelocity();
 }
@@ -87,7 +87,7 @@ Vector2D<double> SteeringBehaviors::arrive(Vector2D<double> target) {
 
         double speed = dist / deceleration;
 
-        speed = min(speed, m_vehicle->getMaxSpeed());
+        speed = min(speed, m_vehicle->calculateMaxSpeed());
 
         Vector2D<double> desiredVelocity = toTarget * (speed / dist);
 
@@ -139,7 +139,7 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
     Vector2D<double> steeringForce = Vector2D<double>();
 
     double boxLength = m_vehicle->getDetectionBoxLength() +
-                       (m_vehicle->getSpeed() / m_vehicle->getMaxSpeed()) *
+                       (m_vehicle->getSpeed() / m_vehicle->calculateMaxSpeed()) *
                        m_vehicle->getDetectionBoxLength();
 
     std::vector<Obstacle*> allObstacles = m_vehicle->getWorld()->getObstacles();
@@ -263,7 +263,7 @@ SteeringBehaviors::getHidingPosition(Vector2D<double> obsPos, double obsRadius, 
 Vector2D<double> SteeringBehaviors::evade(const Character* agent) {
     Vector2D<double> toPursuer = agent->getPos() - m_vehicle->getPos();
 
-    double lookAheadTime = toPursuer.magnitude() / (m_vehicle->getMaxSpeed() + agent->getSpeed());
+    double lookAheadTime = toPursuer.magnitude() / (m_vehicle->calculateMaxSpeed() + agent->getSpeed());
 
     return flee(agent->getPos() + agent->getVelocity() * lookAheadTime);
 }
@@ -276,7 +276,7 @@ Vector2D<double> SteeringBehaviors::offsetPursuit(const Character* leader, const
 
     Vector2D<double> toOffset = worldOffsetPos - m_vehicle->getPos();
 
-    double lookAheadTime = toOffset.magnitude() / (m_vehicle->getMaxSpeed() + leader->getSpeed());
+    double lookAheadTime = toOffset.magnitude() / (m_vehicle->calculateMaxSpeed() + leader->getSpeed());
 
     return arrive(worldOffsetPos + leader->getVelocity() * lookAheadTime);
 }

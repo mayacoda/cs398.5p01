@@ -5,10 +5,10 @@
 #ifdef _WIN32
 #include <GL\glut.h>
 #elif __APPLE__
-#include <OpenGL/gl.h>
+#include <OpenGL/OpenGL.h>
 #endif
 
-#include "opengl_helpers.h"
+#include "../graphics/opengl_helpers.h"
 
 void Obstacle::render() {
     glColor3f(0.3, 0.2, 0.5);

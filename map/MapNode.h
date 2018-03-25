@@ -7,17 +7,17 @@
 #include <GL\glut.h>
 #elif __APPLE__
 
-#include <OpenGL/gl.h>
+#include <OpenGL/OpenGL.h>
 #include <iostream>
 
 #endif
 
 
 #include "GraphNode.h"
-#include "Vector2D.h"
-#include "BaseGameEntity.h"
-#include "globals.h"
-#include "opengl_helpers.h"
+#include "../geometry/Vector2D.h"
+#include "../game-world/BaseGameEntity.h"
+#include "../helpers/globals.h"
+#include "../graphics/opengl_helpers.h"
 
 class MapNode : public GraphNode, public BaseGameEntity {
 public:
@@ -34,8 +34,6 @@ private:
 
     Color m_color;
 
-    bool m_mark;
-
 public:
 
     MapNode() : GraphNode(invalid_index),
@@ -49,11 +47,6 @@ public:
             terrainType terrainFlag);
 
     void render() const override;
-
-    void makeBlack() {
-        m_mark = true;
-        m_color = Color(0.0, 0.0, 0.0);
-    }
 
     bool isTraversable() const {
         return m_terrainFlag != water;

@@ -7,13 +7,13 @@
 
 #include <iostream>
 #include "GameWorld.h"
-#include "AStar.h"
+#include "../map/AStar.h"
 
 GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
                                                   m_height(m_height),
                                                   m_player(nullptr) {
 
-    map = new Map(m_width, m_height);
+    m_map = new Map(m_width, m_height);
 
     m_player = new Character(this,
                                Vector2D<double>(155, 155),
@@ -49,7 +49,7 @@ void GameWorld::update(double timeElapsed) {
  */
 void GameWorld::render() {
 
-    map->render();
+    m_map->render();
 
     for (unsigned int i = 0; i < m_vehicles.size(); i++) {
         m_vehicles.at(i)->render();
@@ -68,13 +68,12 @@ void GameWorld::setDimensions(int width, int height) {
 
 void GameWorld::clickHandler(int button, int state, int x, int y) {
     if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-        auto goal = map->getNodeByPosition(Vector2D<double>(m_Boundaries.left + x, m_Boundaries.top - y));
-        auto start = map->getNodeByPosition(m_player->getPos());
+        auto goal = m_map->getNodeByPosition(Vector2D<double>(m_Boundaries.left + x, m_Boundaries.top - y));
+        auto start = m_map->getNodeByPosition(m_player->getPos());
 
         if (!goal->isTraversable()) return;
 
-        goal->makeBlack();
-        Path* p = AStar::shortestPath(map->getGraph(), start, goal, m_player->getCostFunction());
+        Path* p = AStar::shortestPath(m_map->getGraph(), start, goal, m_player->getCostFunction());
 
         m_player->setPath(p);
         m_player->turnOnBehavior(SteeringBehaviors::fFollow_path);

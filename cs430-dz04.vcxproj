@@ -78,7 +78,7 @@
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Path.cpp" />
     <ClCompile Include="SteeringBehaviors.cpp" />
-    <ClCompile Include="Vehicle.cpp" />
+    <ClCompile Include="Character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseGameEntity.h" />
@@ -92,7 +92,7 @@
     <ClInclude Include="SteeringBehaviors.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2D.h" />
-    <ClInclude Include="Vehicle.h" />
+    <ClInclude Include="Character.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

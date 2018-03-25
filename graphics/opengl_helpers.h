@@ -5,7 +5,7 @@
 #endif
 
 #include <cmath>
-#include "Vector2D.h"
+#include "../geometry/Vector2D.h"
 
 #ifndef DZ04_OPENGL_HELPERS_H
 #define DZ04_OPENGL_HELPERS_H

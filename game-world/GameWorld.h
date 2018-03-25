@@ -3,9 +3,9 @@
 #define DZ04_GAMEWORLD_H
 
 
-#include "Character.h"
+#include "../character/Character.h"
 #include "Obstacle.h"
-#include "Map.h"
+#include "../map/Map.h"
 #include <vector>
 
 class Wall2D;
@@ -31,14 +31,14 @@ private:
 
     Character* m_player;
 
-    Map* map;
+    Map* m_map;
 
 public:
     GameWorld(int m_width, int m_height);
 
     ~GameWorld() {
         delete m_player;
-        delete map;
+        delete m_map;
     }
 
     enum behaviors {
@@ -63,6 +63,10 @@ public:
     std::vector<Obstacle*> getObstacles() const { return m_obstacles; }
 
     GameWorld::behaviors getActiveBehavior() const { return m_activeBehavior; }
+
+    MapNode* getNodeByPosition(Vector2D<double> pos) const {
+        return m_map->getNodeByPosition(pos);
+    }
 
     void clickHandler(int button, int state, int x, int y);
 
