@@ -68,12 +68,17 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
                                         terrain);
             map[i][j] = node;
             index++;
+
+            if (!node->isTraversable()) {
+                m_obstacles.push_back(node);
+            }
+
             nodes.push_back(node);
         }
     }
 
-    graph = new Graph();
-    graph->setNodes(nodes);
+    m_graph = new Graph();
+    m_graph->setNodes(nodes);
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
@@ -89,7 +94,7 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
                         j + y < columns &&
                         map[i + x][j + y]->isTraversable()) {
 
-                        graph->addEdge(GraphEdge(map[i][j],
+                        m_graph->addEdge(GraphEdge(map[i][j],
                                                  map[i + x][j + y],
                                                  map[i][j]->getTerrain()));
                     }
@@ -106,7 +111,7 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
 }
 
 void Map::render() const {
-    graph->render();
+    m_graph->render();
 }
 
 MapNode* Map::getNodeByPosition(Vector2D<double> pos) const {
@@ -114,11 +119,10 @@ MapNode* Map::getNodeByPosition(Vector2D<double> pos) const {
     auto column = static_cast<int>(floor(pos.y / globals::TILE_SIZE));
 
     int id = row * m_columns + column;
-
-    assert(id >= 0 && id < m_columns * m_rows && "ID is out of bounds");
+//    assert(id >= 0 && id < m_columns * m_rows && "ID is out of bounds");
 
     if (id >= 0 && id < m_columns * m_rows) {
-        return graph->getNodes().at(static_cast<unsigned long>(id));
+        return m_graph->getNodes().at(static_cast<unsigned long>(id));
     } else {
         return new MapNode();
     }

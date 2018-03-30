@@ -54,9 +54,20 @@ Vector2D<double> SteeringBehaviors::calculate() {
     }
 
     if (isOn(fInterpose)) {
-        m_steeringForce += interpose(m_vehicle->m_interposeTargetA, m_vehicle->m_interposeTargetB);
+        m_steeringForce += interpose(m_vehicle->interposeTargetA, m_vehicle->interposeTargetB);
     }
 
+    if (isOn(fFlee) && m_vehicle->getTarget()) {
+        m_steeringForce += flee(m_vehicle->getTarget()->getPos());
+    }
+
+    if (isOn(fSeek) && m_vehicle->getTarget()) {
+        m_steeringForce += seek(m_vehicle->getTarget()->getPos());
+    }
+
+    if (isOn(fEvade) && m_vehicle->getTarget()) {
+        m_steeringForce += evade(m_vehicle->getTarget());
+    }
 
     return m_steeringForce;
 }
@@ -94,8 +105,8 @@ Vector2D<double> SteeringBehaviors::arrive(Vector2D<double> target) {
         return desiredVelocity - m_vehicle->getVelocity();
     }
 
-    // turn off arriving behavior if already arrived to destination
-    turnOff(fArrive);
+    // turn off arriving behavior if already arrived and stopped at destination
+    if (m_vehicle->getSpeed() < 0.0001) turnOff(fArrive);
 
     return Vector2D<double>(0, 0);
 
@@ -116,7 +127,7 @@ Vector2D<double> SteeringBehaviors::wander() {
                                                      m_vehicle->getSide(),
                                                      m_vehicle->getPos());
 
-    m_vehicle->m_wanderTarget = targetWorld;
+    m_vehicle->wanderTarget = targetWorld;
     Vector2D<double> result = targetWorld - m_vehicle->getPos();
 
     return result;

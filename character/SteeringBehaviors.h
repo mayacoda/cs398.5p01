@@ -34,7 +34,8 @@ public:
         fAvoid_obs      = 0x00040,
         fHide           = 0x00080,
         fOffset_pursuit = 0x00100,
-        fInterpose      = 0x00200
+        fInterpose      = 0x00200,
+        fEvade          = 0x00400
     };
 
     Path* m_path;

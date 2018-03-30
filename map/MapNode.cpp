@@ -7,7 +7,7 @@ MapNode::MapNode(int index,
                  MapNode::terrainType terrainFlag) : GraphNode(index),
                                                      BaseGameEntity(globals::entityTypes::tile,
                                                                     position,
-                                                                    0),
+                                                                    globals::TILE_SIZE / 2),
                                                      m_terrainFlag(terrainFlag),
                                                      m_color() {
 
@@ -32,6 +32,7 @@ void MapNode::render() const {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     int halfSize = globals::TILE_SIZE/2;
+    glColor3f(1, 1, 1);
 
     glPushMatrix();
     glTranslated(m_pos.x, m_pos.y, 0);
@@ -47,7 +48,10 @@ void MapNode::render() const {
     glVertex2d(-halfSize, halfSize);
 
     glEnd();
-    glDisable(GL_TEXTURE_2D);
 
     glPopMatrix();
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glDisable(GL_TEXTURE_2D);
 }

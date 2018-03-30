@@ -6,11 +6,19 @@
 #include "../character/Character.h"
 #include "Obstacle.h"
 #include "../map/Map.h"
+#include "../character/attack/Attack.h"
 #include <vector>
 
 class Wall2D;
 
 class GameWorld {
+
+public:
+    enum characterClass {
+        sneakClass,
+        thugClass,
+        runnerClass
+    };
 
 private:
     struct Boundaries {
@@ -22,7 +30,7 @@ private:
 
     std::vector<Character*>  m_vehicles;
     std::vector<Obstacle*> m_obstacles;
-    //std::vector<Wall2D> m_walls;
+    std::vector<Attack*> m_projectiles;
 
     int m_width;
     int m_height;
@@ -41,15 +49,6 @@ public:
         delete m_map;
     }
 
-    enum behaviors {
-        none          = 0,
-        wander        = 1,
-        pathFollow    = 2,
-        hide          = 3,
-        offsetPursuit = 4,
-        interpose     = 5
-    };
-
     void update(double timeElapsed);
 
     void render();
@@ -61,8 +60,6 @@ public:
     int getHeight() const { return m_height; }
 
     std::vector<Obstacle*> getObstacles() const { return m_obstacles; }
-
-    GameWorld::behaviors getActiveBehavior() const { return m_activeBehavior; }
 
     MapNode* getNodeByPosition(Vector2D<double> pos) const {
         return m_map->getNodeByPosition(pos);
@@ -80,8 +77,11 @@ public:
         return m_player->getPos();
     }
 
-private:
-    GameWorld::behaviors m_activeBehavior;
+    void selectCharacter(characterClass aClass);
+
+    void addProjectile(Attack* p) {
+        m_projectiles.push_back(p);
+    }
 };
 
 

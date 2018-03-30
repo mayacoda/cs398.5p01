@@ -6,18 +6,31 @@
 #include "../Character.h"
 
 class Sneak: public Character {
+private:
+    double m_attackTimeout;
+    double m_timeLastAttacked;
+
 public:
     Sneak(GameWorld* m_world,
           const Vector2D<double> &pos,
           const Vector2D<double> &scale,
           const Vector2D<double> &m_velocity,
           const Vector2D<double> &m_heading,
-          const Vector2D<double> &m_side,
-          double m_mass,
-          double m_maxSpeed,
-          double m_maxForce,
-          double m_maxTurnRate);
+          const Vector2D<double> &m_side);
 
+    const double calculateMaxSpeed() const override;
+
+    fptr getCostFunction() override;
+
+    static const char * getMaskPath();
+
+    static const char * getSpritePath();
+
+    void turnOnDefaultBehavior() override;
+
+    void render() const override;
+
+    void update(double timeElapsed) override;
 };
 
 

@@ -24,6 +24,10 @@ public:
 
     int getFrom() const { return from->getIndex(); }
 
+    MapNode* getToNode() const { return to; }
+
+    MapNode* getFromNode() const { return from; }
+
     bool operator==(const GraphEdge &rhs) const {
         return to == rhs.to &&
                from == rhs.from;

@@ -55,5 +55,4 @@ T max(T a, T b) {
     return a < b ? b : a;
 }
 
-
 #endif //DZ01_UTILS_H

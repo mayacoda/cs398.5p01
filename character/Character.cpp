@@ -1,8 +1,10 @@
 
 #include "Character.h"
+#include "../state/State.h"
 #include "../game-world/GameWorld.h"
 #include "../geometry/Matrix.h"
 #include "../geometry/geometry.h"
+#include "attack/RangedAttack.h"
 
 #ifdef _WIN32
 #include <GL\glut.h>
@@ -10,9 +12,12 @@
 #endif
 
 
-
 void Character::update(double timeElapsed) {
     m_timeElapsed = timeElapsed;
+
+    if (currentState) {
+        currentState->execute(this);
+    }
 
     Vector2D<double> steeringForce = m_steeringBehavior->calculate();
 
@@ -68,7 +73,7 @@ void Character::renderAids() {
         glColor3f(0.0, 0.0, 1.0);
         glPointSize(5.0f);
         glBegin(GL_POINTS);
-        glVertex2d(m_wanderTarget.x, m_wanderTarget.y);
+        glVertex2d(wanderTarget.x, wanderTarget.y);
         glEnd();
 
         // wandering circle
@@ -82,8 +87,8 @@ void Character::renderAids() {
     }
 }
 
-void Character::render() {
-    renderAids();
+void Character::render() const {
+//    renderAids();
 
     // @todo move to local space rather than global
     glColor3f(m_color.r, m_color.g, m_color.b);
@@ -102,41 +107,79 @@ void Character::render() {
 }
 
 Character::Character(GameWorld* m_world,
-                 const Vector2D<double> &pos,
-                 const Vector2D<double> &scale,
-                 const Vector2D<double> &m_velocity,
-                 const Vector2D<double> &m_heading,
-                 const Vector2D<double> &m_side,
-                 double m_mass,
-                 double m_maxSpeed,
-                 double m_maxForce,
-                 double m_maxTurnRate) : MovingEntity(pos,
-                                                      15,
-                                                      scale,
-                                                      m_velocity,
-                                                      m_heading,
-                                                      m_side,
-                                                      m_mass,
-                                                      m_maxSpeed,
-                                                      m_maxForce,
-                                                      m_maxTurnRate),
-                                         m_world(m_world),
-                                         m_timeElapsed(0),
-                                         m_leader(nullptr),
-                                         m_color(0.3, 0.3, 0.6),
-                                         m_interposeTargetA(),
-                                         m_interposeTargetB() {
+                     const Vector2D<double> &pos,
+                     const Vector2D<double> &scale,
+                     const Vector2D<double> &m_velocity,
+                     const Vector2D<double> &m_heading,
+                     const Vector2D<double> &m_side,
+                     double m_mass,
+                     double m_maxSpeed,
+                     double attackRange,
+                     double attackTimeout) : MovingEntity(pos,
+                                                          15,
+                                                          scale,
+                                                          m_velocity,
+                                                          m_heading,
+                                                          m_side,
+                                                          m_mass,
+                                                          m_maxSpeed,
+                                                          1,
+                                                          1),
+                                             currentState(),
+                                             m_world(m_world),
+                                             m_attackRange(attackRange),
+                                             m_attackTimeout(attackTimeout),
+                                             m_timeElapsed(0),
+                                             m_leader(nullptr),
+                                             m_color(0.3, 0.3, 0.6),
+                                             interposeTargetA(),
+                                             interposeTargetB() {
 
     m_steeringForce = Vector2D<double>(0.0, 0.0);
-    m_wanderTarget  = Vector2D<double>(0.0, 0.0);
+    wanderTarget    = Vector2D<double>(0.0, 0.0);
     m_offset        = Vector2D<double>(0.0, 0.0);
+
+    m_timeLastAttacked = time(nullptr);
 
     m_detectionBoxLength = 200;
 
     m_steeringBehavior = new SteeringBehaviors(this);
 }
 
-// method should be overridden by derived classes
-const double Character::calculateMaxSpeed() const {
-    return m_maxSpeed;
+Character* Character::seekEnemies() const {
+    Character* closest = nullptr;
+    double smallestDist = std::numeric_limits<double>::infinity();
+
+    for (auto it = m_antagonists.begin(); it != m_antagonists.end(); ++it) {
+        double distanceTo = (*it)->getPos().distanceTo(m_pos);
+        if (distanceTo <= smallestDist && distanceTo <= m_antagonistDetectionDistance) {
+            smallestDist = distanceTo;
+            closest      = *it;
+        }
+    }
+
+    return closest;
+}
+
+bool Character::hasEscaped() {
+    return m_target && m_target->getPos().distanceTo(m_pos) > m_antagonistDetectionDistance;
+}
+
+void Character::changeState(State* newState) {
+    if (currentState) currentState->exit(this);
+
+    currentState = newState;
+
+    currentState->enter(this);
+}
+
+void Character::attackRanged(Vector2D<double> target) {
+    double currentTime = time(nullptr);
+    if (currentTime - m_timeLastAttacked >= m_attackTimeout) {
+        m_world->addProjectile(new RangedAttack(this));
+        m_timeLastAttacked = currentTime;
+    }
+}
+
+void Character::attackMelee(Vector2D<double> target) {
 }

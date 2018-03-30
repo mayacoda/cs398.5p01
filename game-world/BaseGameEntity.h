@@ -34,11 +34,12 @@ public:
                                                                              m_pos(pos),
                                                                              m_scale(Vector2D<double>(1.0, 1.0)) {}
 
-    virtual void update(double timeElapsed) {};
 
     Vector2D<double> getPos() const { return m_pos; }
 
     double getBoundingRadius() const { return m_boundingRadius; }
+
+    virtual void update(double timeElapsed) {};
 
     virtual void render() const {};
 };

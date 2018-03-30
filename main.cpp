@@ -1,5 +1,9 @@
 #include <iostream>
 #include "game-world/GameWorld.h"
+#include "character/derived/Thug.h"
+#include "character/derived/Sneak.h"
+#include "character/derived/Runner.h"
+#include "ui/Bounds.h"
 
 
 #ifdef _WIN32
@@ -11,12 +15,13 @@
 #define TIME_CORRECTION 0.1 // make slower
 #endif
 
+bool gameStarted = false;
 
 int winWidth  = 800;
 int winHeight = 460;
 
-int       worldWidth  = 1600;
-int       worldHeight = 1280;
+int       worldWidth  = 3200;
+int       worldHeight = 2560;
 GameWorld gameWorld(worldWidth, worldHeight);
 
 double t  = 0.0;
@@ -24,10 +29,103 @@ double dt = 0.0166666666666667;
 
 clock_t currentTime;
 
-void setClippingPlane();
+Bounds<int> characters[3];
+
+void setClippingPlane() {
+    Vector2D<double> playerPos = gameWorld.getPlayerPos();
+    int              x1, x2, y1, y2;
+
+    x1 = static_cast<int>(playerPos.x - winWidth / 2);
+    x2 = static_cast<int>(playerPos.x + winWidth / 2);
+    y1 = static_cast<int>(playerPos.y - winHeight / 2);
+    y2 = static_cast<int>(playerPos.y + winHeight / 2);
+
+    if (x1 <= 0) {
+        x1 = 0;
+        x2 = winWidth;
+    }
+    if (x2 >= worldWidth) {
+        x1 = worldWidth - winWidth;
+        x2 = worldWidth;
+    }
+    if (y1 <= 0) {
+        y1 = 0;
+        y2 = winHeight;
+    }
+    if (y2 >= worldHeight) {
+        y1 = worldHeight - winHeight;
+        y2 = worldHeight;
+    }
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(x1, x2, y1, y2, -1, 1);
+
+    gameWorld.setClippingBoundaries(x1, x2, y1, y2);
+}
+
+void showCharacterSelection() {
+    int x = winWidth / 2 - 70;
+    int y = winHeight - 100;
+
+    drawText("Select a character", x, y, Color(1, 1, 1));
+
+    drawSpriteWithMask(Thug::getSpritePath(),
+                       Thug::getMaskPath(),
+                       characters[GameWorld::thugClass].left,
+                       characters[GameWorld::thugClass].bottom);
+    drawText("Thug",
+             characters[GameWorld::thugClass].left - 10,
+             characters[GameWorld::thugClass].bottom - 20,
+             Color(1, 1, 1));
+
+    drawSpriteWithMask(Sneak::getSpritePath(),
+                       Sneak::getMaskPath(),
+                       characters[GameWorld::sneakClass].left,
+                       characters[GameWorld::sneakClass].bottom);
+    drawText("Sneak",
+             characters[GameWorld::sneakClass].left - 10,
+             characters[GameWorld::sneakClass].bottom - 20,
+             Color(1, 1, 1));
+
+    drawSpriteWithMask(Runner::getSpritePath(),
+                       Runner::getMaskPath(),
+                       characters[GameWorld::runnerClass].left,
+                       characters[GameWorld::runnerClass].bottom);
+    drawText("Runner",
+             characters[GameWorld::runnerClass].left - 10,
+             characters[GameWorld::runnerClass].bottom - 20,
+             Color(1, 1, 1));
+
+
+    glutSwapBuffers();
+    glFlush();
+}
+
+void chooseCharacter(int x, int y) {
+    // check which character is underneath the coordinates (if any)
+    int i;
+    for (i = 0; i < 3; i++) {
+        if (characters[i].isInBounds(x, y)) break;
+    }
+
+    if (i == 3) return;
+
+    std::cout << "chose character: " << i << std::endl;
+    // indicate to game world that it should begin
+    gameWorld.selectCharacter(static_cast<GameWorld::characterClass> (i));
+
+    gameStarted = true;
+}
 
 void render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    if (!gameStarted) {
+        showCharacterSelection();
+        return;
+    }
+
     glLoadIdentity();
 
     setClippingPlane();
@@ -53,29 +151,8 @@ void timer(int val) {
     glutTimerFunc(16, timer, 0);
 }
 
-void setClippingPlane() {
-    Vector2D<double> playerPos = gameWorld.getPlayerPos();
-    int x1, x2, y1, y2;
-
-    x1 = static_cast<int>(playerPos.x - winWidth / 2);
-    x2 = static_cast<int>(playerPos.x + winWidth / 2);
-    y1 = static_cast<int>(playerPos.y - winHeight / 2);
-    y2 = static_cast<int>(playerPos.y + winHeight / 2);
-
-    if (x1 <= 0) { x1 = 0; x2 = winWidth; }
-    if (x2 >= worldWidth) { x1 = worldWidth - winWidth; x2 = worldWidth; }
-    if (y1 <= 0) { y1 = 0; y2 = winHeight; }
-    if (y2 >= worldHeight) { y1 = worldHeight - winHeight; y2 = worldHeight; }
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(x1, x2, y1, y2, -1, 1);
-
-    gameWorld.setClippingBoundaries(x1, x2, y1, y2);
-}
-
 void reshape(GLint width, GLint height) {
-    winWidth = width;
+    winWidth  = width;
     winHeight = height;
 
     glViewport(0, 0, winWidth, winHeight);
@@ -87,7 +164,13 @@ void reshape(GLint width, GLint height) {
 }
 
 void clickHandler(int b, int s, int x, int y) {
-    gameWorld.clickHandler(b, s, x, y);
+    if (gameStarted) {
+        gameWorld.clickHandler(b, s, x, y);
+
+    } else if (b == GLUT_LEFT_BUTTON && s == GLUT_UP) {
+        // choose character clicked on (if any) and initialize game
+        chooseCharacter(x, y);
+    }
 }
 
 void keyboardHandler(unsigned char key, int x, int y) {
@@ -100,6 +183,12 @@ int main(int argc, char** argv) {
 
     currentTime = clock();
 
+    int top    = winHeight / 2 + 18;
+    int bottom = winHeight / 2 - 18;
+    characters[GameWorld::thugClass]   = Bounds<int>(top, bottom, winWidth * 0.25 - 18, winWidth * 0.25 + 18);
+    characters[GameWorld::sneakClass]  = Bounds<int>(top, bottom, winWidth * 0.5 - 18, winWidth * 0.5 + 18);
+    characters[GameWorld::runnerClass] = Bounds<int>(top, bottom, winWidth * 0.75 - 18, winWidth * 0.75 + 18);
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowPosition(150, 150);
@@ -109,7 +198,7 @@ int main(int argc, char** argv) {
     glutMouseFunc(clickHandler);
     glutKeyboardFunc(keyboardHandler);
 
-    glClearColor(1.0, 1.0, 1.0, 0.0);
+    glClearColor(0.1, 0.1, 0.1, 1.0);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
     glutDisplayFunc(render);
