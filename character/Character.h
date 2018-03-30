@@ -25,11 +25,6 @@ private:
     Vector2D<double>        m_steeringForce;
 
     /**
-     * Rendering
-     */
-    void renderAids();
-
-    /**
      * Updating
      */
     double m_timeElapsed;
@@ -44,6 +39,11 @@ protected:
     double m_timeLastAttacked = 0;
     double m_attackTimeout;
     double m_attackRange;
+
+    /**
+    * Rendering
+    */
+    void renderAids() const;
 
     SteeringBehaviors* m_steeringBehavior;
 
@@ -69,6 +69,12 @@ public:
 
     double getHealth() const { return m_health; }
 
+    Character* seekEnemies() const;
+
+    virtual void attackRanged(Vector2D<double> target);
+
+    virtual void attackMelee(Vector2D<double> target);
+
     /**
      * Rendering
      */
@@ -92,6 +98,8 @@ public:
     double getDetectionBoxLength() const { return m_detectionBoxLength; }
 
     virtual const double calculateMaxSpeed() const { return m_maxSpeed; };
+
+    void turnToFace(Vector2D<double> target);
 
     std::vector<Character*> getAntagonists() const { return m_antagonists; }
 
@@ -136,21 +144,12 @@ public:
     }
 
     virtual void turnOnDefaultBehavior() {
-        m_steeringBehavior->turnOn(SteeringBehaviors::fAvoid_obs);
+//        m_steeringBehavior->turnOn(SteeringBehaviors::fAvoid_obs);
     }
 
     bool closeEnoughToAttack(Character* enemy) {
         return enemy->getPos().distanceTo(m_pos) <= m_distanceToAttack;
     }
-
-    /**
-     * Actions
-     */
-    Character* seekEnemies() const;
-
-    virtual void attackRanged(Vector2D<double> target);
-
-    virtual void attackMelee(Vector2D<double> target);
 
     /**
      * State

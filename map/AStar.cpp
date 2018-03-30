@@ -47,8 +47,7 @@ Path* reconstructPath(const std::map<int, MapNode*> &cameFrom, MapNode* current)
 }
 
 Path* AStar::shortestPath(Graph* graph, MapNode* start, MapNode* finish, double (*costFn) (const GraphEdge&)) {
-    auto* defaultPath = new Path();
-    defaultPath->set(std::list<Vector2D<double> >(1, start->getPos()));
+    auto* defaultPath = new Path(start->getPos());
 
     if (!finish->isTraversable()) {
         std::cout << "AStar::shortestPath: goal cannot be reached" << std::endl;

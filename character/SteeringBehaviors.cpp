@@ -61,8 +61,8 @@ Vector2D<double> SteeringBehaviors::calculate() {
         m_steeringForce += flee(m_vehicle->getTarget()->getPos());
     }
 
-    if (isOn(fSeek) && m_vehicle->getTarget()) {
-        m_steeringForce += seek(m_vehicle->getTarget()->getPos());
+    if (isOn(fSeek)) {
+        m_steeringForce += seek(m_vehicle->getDestination());
     }
 
     if (isOn(fEvade) && m_vehicle->getTarget()) {
@@ -73,6 +73,10 @@ Vector2D<double> SteeringBehaviors::calculate() {
 }
 
 Vector2D<double> SteeringBehaviors::seek(Vector2D<double> target) {
+    if (target.distanceTo(m_vehicle->getPos()) < 10) {
+        return arrive(target);
+    }
+
     Vector2D<double> desiredVelocity = (target - m_vehicle->getPos()).getNormalized() * m_vehicle->calculateMaxSpeed();
 
     return desiredVelocity - m_vehicle->getVelocity();
@@ -94,7 +98,7 @@ Vector2D<double> SteeringBehaviors::arrive(Vector2D<double> target) {
     double           dist     = toTarget.magnitude();
 
     if (dist > 0) {
-        const double deceleration = 3.0;
+        const double deceleration = 2.0;
 
         double speed = dist / deceleration;
 
@@ -106,7 +110,7 @@ Vector2D<double> SteeringBehaviors::arrive(Vector2D<double> target) {
     }
 
     // turn off arriving behavior if already arrived and stopped at destination
-    if (m_vehicle->getSpeed() < 0.0001) turnOff(fArrive);
+    if (m_vehicle->getVelocity().squareMagnitude() < 0.000001) turnOff(fArrive);
 
     return Vector2D<double>(0, 0);
 
@@ -134,6 +138,10 @@ Vector2D<double> SteeringBehaviors::wander() {
 }
 
 Vector2D<double> SteeringBehaviors::followPath() {
+    if (!m_path) {
+        return Vector2D<double>();
+    }
+
     if ((m_vehicle->getPos() - m_path->getCurrentPoint()).squareMagnitude() < m_followPathDistanceSq && !m_path->isLastPoint()) {
 
         m_path->setNextPoint();
@@ -155,7 +163,7 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
 
     std::vector<Obstacle*> allObstacles = m_vehicle->getWorld()->getObstacles();
 
-    std::vector<Obstacle*>::iterator iterator = allObstacles.begin();
+    auto iterator = allObstacles.begin();
     Obstacle* o;
     Obstacle* closestObs                      = nullptr;
     double           closestX = std::numeric_limits<double>::infinity();
@@ -194,14 +202,14 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
     }
 
     if (closestObs) {
-//        double multiplier = 1.0 + (boxLength - localPosOfClosest.x) / boxLength;
-        double multiplier = 1.0;
+        double multiplier = 1.0 + (boxLength - localPosOfClosest.x) / boxLength;
+//        double multiplier = 1.0;
 
         steeringForce.y = (closestObs->getBoundingRadius() - localPosOfClosest.y) * multiplier;
 
-        double breakingWeight = 0.2;
+        double brakingWeight = 0.2;
 
-        steeringForce.x = (closestObs->getBoundingRadius() - localPosOfClosest.x) * breakingWeight;
+        steeringForce.x = (closestObs->getBoundingRadius() - localPosOfClosest.x) * brakingWeight;
 
         return vectorToWorldSpace(steeringForce, m_vehicle->getHeading(), m_vehicle->getSide());
     }

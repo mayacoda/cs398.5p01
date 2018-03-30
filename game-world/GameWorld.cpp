@@ -3,6 +3,7 @@
 #elif __APPLE__
 
 #include <GLUT/glut.h>
+
 #endif
 
 #include <iostream>
@@ -56,7 +57,7 @@ void GameWorld::render() {
     }
 
     for (unsigned int i = 0; i < m_obstacles.size(); i++) {
-        m_obstacles.at(i)->render();
+//        m_obstacles.at(i)->render();
     }
 
     for (unsigned int i = 0; i < m_projectiles.size(); i++) {
@@ -73,7 +74,7 @@ void GameWorld::clickHandler(int button, int state, int x, int y) {
     const Vector2D<double> &pos = Vector2D<double>(m_Boundaries.left + x, m_Boundaries.top - y);
 
     if (button == GLUT_RIGHT_BUTTON && state == GLUT_UP) {
-        auto goal = m_map->getNodeByPosition(pos);
+        auto goal  = m_map->getNodeByPosition(pos);
         auto start = m_map->getNodeByPosition(m_player->getPos());
 
         if (!goal->isTraversable()) return;
@@ -87,8 +88,7 @@ void GameWorld::clickHandler(int button, int state, int x, int y) {
         if (!goal->isTraversable()) return;
 
         m_player->setDestination(pos);
-        m_player->turnOnBehavior(SteeringBehaviors::fArrive);
-//        m_player->turnOnBehavior(SteeringBehaviors::fAvoid_obs);
+        m_player->turnOnBehavior(SteeringBehaviors::fSeek);
     }
 }
 
@@ -98,27 +98,42 @@ void GameWorld::setClippingBoundaries(int left, int right, int bottom, int top) 
     m_Boundaries = Boundaries(left, right, bottom, top);
 }
 
+Vector2D<double> GameWorld::randomTraversableLocation() const {
+    MapNode* node;
+    Vector2D<double> vec;
+
+    do {
+        int x = iRandomRange(0, m_width);
+        int y = iRandomRange(0, m_height);
+        vec = Vector2D<double>(x, y);
+        node = getNodeByPosition(vec);
+
+    } while (!node->isTraversable());
+
+    return vec;
+}
+
 void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
     Character* sneak = new Sneak(this,
-                                Vector2D<double>(500, 500),
-                                Vector2D<double>(1, 1),
-                                Vector2D<double>(0, 0),
-                                Vector2D<double>(0, 1),
-                                Vector2D<double>(1, 0));
+                                 randomTraversableLocation(),
+                                 Vector2D<double>(1, 1),
+                                 Vector2D<double>(0, 0),
+                                 Vector2D<double>(0, 1),
+                                 Vector2D<double>(1, 0));
 
     Character* thug = new Thug(this,
-                                 Vector2D<double>(500, 500),
-                                 Vector2D<double>(1, 1),
-                                 Vector2D<double>(0, 0),
-                                 Vector2D<double>(0, 1),
-                                 Vector2D<double>(1, 0));
+                               randomTraversableLocation(),
+                               Vector2D<double>(1, 1),
+                               Vector2D<double>(0, 0),
+                               Vector2D<double>(0, 1),
+                               Vector2D<double>(1, 0));
 
     Character* runner = new Runner(this,
-                                 Vector2D<double>(500, 500),
-                                 Vector2D<double>(1, 1),
-                                 Vector2D<double>(0, 0),
-                                 Vector2D<double>(0, 1),
-                                 Vector2D<double>(1, 0));
+                                   randomTraversableLocation(),
+                                   Vector2D<double>(1, 1),
+                                   Vector2D<double>(0, 0),
+                                   Vector2D<double>(0, 1),
+                                   Vector2D<double>(1, 0));
     sneak->addAntagonist(thug);
     sneak->addAntagonist(runner);
 
@@ -132,22 +147,20 @@ void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
     m_vehicles.push_back(thug);
     m_vehicles.push_back(runner);
 
+    thug->turnOnDefaultBehavior();
+    sneak->turnOnDefaultBehavior();
+    runner->turnOnDefaultBehavior();
+
     // @todo turn on default behavior for classes not selected
-    switch(aClass) {
+    switch (aClass) {
         case runnerClass:
             m_player = runner;
-            thug->turnOnDefaultBehavior();
-            sneak->turnOnDefaultBehavior();
             break;
         case thugClass:
             m_player = thug;
-            runner->turnOnDefaultBehavior();
-            sneak->turnOnDefaultBehavior();
             break;
         case sneakClass:
             m_player = sneak;
-            thug->turnOnDefaultBehavior();
-            runner->turnOnDefaultBehavior();
             break;
     }
 }

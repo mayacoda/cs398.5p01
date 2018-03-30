@@ -28,6 +28,8 @@ private:
         int top, bottom, left, right;
     };
 
+    Vector2D<double> randomTraversableLocation() const;
+
     std::vector<Character*>  m_vehicles;
     std::vector<Obstacle*> m_obstacles;
     std::vector<Attack*> m_projectiles;
@@ -81,6 +83,10 @@ public:
 
     void addProjectile(Attack* p) {
         m_projectiles.push_back(p);
+    }
+
+    Graph * getGraph() const {
+        return m_map->getGraph();
     }
 };
 

@@ -40,5 +40,7 @@ const char* Thug::getMaskPath() {
 }
 
 void Thug::render() const {
+    renderAids();
+
     drawSpriteWithMask(Thug::getSpritePath(), Thug::getMaskPath(), m_pos.x - 18, m_pos.y - 18);
 }

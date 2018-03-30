@@ -17,11 +17,15 @@
 
 bool gameStarted = false;
 
-int winWidth  = 800;
-int winHeight = 460;
+//int winWidth  = 800;
+//int winHeight = 460;
+int winWidth  = 832;
+int winHeight = 640;
 
-int       worldWidth  = 3200;
-int       worldHeight = 2560;
+int       worldWidth  = 832;
+int       worldHeight = 640;
+//int       worldWidth  = 3200;
+//int       worldHeight = 2560;
 GameWorld gameWorld(worldWidth, worldHeight);
 
 double t  = 0.0;

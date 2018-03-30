@@ -40,13 +40,13 @@ void Character::update(double timeElapsed) {
     }
 }
 
-void Character::renderAids() {
+void Character::renderAids() const {
 
     // heading vector RED
     glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_LINES);
     glVertex2d(m_pos.x, m_pos.y);
-    Vector2D<double> heading = m_heading * 100;
+    Vector2D<double> heading = Vector2D<double>(m_heading.x * 100, m_heading.y * 100);
     heading += m_pos;
     glVertex2d(heading.x, heading.y);
     glEnd();
@@ -55,7 +55,7 @@ void Character::renderAids() {
     glColor3f(0.0, 1.0, 0.0);
     glBegin(GL_LINES);
     glVertex2d(m_pos.x, m_pos.y);
-    Vector2D<double> side = m_side * 100;
+    Vector2D<double> side = Vector2D<double>(m_side.x * 100, m_side.y * 100);
     side += m_pos;
     glVertex2d(side.x, side.y);
     glEnd();
@@ -78,7 +78,7 @@ void Character::renderAids() {
 
         // wandering circle
         glColor3f(1.0, 0.0, 1.0);
-        Vector2D<double> dir = m_heading * m_steeringBehavior->m_wanderDistance;
+        Vector2D<double> dir = Vector2D<double>(m_heading.x * m_steeringBehavior->m_wanderDistance, m_heading.y * m_steeringBehavior->m_wanderDistance);
         drawCircle(m_steeringBehavior->m_wanderRadius, dir + m_pos);
     }
 
@@ -88,7 +88,7 @@ void Character::renderAids() {
 }
 
 void Character::render() const {
-//    renderAids();
+    renderAids();
 
     // @todo move to local space rather than global
     glColor3f(m_color.r, m_color.g, m_color.b);
@@ -176,10 +176,18 @@ void Character::changeState(State* newState) {
 void Character::attackRanged(Vector2D<double> target) {
     double currentTime = time(nullptr);
     if (currentTime - m_timeLastAttacked >= m_attackTimeout) {
+        turnToFace(target);
+        m_velocity = Vector2D<double>(0, 0);
+
         m_world->addProjectile(new RangedAttack(this));
         m_timeLastAttacked = currentTime;
     }
 }
 
 void Character::attackMelee(Vector2D<double> target) {
+}
+
+void Character::turnToFace(Vector2D<double> target) {
+    m_heading  = (target - m_pos).getNormalized();
+    m_side = m_heading.ortho();
 }

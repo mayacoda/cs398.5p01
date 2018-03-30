@@ -48,7 +48,8 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
     int                      numberOfCenters = 20;
 
     for (int i = 0; i < numberOfCenters; i++) {
-        auto terrain = static_cast<MapNode::terrainType>(iRandomRange(0, globals::MAX_TERRAIN_TYPES - 1));
+//        auto terrain = static_cast<MapNode::terrainType>(iRandomRange(0, globals::MAX_TERRAIN_TYPES - 2));
+        auto terrain = static_cast<MapNode::terrainType>(0);
         auto x       = iRandomRange(0, rows);
         auto y       = iRandomRange(0, columns);
         terrainCenters.push_back(TerrainCenter(x, y, terrain));

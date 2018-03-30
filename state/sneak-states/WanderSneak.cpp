@@ -5,11 +5,12 @@
 #include "AttackSneak.h"
 
 void WanderSneak::enter(Character* stateMachine) {
+    std::cout << "entering wanderSneak" << std::endl;
     stateMachine->turnOnBehavior(SteeringBehaviors::fWander);
 }
 
 void WanderSneak::exit(Character* stateMachine) {
-
+    std::cout << "exiting wanderSneak" << std::endl;
     State::exit(stateMachine);
     stateMachine->turnOffBehavior(SteeringBehaviors::fWander);
 }

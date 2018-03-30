@@ -42,5 +42,7 @@ const char* Runner::getSpritePath() {
 }
 
 void Runner::render() const {
+    renderAids();
+
     drawSpriteWithMask(Runner::getSpritePath(), Runner::getMaskPath(), m_pos.x - 18, m_pos.y - 18);
 }

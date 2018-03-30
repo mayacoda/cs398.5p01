@@ -53,6 +53,8 @@ const char* Sneak::getSpritePath() {
 }
 
 void Sneak::render() const {
+    renderAids();
+
     drawSpriteWithMask(Sneak::getSpritePath(), Sneak::getMaskPath(), m_pos.x - 18, m_pos.y - 18);
 }
 

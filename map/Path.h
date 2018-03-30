@@ -18,6 +18,10 @@ private:
 public:
     Path() : m_isLooped(false) {}
 
+    Path(Vector2D<double> start) : m_isLooped(false) {
+        set(std::list<Vector2D<double> >(1, start));
+    }
+
     Path(int numPoints,
          double minX,
          double minY,
