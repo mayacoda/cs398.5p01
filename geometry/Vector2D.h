@@ -13,15 +13,9 @@ public:
     T x;
     T y;
 
-    Vector2D(T x, T y) {
-        this->x = x;
-        this->y = y;
-    };
+    Vector2D(T x, T y) : x(x), y(y) {}
 
-	Vector2D() {
-		this->x = 0;
-		this->y = 0;
-	}
+	Vector2D() : x(0), y(0) {}
 
     const Vector2D operator+=(const Vector2D &v2) {
         x += v2.x;
@@ -37,14 +31,14 @@ public:
         return *this;
     }
 
-    const Vector2D operator-(const Vector2D &v2) {
+    const Vector2D operator-(const Vector2D &v2) const {
         T nX = x - v2.x;
         T nY = y - v2.y;
 
         return Vector2D<T>(nX, nY);
     }
 
-    const Vector2D operator+(const Vector2D &v2) {
+    const Vector2D operator+(const Vector2D &v2) const {
         T nX = x + v2.x;
         T nY = y + v2.y;
 
@@ -58,7 +52,7 @@ public:
         return *this;
     }
 
-    const Vector2D operator*(const T scalar) {
+    const Vector2D operator*(const T scalar) const {
         T nX = x * scalar;
         T nY = y * scalar;
 

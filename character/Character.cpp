@@ -46,7 +46,7 @@ void Character::renderAids() const {
     glColor3f(1.0, 0.0, 0.0);
     glBegin(GL_LINES);
     glVertex2d(m_pos.x, m_pos.y);
-    Vector2D<double> heading = Vector2D<double>(m_heading.x * 100, m_heading.y * 100);
+    Vector2D<double> heading = m_heading * 100;
     heading += m_pos;
     glVertex2d(heading.x, heading.y);
     glEnd();
@@ -55,7 +55,7 @@ void Character::renderAids() const {
     glColor3f(0.0, 1.0, 0.0);
     glBegin(GL_LINES);
     glVertex2d(m_pos.x, m_pos.y);
-    Vector2D<double> side = Vector2D<double>(m_side.x * 100, m_side.y * 100);
+    Vector2D<double> side = m_side * 100;
     side += m_pos;
     glVertex2d(side.x, side.y);
     glEnd();
@@ -78,7 +78,7 @@ void Character::renderAids() const {
 
         // wandering circle
         glColor3f(1.0, 0.0, 1.0);
-        Vector2D<double> dir = Vector2D<double>(m_heading.x * m_steeringBehavior->m_wanderDistance, m_heading.y * m_steeringBehavior->m_wanderDistance);
+        Vector2D<double> dir = m_heading * m_steeringBehavior->m_wanderDistance;;
         drawCircle(m_steeringBehavior->m_wanderRadius, dir + m_pos);
     }
 
