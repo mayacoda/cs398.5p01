@@ -29,9 +29,6 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
 void GameWorld::update(double timeElapsed) {
     // check if paused
 
-    // smooth frame rate
-
-    // update all vehicles
     for (unsigned int i = 0; i < m_vehicles.size(); i++) {
         m_vehicles.at(i)->update(timeElapsed);
     }
@@ -40,8 +37,16 @@ void GameWorld::update(double timeElapsed) {
         m_obstacles.at(i)->update(timeElapsed);
     }
 
-    for (unsigned int i = 0; i < m_projectiles.size(); i++) {
-        m_projectiles.at(i)->update(timeElapsed);
+    auto it = m_projectiles.begin();
+
+    while (it != m_projectiles.end()) {
+        if ((*it)->isDead()) {
+            delete *it;
+            it = m_projectiles.erase(it);
+        } else {
+            (*it)->update(timeElapsed);
+            ++it;
+        }
     }
 }
 
@@ -105,7 +110,7 @@ Vector2D<double> GameWorld::randomTraversableLocation() const {
     do {
         int x = iRandomRange(0, m_width);
         int y = iRandomRange(0, m_height);
-        vec = Vector2D<double>(x, y);
+        vec  = Vector2D<double>(x, y);
         node = getNodeByPosition(vec);
 
     } while (!node->isTraversable());

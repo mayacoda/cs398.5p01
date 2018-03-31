@@ -20,7 +20,7 @@ public:
 
     const double calculateMaxSpeed() const override;
 
-    fptr getCostFunction() override;
+    costFn getCostFunction() override;
 
     static const char * getMaskPath();
 

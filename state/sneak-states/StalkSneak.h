@@ -10,11 +10,13 @@ class StalkSneak : public State {
 private:
     Character* m_enemy;
     Vector2D<double> m_enemyPos;
-    double m_recalculateThreshold = 30;
+    double m_recalculateThreshold;
 
 public:
 
-    StalkSneak(Character* m_enemy) : m_enemy(m_enemy) {}
+    StalkSneak(Character* m_enemy) : m_enemy(m_enemy) {
+        m_recalculateThreshold = 30;
+    }
 
     void enter(Character* stateMachine) override {
         std::cout << "entering stalk" << std::endl;

@@ -107,6 +107,13 @@ public:
         return sqrt((xSep * xSep) + (ySep * ySep));
     }
 
+    double squareDistanceTo(const Vector2D &v2) const {
+        T ySep = v2.y - y;
+        T xSep = v2.x - x;
+
+        return (xSep * xSep) + (ySep * ySep);
+    }
+
     Vector2D getNormalized() const {
         Vector2D v = *this;
         v /= this->magnitude();

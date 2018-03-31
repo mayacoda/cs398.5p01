@@ -55,4 +55,8 @@ T max(T a, T b) {
     return a < b ? b : a;
 }
 
+class GraphEdge;
+
+typedef double (* costFn)(const GraphEdge &);
+
 #endif //DZ01_UTILS_H

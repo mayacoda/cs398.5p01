@@ -4,6 +4,7 @@
 namespace globals {
     const int TILE_SIZE = 64;
     const int MAX_TERRAIN_TYPES = 4;
+    const int SPRITE_SIZE = 32;
 
 
     const enum entityTypes {

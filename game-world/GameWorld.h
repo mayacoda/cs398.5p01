@@ -61,6 +61,8 @@ public:
 
     int getHeight() const { return m_height; }
 
+    std::vector<Character*> getCharacters() const { return m_vehicles; }
+
     std::vector<Obstacle*> getObstacles() const { return m_obstacles; }
 
     MapNode* getNodeByPosition(Vector2D<double> pos) const {

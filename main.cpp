@@ -187,11 +187,11 @@ int main(int argc, char** argv) {
 
     currentTime = clock();
 
-    int top    = winHeight / 2 + 18;
-    int bottom = winHeight / 2 - 18;
-    characters[GameWorld::thugClass]   = Bounds<int>(top, bottom, winWidth * 0.25 - 18, winWidth * 0.25 + 18);
-    characters[GameWorld::sneakClass]  = Bounds<int>(top, bottom, winWidth * 0.5 - 18, winWidth * 0.5 + 18);
-    characters[GameWorld::runnerClass] = Bounds<int>(top, bottom, winWidth * 0.75 - 18, winWidth * 0.75 + 18);
+    int top    = winHeight / 2 + globals::SPRITE_SIZE/2;
+    int bottom = winHeight / 2 - globals::SPRITE_SIZE/2;
+    characters[GameWorld::thugClass]   = Bounds<int>(top, bottom, winWidth * 0.25 - globals::SPRITE_SIZE/2, winWidth * 0.25 + globals::SPRITE_SIZE/2);
+    characters[GameWorld::sneakClass]  = Bounds<int>(top, bottom, winWidth * 0.5 - globals::SPRITE_SIZE/2, winWidth * 0.5 + globals::SPRITE_SIZE/2);
+    characters[GameWorld::runnerClass] = Bounds<int>(top, bottom, winWidth * 0.75 - globals::SPRITE_SIZE/2, winWidth * 0.75 + globals::SPRITE_SIZE/2);
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);

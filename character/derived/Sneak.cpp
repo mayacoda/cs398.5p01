@@ -40,7 +40,7 @@ void Sneak::turnOnDefaultBehavior() {
     changeState(new WanderSneak());
 }
 
-Character::fptr Sneak::getCostFunction() {
+costFn Sneak::getCostFunction() {
     return sneakCost;
 }
 
@@ -55,7 +55,7 @@ const char* Sneak::getSpritePath() {
 void Sneak::render() const {
     renderAids();
 
-    drawSpriteWithMask(Sneak::getSpritePath(), Sneak::getMaskPath(), m_pos.x - 18, m_pos.y - 18);
+    drawSpriteWithMask(Sneak::getSpritePath(), Sneak::getMaskPath(), m_pos.x - globals::SPRITE_SIZE/2, m_pos.y - globals::SPRITE_SIZE/2);
 }
 
 void Sneak::update(double timeElapsed) {

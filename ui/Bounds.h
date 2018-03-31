@@ -1,7 +1,3 @@
-//
-// Created by Maja Nedeljkovic on 3/27/18.
-//
-
 #ifndef DZ04_BOUNDS_H
 #define DZ04_BOUNDS_H
 

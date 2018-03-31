@@ -29,7 +29,7 @@ const double Runner::calculateMaxSpeed() const {
     }
 }
 
-Character::fptr Runner::getCostFunction() {
+costFn Runner::getCostFunction() {
     return runnerCost;
 }
 
@@ -44,5 +44,5 @@ const char* Runner::getSpritePath() {
 void Runner::render() const {
     renderAids();
 
-    drawSpriteWithMask(Runner::getSpritePath(), Runner::getMaskPath(), m_pos.x - 18, m_pos.y - 18);
+    drawSpriteWithMask(Runner::getSpritePath(), Runner::getMaskPath(), m_pos.x - globals::SPRITE_SIZE/2, m_pos.y - globals::SPRITE_SIZE/2);
 }

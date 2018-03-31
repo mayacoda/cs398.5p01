@@ -18,7 +18,7 @@ public:
 
     void turnOnDefaultBehavior() override;
 
-    fptr getCostFunction() override;
+    costFn getCostFunction() override;
 
     static const char* getSpritePath();
 

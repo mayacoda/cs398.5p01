@@ -34,11 +34,11 @@ protected:
 
     double m_antagonistDetectionDistance;
     double m_detectionBoxLength;
-    double m_health           = 100;
     double m_distanceToAttack;
-    double m_timeLastAttacked = 0;
+    double m_timeLastAttacked;
     double m_attackTimeout;
     double m_attackRange;
+    double m_health;
 
     /**
     * Rendering
@@ -74,6 +74,11 @@ public:
     virtual void attackRanged(Vector2D<double> target);
 
     virtual void attackMelee(Vector2D<double> target);
+
+    void dealDamage(double damage) {
+        m_health -= damage;
+        std::cout << "[" << getId() << "] health is: " << m_health << std::endl;
+    }
 
     /**
      * Rendering
@@ -129,9 +134,7 @@ public:
 
     void setPath(Path* path) { m_steeringBehavior->setPath(path); }
 
-    typedef double (* fptr)(const GraphEdge &);
-
-    virtual fptr getCostFunction() {
+    virtual costFn getCostFunction() {
         return basicCost;
     }
 

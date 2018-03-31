@@ -116,7 +116,7 @@ Character::Character(GameWorld* m_world,
                      double m_maxSpeed,
                      double attackRange,
                      double attackTimeout) : MovingEntity(pos,
-                                                          15,
+                                                          globals::SPRITE_SIZE/2,
                                                           scale,
                                                           m_velocity,
                                                           m_heading,
@@ -142,6 +142,10 @@ Character::Character(GameWorld* m_world,
     m_timeLastAttacked = time(nullptr);
 
     m_detectionBoxLength = 200;
+
+    m_timeLastAttacked = 0;
+
+    m_health = 100;
 
     m_steeringBehavior = new SteeringBehaviors(this);
 }

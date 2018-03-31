@@ -27,7 +27,7 @@ void Thug::turnOnDefaultBehavior() {
     changeState(new WanderThug());
 }
 
-Character::fptr Thug::getCostFunction() {
+costFn Thug::getCostFunction() {
     return thugCost;
 }
 
@@ -42,5 +42,5 @@ const char* Thug::getMaskPath() {
 void Thug::render() const {
     renderAids();
 
-    drawSpriteWithMask(Thug::getSpritePath(), Thug::getMaskPath(), m_pos.x - 18, m_pos.y - 18);
+    drawSpriteWithMask(Thug::getSpritePath(), Thug::getMaskPath(), m_pos.x - globals::SPRITE_SIZE/2, m_pos.y - globals::SPRITE_SIZE/2);
 }

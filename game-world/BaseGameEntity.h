@@ -39,6 +39,8 @@ public:
 
     double getBoundingRadius() const { return m_boundingRadius; }
 
+    int getId() const { return m_id; }
+
     virtual void update(double timeElapsed) {};
 
     virtual void render() const {};
