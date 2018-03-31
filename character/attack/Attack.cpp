@@ -65,7 +65,7 @@ void Attack::update(double timeElapsed) {
     }
 
     if (closest) {
-        closest->dealDamage(m_damage);
+        closest->takeDamage(m_damage);
         m_impacted = true;
     }
 }

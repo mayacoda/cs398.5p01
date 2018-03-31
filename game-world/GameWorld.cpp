@@ -29,8 +29,22 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
 void GameWorld::update(double timeElapsed) {
     // check if paused
 
-    for (unsigned int i = 0; i < m_vehicles.size(); i++) {
-        m_vehicles.at(i)->update(timeElapsed);
+    auto c = m_characters.begin();
+
+    while (c != m_characters.end()) {
+        if ((*c)->isDead()) {
+
+            if ((*c)->getId() == m_player->getId()) {
+                // player has died, end game
+                callEndGameCallback();
+            }
+
+            delete *c;
+            c = m_characters.erase(c);
+        } else {
+            (*c)->update(timeElapsed);
+            ++c;
+        }
     }
 
     for (unsigned int i = 0; i < m_obstacles.size(); i++) {
@@ -57,8 +71,8 @@ void GameWorld::render() {
 
     m_map->render();
 
-    for (unsigned int i = 0; i < m_vehicles.size(); i++) {
-        m_vehicles.at(i)->render();
+    for (unsigned int i = 0; i < m_characters.size(); i++) {
+        m_characters.at(i)->render();
     }
 
     for (unsigned int i = 0; i < m_obstacles.size(); i++) {
@@ -148,9 +162,9 @@ void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
     runner->addAntagonist(sneak);
     runner->addAntagonist(thug);
 
-    m_vehicles.push_back(sneak);
-    m_vehicles.push_back(thug);
-    m_vehicles.push_back(runner);
+    m_characters.push_back(sneak);
+    m_characters.push_back(thug);
+    m_characters.push_back(runner);
 
     thug->turnOnDefaultBehavior();
     sneak->turnOnDefaultBehavior();

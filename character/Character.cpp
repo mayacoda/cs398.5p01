@@ -132,6 +132,7 @@ Character::Character(GameWorld* m_world,
                                              m_timeElapsed(0),
                                              m_leader(nullptr),
                                              m_color(0.3, 0.3, 0.6),
+                                             m_dead(false),
                                              interposeTargetA(),
                                              interposeTargetB() {
 

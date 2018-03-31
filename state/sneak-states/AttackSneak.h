@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include "../State.h"
+#include "WanderSneak.h"
+#include "EvadeSneak.h"
 
 class AttackSneak : public State {
 private:
@@ -23,12 +25,25 @@ public:
     }
 
     void execute(Character* stateMachine) override {
-        // check if character is facing the enemy
 
-        // if they aren't, turn them
+        // opponent has been defeated
+        if (m_enemy->isDead()) {
+            stateMachine->changeState(new WanderSneak());
 
-        // else attack
-        stateMachine->attackRanged(m_enemy->getPos());
+            // players health has gotten too low
+        } else if (stateMachine->getHealthRatio() <= .25) {
+            stateMachine->changeState(new EvadeSneak(m_enemy));
+
+            // otherwise keep attacking
+        } else {
+            // enemy is close enough to attack
+            if (stateMachine->closeEnoughToAttack(m_enemy)) {
+                stateMachine->attackRanged(m_enemy->getPos());
+            } else {
+                // if enemy is too far away, stalk it
+                stateMachine->changeState(new StalkSneak(m_enemy));
+            }
+        }
 
 
         State::execute(stateMachine);

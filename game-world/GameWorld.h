@@ -30,7 +30,7 @@ private:
 
     Vector2D<double> randomTraversableLocation() const;
 
-    std::vector<Character*>  m_vehicles;
+    std::vector<Character*>  m_characters;
     std::vector<Obstacle*> m_obstacles;
     std::vector<Attack*> m_projectiles;
 
@@ -42,6 +42,8 @@ private:
     Character* m_player;
 
     Map* m_map;
+
+    void (*endGame) ();
 
 public:
     GameWorld(int m_width, int m_height);
@@ -61,7 +63,7 @@ public:
 
     int getHeight() const { return m_height; }
 
-    std::vector<Character*> getCharacters() const { return m_vehicles; }
+    std::vector<Character*> getCharacters() const { return m_characters; }
 
     std::vector<Obstacle*> getObstacles() const { return m_obstacles; }
 
@@ -72,6 +74,14 @@ public:
     void clickHandler(int button, int state, int x, int y);
 
     void keyboardHandler(unsigned char i, int i1, int i2);
+
+    void setEndGameCallback(void (*cb) ()) {
+        endGame = cb;
+    }
+
+    void callEndGameCallback() {
+        endGame();
+    }
 
     void setClippingBoundaries(int left, int right, int bottom, int top);
 

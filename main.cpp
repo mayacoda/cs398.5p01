@@ -16,6 +16,7 @@
 #endif
 
 bool gameStarted = false;
+bool gameEnded = false;
 
 //int winWidth  = 800;
 //int winHeight = 460;
@@ -122,11 +123,26 @@ void chooseCharacter(int x, int y) {
     gameStarted = true;
 }
 
+void showEndScreen() {
+    glClearColor(0.1, 0.1, 0.1, 1.0);
+
+
+    drawText("Game Over", winWidth/2, winHeight/2, Color(1, 1, 1));
+
+    glutSwapBuffers();
+    glFlush();
+}
+
 void render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if (!gameStarted) {
         showCharacterSelection();
+        return;
+    }
+
+    if (gameEnded) {
+        showEndScreen();
         return;
     }
 
@@ -168,10 +184,10 @@ void reshape(GLint width, GLint height) {
 }
 
 void clickHandler(int b, int s, int x, int y) {
-    if (gameStarted) {
+    if (gameStarted && !gameEnded) {
         gameWorld.clickHandler(b, s, x, y);
 
-    } else if (b == GLUT_LEFT_BUTTON && s == GLUT_UP) {
+    } else if (!gameEnded && b == GLUT_LEFT_BUTTON && s == GLUT_UP) {
         // choose character clicked on (if any) and initialize game
         chooseCharacter(x, y);
     }
@@ -179,6 +195,10 @@ void clickHandler(int b, int s, int x, int y) {
 
 void keyboardHandler(unsigned char key, int x, int y) {
     gameWorld.keyboardHandler(key, x, y);
+}
+
+void endGame() {
+    gameEnded = true;
 }
 
 int main(int argc, char** argv) {
@@ -204,6 +224,8 @@ int main(int argc, char** argv) {
 
     glClearColor(0.1, 0.1, 0.1, 1.0);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+
+    gameWorld.setEndGameCallback(endGame);
 
     glutDisplayFunc(render);
     glutReshapeFunc(reshape);

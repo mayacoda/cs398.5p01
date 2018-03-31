@@ -40,6 +40,8 @@ protected:
     double m_attackRange;
     double m_health;
 
+    bool m_dead;
+
     /**
     * Rendering
     */
@@ -69,16 +71,24 @@ public:
 
     double getHealth() const { return m_health; }
 
+    double getHealthRatio() const { return m_health / 100.; }
+
     Character* seekEnemies() const;
 
     virtual void attackRanged(Vector2D<double> target);
 
     virtual void attackMelee(Vector2D<double> target);
 
-    void dealDamage(double damage) {
+    void takeDamage(double damage) {
         m_health -= damage;
         std::cout << "[" << getId() << "] health is: " << m_health << std::endl;
+
+        if (m_health <= 0) {
+            m_dead = true;
+        }
     }
+
+    bool isDead() const { return m_dead; }
 
     /**
      * Rendering
