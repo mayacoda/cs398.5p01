@@ -16,11 +16,11 @@ SteeringBehaviors::SteeringBehaviors(Character* m_vehicle) : m_vehicle(m_vehicle
 
     m_wanderJitter = 1;
 
-    m_wanderDistance = 200;
+    m_wanderDistance = 50;
 
     m_panicDistanceSq = 10000;
 
-    m_followPathDistanceSq = 1024;
+    m_followPathDistanceSq = globals::TILE_SIZE * globals::TILE_SIZE;
 
     double theta = fRandomRange(-1, 1) * 2.0 * M_PI;  // range from -2pi to 2pi
     m_wanderTarget = Vector2D<double>(m_wanderRadius * cos(theta), m_wanderRadius * sin(theta));

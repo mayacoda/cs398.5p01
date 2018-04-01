@@ -1,6 +1,7 @@
 
 #include "Runner.h"
 #include "../../game-world/GameWorld.h"
+#include "../../state/runner-states/WanderRunner.h"
 
 Runner::Runner(GameWorld* m_world,
                const Vector2D<double> &pos,
@@ -14,9 +15,11 @@ Runner::Runner(GameWorld* m_world,
                                                            m_heading,
                                                            m_side,
                                                            1,
-                                                           40 /* maxSpeed */,
-                                                           100 /* range */,
-                                                           1 /* timeout */) {}
+                                                           40   /* maxSpeed */,
+                                                           100  /* range */,
+                                                           30,  /*melee attack distance*/
+                                                           200, /*ranged attack distance*/
+                                                           1    /* timeout */) {}
 
 const double Runner::calculateMaxSpeed() const {
     MapNode* current = m_world->getNodeByPosition(m_pos);
@@ -27,6 +30,11 @@ const double Runner::calculateMaxSpeed() const {
         default:
             return m_maxSpeed;
     }
+}
+
+void Runner::turnOnDefaultBehavior() {
+    Character::turnOnDefaultBehavior();
+    changeState(new WanderRunner());
 }
 
 costFn Runner::getCostFunction() {
@@ -44,5 +52,8 @@ const char* Runner::getSpritePath() {
 void Runner::render() const {
     renderAids();
 
-    drawSpriteWithMask(Runner::getSpritePath(), Runner::getMaskPath(), m_pos.x - globals::SPRITE_SIZE/2, m_pos.y - globals::SPRITE_SIZE/2);
+    drawSpriteWithMask(Runner::getSpritePath(),
+                       Runner::getMaskPath(),
+                       m_pos.x - globals::SPRITE_SIZE / 2,
+                       m_pos.y - globals::SPRITE_SIZE / 2);
 }

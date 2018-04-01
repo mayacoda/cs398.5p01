@@ -16,10 +16,11 @@ Sneak::Sneak(GameWorld* m_world,
                                                          m_side,
                                                          1,
                                                          30,
-                                                         100 /*range*/,
-                                                         1 /*timeout*/) {
-    m_antagonistDetectionDistance = 200;
-    m_distanceToAttack            = 100;
+                                                         100  /*range*/,
+                                                         -1,  /*melee attack distance*/
+                                                         100, /*ranged attack distance*/
+                                                         1    /*timeout*/) {
+    m_antagonistDetectionDistance = 600;
 }
 
 const double Sneak::calculateMaxSpeed() const {
@@ -55,7 +56,10 @@ const char* Sneak::getSpritePath() {
 void Sneak::render() const {
     renderAids();
 
-    drawSpriteWithMask(Sneak::getSpritePath(), Sneak::getMaskPath(), m_pos.x - globals::SPRITE_SIZE/2, m_pos.y - globals::SPRITE_SIZE/2);
+    drawSpriteWithMask(Sneak::getSpritePath(),
+                       Sneak::getMaskPath(),
+                       m_pos.x - globals::SPRITE_SIZE / 2,
+                       m_pos.y - globals::SPRITE_SIZE / 2);
 }
 
 void Sneak::update(double timeElapsed) {

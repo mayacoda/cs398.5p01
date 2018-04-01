@@ -5,14 +5,14 @@
 #include "StandSneak.h"
 
 void EvadeSneak::enter(Character* stateMachine) {
-    std::cout << "entering evade" << std::endl;
+    std::cout << *stateMachine << "enter evade sneak" << std::endl;
 
     stateMachine->setTarget(m_target);
     stateMachine->turnOnBehavior(SteeringBehaviors::fEvade);
 }
 
 void EvadeSneak::exit(Character* stateMachine) {
-    std::cout << "exiting evade" << std::endl;
+    std::cout << *stateMachine << "exit evade sneak" << std::endl;
 
     stateMachine->setTarget(nullptr);
     stateMachine->turnOffBehavior(SteeringBehaviors::fEvade);

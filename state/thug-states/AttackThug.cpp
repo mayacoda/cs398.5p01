@@ -16,7 +16,7 @@ void AttackThug::execute(Character* stateMachine) {
         stateMachine->changeState(new FleeThug(m_enemy));
     } else {
 
-        if (!stateMachine->closeEnoughToAttack(m_enemy)) {
+        if (!stateMachine->closeEnoughToAttackMelee(m_enemy)) {
             stateMachine->changeState(new PursueThug(m_enemy));
         } else {
             stateMachine->attackMelee(m_enemy->getPos());
@@ -24,4 +24,16 @@ void AttackThug::execute(Character* stateMachine) {
     }
 
     State::execute(stateMachine);
+}
+
+void AttackThug::enter(Character* stateMachine) {
+    std::cout << *stateMachine << "enter attack thug" << std::endl;
+
+    State::enter(stateMachine);
+}
+
+void AttackThug::exit(Character* stateMachine) {
+    std::cout << *stateMachine << "exit attack thug" << std::endl;
+
+    State::exit(stateMachine);
 }

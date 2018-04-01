@@ -16,6 +16,8 @@ Thug::Thug(GameWorld* m_world,
                                                        1,
                                                        20 /* maxSpeed */,
                                                        50 /*range*/,
+                                                       30, /*melee attack distance*/
+                                                       -1, /*ranged attack distance*/
                                                        2 /*timeout*/) {}
 
 const double Thug::calculateMaxSpeed() const {
@@ -42,5 +44,8 @@ const char* Thug::getMaskPath() {
 void Thug::render() const {
     renderAids();
 
-    drawSpriteWithMask(Thug::getSpritePath(), Thug::getMaskPath(), m_pos.x - globals::SPRITE_SIZE/2, m_pos.y - globals::SPRITE_SIZE/2);
+    drawSpriteWithMask(Thug::getSpritePath(),
+                       Thug::getMaskPath(),
+                       m_pos.x - globals::SPRITE_SIZE / 2,
+                       m_pos.y - globals::SPRITE_SIZE / 2);
 }

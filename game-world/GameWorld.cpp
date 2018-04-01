@@ -166,20 +166,21 @@ void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
     m_characters.push_back(thug);
     m_characters.push_back(runner);
 
-    thug->turnOnDefaultBehavior();
-    sneak->turnOnDefaultBehavior();
-    runner->turnOnDefaultBehavior();
-
-    // @todo turn on default behavior for classes not selected
     switch (aClass) {
         case runnerClass:
             m_player = runner;
+            thug->turnOnDefaultBehavior();
+            sneak->turnOnDefaultBehavior();
             break;
         case thugClass:
             m_player = thug;
+            sneak->turnOnDefaultBehavior();
+            runner->turnOnDefaultBehavior();
             break;
         case sneakClass:
             m_player = sneak;
+            thug->turnOnDefaultBehavior();
+            runner->turnOnDefaultBehavior();
             break;
     }
 }

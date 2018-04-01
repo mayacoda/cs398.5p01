@@ -15,11 +15,11 @@ private:
 public:
 
     StalkSneak(Character* m_enemy) : m_enemy(m_enemy) {
-        m_recalculateThreshold = 30;
+        m_recalculateThreshold = 200;
     }
 
     void enter(Character* stateMachine) override {
-        std::cout << "entering stalk" << std::endl;
+        std::cout << *stateMachine << "enter stalk sneak" << std::endl;
         stateMachine->turnOnBehavior(SteeringBehaviors::fFollow_path);
         stateMachine->setPath(new Path(stateMachine->getPos()));
         m_enemyPos = m_enemy->getPos();
@@ -27,7 +27,7 @@ public:
     }
 
     void exit(Character* stateMachine) override {
-        std::cout << "exiting stalk" << std::endl;
+        std::cout << *stateMachine << "exit stalk sneak" << std::endl;
         stateMachine->turnOffBehavior(SteeringBehaviors::fFollow_path);
         State::exit(stateMachine);
     }

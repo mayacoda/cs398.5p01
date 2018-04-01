@@ -1,12 +1,12 @@
 
-#ifndef DZ04_WANDER_H
-#define DZ04_WANDER_H
+#ifndef DZ04_WANDERRUNNER_H
+#define DZ04_WANDERRUNNER_H
 
 
-#include "../State.h"
 #include "../WanderState.h"
 
-class WanderSneak : public WanderState {
+class WanderRunner : public WanderState {
+
 public:
     void execute(Character* stateMachine) override;
 
@@ -16,4 +16,4 @@ public:
 };
 
 
-#endif //DZ04_WANDER_H
+#endif //DZ04_WANDERRUNNER_H

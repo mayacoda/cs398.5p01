@@ -15,12 +15,12 @@ public:
     AttackSneak(Character* m_enemy) : m_enemy(m_enemy) {}
 
     void enter(Character* stateMachine) override {
-        std::cout << "entering attack mode!" << std::endl;
+        std::cout << *stateMachine << "enter attack sneak" << std::endl;
         State::enter(stateMachine);
     }
 
     void exit(Character* stateMachine) override {
-        std::cout << "exiting attack mode!" << std::endl;
+        std::cout << *stateMachine << "enter attack sneak" << std::endl;
         State::exit(stateMachine);
     }
 
@@ -37,7 +37,7 @@ public:
             // otherwise keep attacking
         } else {
             // enemy is close enough to attack
-            if (stateMachine->closeEnoughToAttack(m_enemy)) {
+            if (stateMachine->closeEnoughToAttackRanged(m_enemy)) {
                 stateMachine->attackRanged(m_enemy->getPos());
             } else {
                 // if enemy is too far away, stalk it

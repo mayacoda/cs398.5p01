@@ -14,7 +14,7 @@ void WanderSneak::execute(Character* stateMachine) {
             stateMachine->changeState(new EvadeSneak(enemy));
 
         } else {
-            if (stateMachine->closeEnoughToAttack(enemy)) {
+            if (stateMachine->closeEnoughToAttackRanged(enemy)) {
                 // if enemy can be attacked, do so
                 stateMachine->changeState(new AttackSneak(enemy));
             } else {
@@ -23,4 +23,16 @@ void WanderSneak::execute(Character* stateMachine) {
             }
         }
     }
+}
+
+void WanderSneak::enter(Character* stateMachine) {
+    std::cout << *stateMachine << "enter wander sneak" << std::endl;
+
+    WanderState::enter(stateMachine);
+}
+
+void WanderSneak::exit(Character* stateMachine) {
+    std::cout << *stateMachine << "exit wander sneak" << std::endl;
+
+    WanderState::exit(stateMachine);
 }

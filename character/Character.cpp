@@ -69,6 +69,22 @@ void Character::renderAids() const {
     glEnd();
 
 
+    // detection zone PURPLE
+    glColor3f(.8, 0, .7);
+    drawCircle(m_antagonistDetectionDistance, m_pos);
+
+    // melee attack zone ORANGE
+    if (m_distanceToAttackMelee > 0) {
+        glColor3f(1, .4, .3);
+        drawCircle(m_distanceToAttackMelee, m_pos);
+    }
+
+    // ranged attack zone YELLOW
+    if (m_distanceToAttackRanged > 0) {
+        glColor3f(1, .8, 0);
+        drawCircle(m_distanceToAttackRanged, m_pos);
+    }
+
     if (m_steeringBehavior->isOn(SteeringBehaviors::fWander)) {
         // wandering target
         glColor3f(0.0, 0.0, 1.0);
@@ -116,6 +132,8 @@ Character::Character(GameWorld* m_world,
                      double m_mass,
                      double m_maxSpeed,
                      double attackRange,
+                     double meleeAttackDistance,
+                     double rangedAttackDistance,
                      double attackTimeout) : MovingEntity(pos,
                                                           globals::SPRITE_SIZE/2,
                                                           scale,
@@ -128,6 +146,8 @@ Character::Character(GameWorld* m_world,
                                                           1),
                                              currentState(),
                                              m_world(m_world),
+                                             m_distanceToAttackMelee(meleeAttackDistance),
+                                             m_distanceToAttackRanged(rangedAttackDistance),
                                              m_attackRange(attackRange),
                                              m_attackTimeout(attackTimeout),
                                              m_timeElapsed(0),
@@ -149,6 +169,8 @@ Character::Character(GameWorld* m_world,
 
     m_health = 100;
 
+    m_antagonistDetectionDistance = 400;
+
     m_steeringBehavior = new SteeringBehaviors(this);
 }
 
@@ -168,8 +190,15 @@ Character* Character::seekEnemies() const {
 }
 
 bool Character::hasEscaped() {
+    // @todo refactor this logic, it's not very accurate
     return m_target && m_target->getPos().distanceTo(m_pos) > m_antagonistDetectionDistance;
 }
+
+
+bool Character::canDetect(Character* enemy) {
+    return enemy->getPos().distanceTo(m_pos) < m_antagonistDetectionDistance;
+}
+
 
 void Character::changeState(State* newState) {
     if (currentState) currentState->exit(this);

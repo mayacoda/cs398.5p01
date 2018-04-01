@@ -23,6 +23,8 @@ public:
     static const char* getSpritePath();
 
     void render() const override;
+
+    void turnOnDefaultBehavior() override;
 };
 
 

@@ -37,8 +37,9 @@ protected:
     GameWorld* m_world;
 
     double m_antagonistDetectionDistance;
+    double m_distanceToAttackRanged;
+    double m_distanceToAttackMelee;
     double m_detectionBoxLength;
-    double m_distanceToAttack;
     double m_timeLastAttacked;
     double m_attackTimeout;
     double m_attackRange;
@@ -56,6 +57,7 @@ protected:
 public:
     ~Character() {
         delete m_steeringBehavior;
+        delete currentState;
     }
 
     Character(GameWorld* m_world,
@@ -67,7 +69,10 @@ public:
               double m_mass,
               double m_maxSpeed,
               double attackRange,
+              double meleeAttackDistance,
+              double rangedAttackDistance,
               double attackTimeout);
+
 
     /**
      * Game play
@@ -93,6 +98,10 @@ public:
     }
 
     bool isDead() const { return m_dead; }
+
+    bool canDetect(Character* enemy);
+
+    bool hasEscaped();
 
     /**
      * Rendering
@@ -164,8 +173,16 @@ public:
 //        m_steeringBehavior->turnOn(SteeringBehaviors::fAvoid_obs);
     }
 
+    bool closeEnoughToAttackMelee(Character* enemy) {
+        return m_distanceToAttackMelee > 0 && enemy->getPos().distanceTo(m_pos) <= m_distanceToAttackMelee;
+    }
+
+    bool closeEnoughToAttackRanged(Character* enemy) {
+        return m_distanceToAttackRanged > 0 && enemy->getPos().distanceTo(m_pos) <= m_distanceToAttackRanged;
+    }
+
     bool closeEnoughToAttack(Character* enemy) {
-        return enemy->getPos().distanceTo(m_pos) <= m_distanceToAttack;
+        return closeEnoughToAttackRanged(enemy) || closeEnoughToAttackMelee(enemy);
     }
 
     /**
@@ -174,8 +191,6 @@ public:
     State* currentState;
 
     void changeState(State* newState);
-
-    bool hasEscaped();
 
     /**
      * Game Loop
