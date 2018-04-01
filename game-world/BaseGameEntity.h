@@ -3,6 +3,7 @@
 #define DZ04_BASEGAMEENTITY_H
 
 
+#include <ostream>
 #include "../geometry/Vector2D.h"
 
 class BaseGameEntity {
@@ -40,6 +41,11 @@ public:
     double getBoundingRadius() const { return m_boundingRadius; }
 
     int getId() const { return m_id; }
+
+    friend std::ostream &operator<<(std::ostream &os, const BaseGameEntity &entity) {
+        os << "[" << entity.m_id << "] ";
+        return os;
+    }
 
     virtual void update(double timeElapsed) {};
 

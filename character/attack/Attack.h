@@ -6,6 +6,8 @@
 #include "../../game-world/MovingEntity.h"
 #include "../Character.h"
 
+class GameWorld;
+
 class Attack : public MovingEntity {
 protected:
     const Character* m_shooter;

@@ -4,13 +4,10 @@
 
 
 #include "../State.h"
+#include "../WanderState.h"
 
-class WanderSneak : public State {
+class WanderSneak : public WanderState {
 public:
-    void enter(Character* stateMachine) override;
-
-    void exit(Character* stateMachine) override;
-
     void execute(Character* stateMachine) override;
 };
 

@@ -5,6 +5,7 @@
 #include "../geometry/Matrix.h"
 #include "../geometry/geometry.h"
 #include "attack/RangedAttack.h"
+#include "attack/MeleeAttack.h"
 
 #ifdef _WIN32
 #include <GL\glut.h>
@@ -178,18 +179,23 @@ void Character::changeState(State* newState) {
     currentState->enter(this);
 }
 
-void Character::attackRanged(Vector2D<double> target) {
+void Character::attack(Vector2D<double> target, Attack* attack) {
     double currentTime = time(nullptr);
     if (currentTime - m_timeLastAttacked >= m_attackTimeout) {
         turnToFace(target);
         m_velocity = Vector2D<double>(0, 0);
 
-        m_world->addProjectile(new RangedAttack(this));
+        m_world->addProjectile(attack);
         m_timeLastAttacked = currentTime;
     }
+};
+
+void Character::attackRanged(Vector2D<double> target) {
+    attack(target, new RangedAttack(this));
 }
 
 void Character::attackMelee(Vector2D<double> target) {
+    attack(target, new MeleeAttack(this));
 }
 
 void Character::turnToFace(Vector2D<double> target) {

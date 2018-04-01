@@ -4,22 +4,12 @@
 
 
 #include "../State.h"
+#include "../WanderState.h"
 
-class WanderThug : public State {
+class WanderThug : public WanderState {
 public:
-    void enter(Character* stateMachine) override {
-        std::cout << "entering wanderThug" << std::endl;
-        State::enter(stateMachine);
-    }
 
-    void exit(Character* stateMachine) override {
-        std::cout << "exiting wanderThug" << std::endl;
-        State::exit(stateMachine);
-    }
-
-    void execute(Character* stateMachine) override {
-        State::execute(stateMachine);
-    }
+    void execute(Character* stateMachine) override;
 };
 
 

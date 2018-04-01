@@ -10,6 +10,8 @@
 
 class GameWorld;
 
+class Attack;
+
 class State;
 
 class Character : public MovingEntity {
@@ -28,6 +30,8 @@ private:
      * Updating
      */
     double m_timeElapsed;
+
+    void attack(Vector2D<double> target, Attack* attack);
 
 protected:
     GameWorld* m_world;
