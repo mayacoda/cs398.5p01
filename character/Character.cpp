@@ -238,3 +238,8 @@ void Character::turnToFace(Vector2D<double> target) {
     m_heading  = (target - m_pos).getNormalized();
     m_side = m_heading.ortho();
 }
+
+Character::~Character() {
+    delete m_steeringBehavior;
+    delete currentState;
+}

@@ -16,7 +16,7 @@ private:
 
 public:
 
-    Graph() : BaseGameEntity(globals::entityTypes::graph, Vector2D<double>(-1, -1), 0),
+    Graph() : BaseGameEntity(globals::graph, Vector2D<double>(-1, -1), 0),
               m_nodes(std::vector<MapNode*>()),
               m_edges(std::vector<std::list<GraphEdge> >()) {}
 

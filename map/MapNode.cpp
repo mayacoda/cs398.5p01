@@ -11,7 +11,6 @@ MapNode::MapNode(int index,
                                                      m_terrainFlag(terrainFlag),
                                                      m_color() {
 
-    m_color = Color(0.3, 0.3, 0.3);
     switch (terrainFlag) {
         case forest:
             m_color = Color(0.2, 0.9, 0.6);
@@ -21,6 +20,9 @@ MapNode::MapNode(int index,
             break;
         case water:
             m_color = Color(0.3, 0.5, 0.8);
+            break;
+        case none:
+            m_color = Color(0.3, 0.3, 0.3);
             break;
     }
 }

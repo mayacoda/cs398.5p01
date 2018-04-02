@@ -2,7 +2,6 @@
 #ifndef DZ04_PATH_H
 #define DZ04_PATH_H
 
-
 #include <list>
 #include <cassert>
 #include "../geometry/Vector2D.h"
@@ -34,8 +33,6 @@ public:
     }
 
     Vector2D<double> getCurrentPoint() const {
-        assert(&m_currentPoint && "Current point doesn't exist");
-
         return *m_currentPoint;
     }
 

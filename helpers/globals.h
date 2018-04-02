@@ -7,7 +7,7 @@ namespace globals {
     const int SPRITE_SIZE = 32;
 
 
-    const enum entityTypes {
+    enum entityTypes {
         invalidEntity,
         terrain,
         tile,

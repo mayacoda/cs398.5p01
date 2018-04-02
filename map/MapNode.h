@@ -37,7 +37,7 @@ private:
 public:
 
     MapNode() : GraphNode(invalid_index),
-                BaseGameEntity(globals::entityTypes::tile, Vector2D<double>(), 0),
+                BaseGameEntity(globals::tile, Vector2D<double>(), 0),
                 m_terrainFlag(none),
                 m_color() {}
 

@@ -62,23 +62,20 @@ private:
     }
 
     const char* determineFileName(MapNode::terrainType type) const {
-		char buffer[40];
-	
+        std::stringstream format;
+        format << globals::TILE_SIZE;
+
         switch (type) {
-            case MapNode::terrainType::water: {
-				sprintf_s(buffer, "assets/water%d.bmp", globals::TILE_SIZE);
-				return buffer;
+            case MapNode::water: {
+                return ("assets/water" + format.str() + ".bmp").c_str();
             }
-            case MapNode::terrainType::mountain:
-				sprintf_s(buffer, "assets/mountains%d.bmp", globals::TILE_SIZE);
-				return buffer;
-            case MapNode::terrainType::forest:
-				sprintf_s(buffer, "assets/forest%d.bmp", globals::TILE_SIZE);
-				return buffer;
-            case MapNode::terrainType::none:
+            case MapNode::mountain:
+                return ("assets/mountains" + format.str() + ".bmp").c_str();
+            case MapNode::forest:
+                return ("assets/forest" + format.str() + ".bmp").c_str();
+            case MapNode::none:
             default:
-				sprintf_s(buffer, "assets/grass%d.bmp", globals::TILE_SIZE);
-				return buffer;
+                return ("assets/grass" + format.str() + ".bmp").c_str();
         }
     }
 };

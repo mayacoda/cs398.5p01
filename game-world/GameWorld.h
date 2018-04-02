@@ -22,19 +22,22 @@ public:
 
 private:
     struct Boundaries {
-        Boundaries(int left, int right, int bottom, int top): left(left), right(right), bottom(bottom), top(top) {}
-        Boundaries(): left(0), right(0), bottom(0), top(0) {}
+        Boundaries(int left, int right, int bottom, int top) : left(left), right(right), bottom(bottom), top(top) {}
+
+        Boundaries() : left(0), right(0), bottom(0), top(0) {}
 
         int top, bottom, left, right;
     };
 
     Vector2D<double> randomTraversableLocation() const;
+
     Vector2D<double> windowPointToWorldSpace(int x, int y) const;
+
     Character* characterAtWindowPoint(int x, int y) const;
 
-    std::vector<Character*>  m_characters;
-    std::vector<Obstacle*> m_obstacles;
-    std::vector<Attack*> m_projectiles;
+    std::vector<Character*> m_characters;
+    std::vector<Obstacle*>  m_obstacles;
+    std::vector<Attack*>    m_projectiles;
 
     int m_width;
     int m_height;
@@ -45,7 +48,7 @@ private:
 
     Map* m_map;
 
-    void (*endGame) ();
+    void (* endGame)();
 
 public:
     GameWorld(int m_width, int m_height);
@@ -79,7 +82,7 @@ public:
 
     void passiveMouseMotionHandler(int x, int y);
 
-    void setEndGameCallback(void (*cb) ()) {
+    void setEndGameCallback(void (* cb)()) {
         endGame = cb;
     }
 
@@ -101,7 +104,7 @@ public:
         m_projectiles.push_back(p);
     }
 
-    Graph * getGraph() const {
+    Graph* getGraph() const {
         return m_map->getGraph();
     }
 };

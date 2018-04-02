@@ -8,8 +8,6 @@ class State {
 public:
     State() {};
 
-    virtual ~State() {};
-
     virtual void enter(Character *stateMachine) {};
 
     virtual void exit(Character *stateMachine) {

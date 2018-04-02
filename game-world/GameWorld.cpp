@@ -37,6 +37,7 @@ void GameWorld::update(double timeElapsed) {
             if ((*c)->getId() == m_player->getId()) {
                 // player has died, end game
                 callEndGameCallback();
+                return;
             }
 
             delete *c;

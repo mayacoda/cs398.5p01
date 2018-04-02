@@ -15,7 +15,7 @@ public:
     GraphEdge(MapNode* from, MapNode* to, double cost) : to(to),
                                                          from(from),
                                                          cost(cost),
-                                                         BaseGameEntity(globals::entityTypes::graph,
+                                                         BaseGameEntity(globals::graph,
                                                                         Vector2D<double>(),
                                                                         0) {};
 

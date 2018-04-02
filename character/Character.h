@@ -54,10 +54,7 @@ protected:
     SteeringBehaviors* m_steeringBehavior;
 
 public:
-    ~Character() {
-        delete m_steeringBehavior;
-        delete currentState;
-    }
+    ~Character();
 
     Character(GameWorld* m_world,
               const Vector2D<double> &pos,
