@@ -89,8 +89,23 @@ void GameWorld::setDimensions(int width, int height) {
     m_height = height;
 }
 
+Vector2D<double> GameWorld::windowPointToWorldSpace(int x, int y) const {
+    return Vector2D<double>(m_Boundaries.left + x, m_Boundaries.top - y);
+}
+
+
+Character* GameWorld::characterAtWindowPoint(int x, int y) const {
+    Vector2D<double> pos = windowPointToWorldSpace(x, y);
+
+    for (auto it = m_characters.begin(); it != m_characters.end(); ++it) {
+        if ((*it)->isInBounds(pos)) return *it;
+    }
+
+    return nullptr;
+}
+
 void GameWorld::clickHandler(int button, int state, int x, int y) {
-    const Vector2D<double> &pos = Vector2D<double>(m_Boundaries.left + x, m_Boundaries.top - y);
+    const Vector2D<double> &pos = windowPointToWorldSpace(x, y);
 
     if (button == GLUT_RIGHT_BUTTON && state == GLUT_UP) {
         auto goal  = m_map->getNodeByPosition(pos);
@@ -111,7 +126,22 @@ void GameWorld::clickHandler(int button, int state, int x, int y) {
     }
 }
 
-void GameWorld::keyboardHandler(unsigned char key, int x, int y) {}
+void GameWorld::keyboardHandler(unsigned char key, int x, int y) {
+    Character* enemy;
+    if (key == ' ' && m_player && (enemy = characterAtWindowPoint(x, y))) {
+        if (m_player->closeEnoughToAttackMelee(enemy)) {
+            m_player->attackMelee(enemy->getPos());
+        } else if (m_player->closeEnoughToAttackRanged(enemy)) {
+            m_player->attackRanged(enemy->getPos());
+        }
+    }
+}
+
+void GameWorld::passiveMouseMotionHandler(int x, int y) {
+    if (!m_player) return;
+    const Vector2D<double> &pos = windowPointToWorldSpace(x, y);
+    m_player->turnToFace(pos);
+}
 
 void GameWorld::setClippingBoundaries(int left, int right, int bottom, int top) {
     m_Boundaries = Boundaries(left, right, bottom, top);
@@ -183,4 +213,6 @@ void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
             runner->turnOnDefaultBehavior();
             break;
     }
+
+    m_player->setAutonomousTurning(true);
 }

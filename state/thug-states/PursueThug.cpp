@@ -8,7 +8,7 @@ void PursueThug::enter(Character* stateMachine) {
     std::cout << *stateMachine << "enter pursue thug" << std::endl;
 
     stateMachine->setTarget(m_enemy);
-    stateMachine->turnOnBehavior(SteeringBehaviors::fSeek);
+    stateMachine->turnOnBehavior(SteeringBehaviors::fPursue);
     State::enter(stateMachine);
 }
 
@@ -16,7 +16,7 @@ void PursueThug::exit(Character* stateMachine) {
     std::cout << *stateMachine << "exit pursue thug" << std::endl;
 
     stateMachine->setTarget(nullptr);
-    stateMachine->turnOffBehavior(SteeringBehaviors::fSeek);
+    stateMachine->turnOffBehavior(SteeringBehaviors::fPursue);
     State::exit(stateMachine);
 }
 

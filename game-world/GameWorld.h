@@ -29,6 +29,8 @@ private:
     };
 
     Vector2D<double> randomTraversableLocation() const;
+    Vector2D<double> windowPointToWorldSpace(int x, int y) const;
+    Character* characterAtWindowPoint(int x, int y) const;
 
     std::vector<Character*>  m_characters;
     std::vector<Obstacle*> m_obstacles;
@@ -74,6 +76,8 @@ public:
     void clickHandler(int button, int state, int x, int y);
 
     void keyboardHandler(unsigned char i, int i1, int i2);
+
+    void passiveMouseMotionHandler(int x, int y);
 
     void setEndGameCallback(void (*cb) ()) {
         endGame = cb;

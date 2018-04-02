@@ -61,7 +61,14 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            MapNode::terrainType terrain = findClosestTerrainCenter(i, j, terrainCenters);
+            MapNode::terrainType terrain;
+
+            // enclose the island with water
+            if (i == 0 || j == 0 || i == rows - 1 || j == columns - 1) {
+                terrain = MapNode::terrainType::water;
+            } else {
+                terrain = findClosestTerrainCenter(i, j, terrainCenters);
+            }
 
             MapNode* node = new MapNode(index,
                                         Vector2D<double>(i * globals::TILE_SIZE + globals::TILE_SIZE / 2,

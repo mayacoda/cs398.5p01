@@ -56,7 +56,8 @@ void Attack::update(double timeElapsed) {
         auto character = *it;
         if (distanceToLineSegment(m_pos, prevPos, character->getPos()) <
             character->getBoundingRadius()) {
-            double dist = character->getPos().distanceTo(m_origin);
+
+            double dist = character->getPos().squareDistanceTo(m_origin);
             if (dist < closestDist) {
                 closest     = character;
                 closestDist = dist;

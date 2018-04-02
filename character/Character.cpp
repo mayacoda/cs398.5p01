@@ -34,7 +34,7 @@ void Character::update(double timeElapsed) {
 
     m_pos.wrapAround(m_world->getWidth(), m_world->getHeight());
 
-    if (m_velocity.squareMagnitude() > 0.00000001) {
+    if (m_velocity.squareMagnitude() > 0.00000001 && !m_autonomousTurning) {
         m_heading = m_velocity.getNormalized();
 
         m_side = m_heading.ortho();
@@ -172,6 +172,8 @@ Character::Character(GameWorld* m_world,
     m_antagonistDetectionDistance = 400;
 
     m_steeringBehavior = new SteeringBehaviors(this);
+
+    m_autonomousTurning = false;
 }
 
 Character* Character::seekEnemies() const {
@@ -199,7 +201,6 @@ bool Character::canDetect(Character* enemy) {
     return enemy->getPos().distanceTo(m_pos) < m_antagonistDetectionDistance;
 }
 
-
 void Character::changeState(State* newState) {
     if (currentState) currentState->exit(this);
 
@@ -208,23 +209,28 @@ void Character::changeState(State* newState) {
     currentState->enter(this);
 }
 
-void Character::attack(Vector2D<double> target, Attack* attack) {
+void Character::attackRanged(Vector2D<double> target) {
     double currentTime = time(nullptr);
+
     if (currentTime - m_timeLastAttacked >= m_attackTimeout) {
         turnToFace(target);
         m_velocity = Vector2D<double>(0, 0);
 
-        m_world->addProjectile(attack);
+        m_world->addProjectile(new RangedAttack(this));
         m_timeLastAttacked = currentTime;
     }
-};
-
-void Character::attackRanged(Vector2D<double> target) {
-    attack(target, new RangedAttack(this));
 }
 
 void Character::attackMelee(Vector2D<double> target) {
-    attack(target, new MeleeAttack(this));
+    double currentTime = time(nullptr);
+
+    if (currentTime - m_timeLastAttacked >= m_attackTimeout) {
+        turnToFace(target);
+        m_velocity = Vector2D<double>(0, 0);
+
+        m_world->addProjectile(new MeleeAttack(this));
+        m_timeLastAttacked = currentTime;
+    }
 }
 
 void Character::turnToFace(Vector2D<double> target) {

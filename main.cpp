@@ -197,6 +197,10 @@ void keyboardHandler(unsigned char key, int x, int y) {
     gameWorld.keyboardHandler(key, x, y);
 }
 
+void passiveMouseMotionHandler(int x, int y) {
+    gameWorld.passiveMouseMotionHandler(x, y);
+}
+
 void endGame() {
     gameEnded = true;
 }
@@ -221,6 +225,7 @@ int main(int argc, char** argv) {
 
     glutMouseFunc(clickHandler);
     glutKeyboardFunc(keyboardHandler);
+    glutPassiveMotionFunc(passiveMouseMotionHandler);
 
     glClearColor(0.1, 0.1, 0.1, 1.0);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);

@@ -6,10 +6,10 @@
 #include "../game-world/GameWorld.h"
 
 SteeringBehaviors::SteeringBehaviors(Character* m_vehicle) : m_vehicle(m_vehicle),
-                                                           m_steeringForce(Vector2D<double>(0.0, 0.0)),
-                                                           m_wanderTarget(Vector2D<double>(0.0, 0.0)),
-                                                           m_flags(0),
-                                                           m_path() {
+                                                             m_steeringForce(Vector2D<double>(0.0, 0.0)),
+                                                             m_wanderTarget(Vector2D<double>(0.0, 0.0)),
+                                                             m_flags(0),
+                                                             m_path() {
 
 
     m_wanderRadius = 10;
@@ -67,6 +67,10 @@ Vector2D<double> SteeringBehaviors::calculate() {
 
     if (isOn(fEvade) && m_vehicle->getTarget()) {
         m_steeringForce += evade(m_vehicle->getTarget());
+    }
+
+    if (isOn(fPursue) && m_vehicle->getTarget()) {
+        m_steeringForce += pursue(m_vehicle->getTarget());
     }
 
     return m_steeringForce;
@@ -142,7 +146,8 @@ Vector2D<double> SteeringBehaviors::followPath() {
         return Vector2D<double>();
     }
 
-    if ((m_vehicle->getPos() - m_path->getCurrentPoint()).squareMagnitude() < m_followPathDistanceSq && !m_path->isLastPoint()) {
+    if ((m_vehicle->getPos() - m_path->getCurrentPoint()).squareMagnitude() < m_followPathDistanceSq &&
+        !m_path->isLastPoint()) {
 
         m_path->setNextPoint();
     }
@@ -163,9 +168,9 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
 
     std::vector<Obstacle*> allObstacles = m_vehicle->getWorld()->getObstacles();
 
-    auto iterator = allObstacles.begin();
+    auto iterator        = allObstacles.begin();
     Obstacle* o;
-    Obstacle* closestObs                      = nullptr;
+    Obstacle* closestObs = nullptr;
     double           closestX = std::numeric_limits<double>::infinity();
     Vector2D<double> localPosOfClosest;
 
@@ -303,13 +308,20 @@ Vector2D<double> SteeringBehaviors::offsetPursuit(const Character* leader, const
 Vector2D<double> SteeringBehaviors::interpose(const Character* a, const Character* b) {
     Vector2D<double> midpoint = (a->getPos() + b->getPos()) / 2.0;
 
-    const double           timeToMidpoint = m_vehicle->getPos().distanceTo(midpoint) / m_vehicle->getSpeed();
+    const double     timeToMidpoint = m_vehicle->getPos().distanceTo(midpoint) / m_vehicle->getSpeed();
     Vector2D<double> aPos           = a->getPos() + a->getVelocity() * timeToMidpoint;
     Vector2D<double> bPos           = b->getPos() + b->getVelocity() * timeToMidpoint;
 
     midpoint = (aPos + bPos) / 2.0;
 
     return arrive(midpoint);
+}
+
+Vector2D<double> SteeringBehaviors::pursue(const Character* target) {
+    double lookAheadTime = m_vehicle->getPos().distanceTo(target->getPos()) /
+                           (m_vehicle->calculateMaxSpeed() + target->getSpeed());
+
+    return arrive(target->getPos() + target->getVelocity() * lookAheadTime);
 }
 
 

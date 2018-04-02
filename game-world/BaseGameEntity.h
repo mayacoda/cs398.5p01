@@ -40,6 +40,10 @@ public:
 
     double getBoundingRadius() const { return m_boundingRadius; }
 
+    bool isInBounds(Vector2D<double> point) {
+        return point.squareDistanceTo(m_pos) < m_boundingRadius * m_boundingRadius;
+    }
+
     int getId() const { return m_id; }
 
     friend std::ostream &operator<<(std::ostream &os, const BaseGameEntity &entity) {

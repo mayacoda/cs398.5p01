@@ -35,7 +35,8 @@ public:
         fHide           = 0x00080,
         fOffset_pursuit = 0x00100,
         fInterpose      = 0x00200,
-        fEvade          = 0x00400
+        fEvade          = 0x00400,
+        fPursue         = 0x00800
     };
 
     Path* m_path;
@@ -89,6 +90,8 @@ public:
     Vector2D<double> getHidingPosition(Vector2D<double> obsPos, double obsRadius, Vector2D<double> hunterPos);
 
     Vector2D<double> interpose(const Character* a, const Character* b);
+
+    Vector2D<double> pursue(const Character* target);
 };
 
 

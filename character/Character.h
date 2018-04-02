@@ -31,8 +31,6 @@ private:
      */
     double m_timeElapsed;
 
-    void attack(Vector2D<double> target, Attack* attack);
-
 protected:
     GameWorld* m_world;
 
@@ -46,6 +44,7 @@ protected:
     double m_health;
 
     bool m_dead;
+    bool m_autonomousTurning;
 
     /**
     * Rendering
@@ -97,11 +96,28 @@ public:
         }
     }
 
+    bool closeEnoughToAttackMelee(Character* enemy) {
+        return m_distanceToAttackMelee > 0 &&
+               enemy->getPos().squareDistanceTo(m_pos) <= m_distanceToAttackMelee * m_distanceToAttackMelee;
+    }
+
+    bool closeEnoughToAttackRanged(Character* enemy) {
+        return m_distanceToAttackRanged > 0 &&
+               enemy->getPos().squareDistanceTo(m_pos) <= m_distanceToAttackRanged * m_distanceToAttackRanged;
+    }
+
+    bool closeEnoughToAttack(Character* enemy) {
+        return closeEnoughToAttackRanged(enemy) || closeEnoughToAttackMelee(enemy);
+    }
+
+
     bool isDead() const { return m_dead; }
 
     bool canDetect(Character* enemy);
 
     bool hasEscaped();
+
+    void setAutonomousTurning(bool turn) { m_autonomousTurning = turn; }
 
     /**
      * Rendering
@@ -170,19 +186,7 @@ public:
     }
 
     virtual void turnOnDefaultBehavior() {
-//        m_steeringBehavior->turnOn(SteeringBehaviors::fAvoid_obs);
-    }
-
-    bool closeEnoughToAttackMelee(Character* enemy) {
-        return m_distanceToAttackMelee > 0 && enemy->getPos().distanceTo(m_pos) <= m_distanceToAttackMelee;
-    }
-
-    bool closeEnoughToAttackRanged(Character* enemy) {
-        return m_distanceToAttackRanged > 0 && enemy->getPos().distanceTo(m_pos) <= m_distanceToAttackRanged;
-    }
-
-    bool closeEnoughToAttack(Character* enemy) {
-        return closeEnoughToAttackRanged(enemy) || closeEnoughToAttackMelee(enemy);
+        m_steeringBehavior->turnOn(SteeringBehaviors::fAvoid_obs);
     }
 
     /**
