@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cs430-dz04", "cs430-dz04.vcxproj", "{01CD5DEC-2BDE-8848-9EF6-DFD0D41368EE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cs430-dz04", "cs430-dz04.vcxproj", "{7A61272B-34DA-B301-B26D-FADC5824510A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{01CD5DEC-2BDE-8848-9EF6-DFD0D41368EE}.Debug|Win32.ActiveCfg = Debug|Win32
-		{01CD5DEC-2BDE-8848-9EF6-DFD0D41368EE}.Debug|Win32.Build.0 = Debug|Win32
-		{01CD5DEC-2BDE-8848-9EF6-DFD0D41368EE}.Release|Win32.ActiveCfg = Release|Win32
-		{01CD5DEC-2BDE-8848-9EF6-DFD0D41368EE}.Release|Win32.Build.0 = Release|Win32
+		{7A61272B-34DA-B301-B26D-FADC5824510A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7A61272B-34DA-B301-B26D-FADC5824510A}.Debug|Win32.Build.0 = Debug|Win32
+		{7A61272B-34DA-B301-B26D-FADC5824510A}.Release|Win32.ActiveCfg = Release|Win32
+		{7A61272B-34DA-B301-B26D-FADC5824510A}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

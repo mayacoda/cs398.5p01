@@ -4,17 +4,15 @@
 
 
 #include <map>
+#include <sstream>
 #include "MapNode.h"
+#include "../graphics/bmp-mac.h"
 
 
 #ifdef _WIN32
 #include <GL\glut.h>
 #elif __APPLE__
-
-#include "../graphics/bmp-mac.h"
 #include <GLUT/glut.h>
-#include <sstream>
-
 #endif
 
 class MapGraphicsHelper {
@@ -63,21 +61,24 @@ private:
         return ID;
     }
 
-    const char* determineFileName(MapNode::terrainType type) {
-        std::stringstream format;
-        format << globals::TILE_SIZE;
-
+    const char* determineFileName(MapNode::terrainType type) const {
+		char buffer[40];
+	
         switch (type) {
             case MapNode::terrainType::water: {
-                return ("assets/water" + format.str() + ".bmp").c_str();
+				sprintf_s(buffer, "assets/water%d.bmp", globals::TILE_SIZE);
+				return buffer;
             }
             case MapNode::terrainType::mountain:
-                return ("assets/mountains" + format.str() + ".bmp").c_str();
+				sprintf_s(buffer, "assets/mountains%d.bmp", globals::TILE_SIZE);
+				return buffer;
             case MapNode::terrainType::forest:
-                return ("assets/forest" + format.str() + ".bmp").c_str();
+				sprintf_s(buffer, "assets/forest%d.bmp", globals::TILE_SIZE);
+				return buffer;
             case MapNode::terrainType::none:
             default:
-                return ("assets/grass" + format.str() + ".bmp").c_str();
+				sprintf_s(buffer, "assets/grass%d.bmp", globals::TILE_SIZE);
+				return buffer;
         }
     }
 };

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "game-world/GameWorld.h"
 #include "character/derived/Thug.h"
 #include "character/derived/Sneak.h"

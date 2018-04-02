@@ -6,6 +6,7 @@
 #include "../geometry/geometry.h"
 #include "attack/RangedAttack.h"
 #include "attack/MeleeAttack.h"
+#include <ctime>
 
 #ifdef _WIN32
 #include <GL\glut.h>

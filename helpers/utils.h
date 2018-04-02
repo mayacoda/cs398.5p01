@@ -33,7 +33,7 @@ inline int iRandomRange(int min, int max) {
 
 inline float fRandomRange(int min, int max) {
 
-	float r3 = min + static_cast <float> (random()) /( static_cast <float> (RAND_MAX/(max-min)));
+	float r3 = min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
 	return r3;
 }
 

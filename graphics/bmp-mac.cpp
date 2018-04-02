@@ -1,6 +1,8 @@
 
 #include "bmp-mac.h"
 
+#ifdef __APPLE__
+
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
@@ -139,3 +141,80 @@ GLubyte* ReadBitmap(const char* filename, BITMAPINFO** info) {
     fileStream.close();
     return reinterpret_cast<GLubyte*>(pixels);
 }
+
+#elif _WIN32
+#include <fstream>
+GLubyte *                         
+ReadBitmap(const char *filename, 
+             BITMAPINFO **info)    
+{
+  FILE             *fp;          /* Open file pointer          */
+  GLubyte          *pixels;      /* Bitmap pixel bits          */
+  int              imgsize;      /* Size of bitmap image       */
+  int              infosize;     /* Size of header information */
+  BITMAPFILEHEADER header;       /* File header                */
+
+
+  // Try opening the file; use "rb" mode to read a binary file. 
+  if ((fp = fopen(filename, "rb")) == NULL)
+    return (NULL);
+
+  // Read the file header
+  if (fread(&header, sizeof(BITMAPFILEHEADER), 1, fp) < 1)
+  {
+  // Couldn't read the file header 
+	  fclose(fp);
+    return (NULL);
+  }
+
+  if (header.bfType != 'MB')	/* Check for BM reversed... */
+  {
+  // Not a bitmap file
+    fclose(fp);
+    return (NULL);
+  }
+
+  infosize = header.bfOffBits - sizeof(BITMAPFILEHEADER);
+  if ((*info = (BITMAPINFO *)malloc(infosize)) == NULL)
+  {
+    fclose(fp);
+    return (NULL);
+  }
+
+  if (fread(*info, 1, infosize, fp) < infosize)
+  {
+    free(*info);
+    fclose(fp);
+    return (NULL);
+  }
+
+  /* Now that we have all the header info read in, allocate memory for *
+   * the bitmap and read it in...  
+   */
+  imgsize = (*info)->bmiHeader.biSizeImage;
+  // sometimes imagesize is not set in files
+  if (imgsize == 0)
+     imgsize = ((*info)->bmiHeader.biWidth *
+                (*info)->bmiHeader.biBitCount + 7) / 8 *
+  	             abs((*info)->bmiHeader.biHeight);
+
+  if ((pixels = (unsigned char *)malloc(imgsize)) == NULL)
+  {
+    free(*info);
+    fclose(fp);
+    return (NULL);
+  }
+
+  if (fread(pixels, 1, imgsize, fp) < imgsize)
+  {
+    free(*info);
+    free(pixels);
+    fclose(fp);
+    return (NULL);
+   }
+
+   fclose(fp);
+   return (pixels);
+}
+
+#endif
