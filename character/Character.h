@@ -120,6 +120,8 @@ public:
      */
     Color m_color;
 
+    virtual void drawSprite(int x, int y) const = 0;
+
     /**
      * Steering Behaviors
      */

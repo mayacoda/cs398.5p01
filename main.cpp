@@ -1,5 +1,4 @@
 #include <iostream>
-#include <ctime>
 #include "game-world/GameWorld.h"
 #include "character/derived/Thug.h"
 #include "character/derived/Sneak.h"
@@ -17,7 +16,7 @@
 #endif
 
 bool gameStarted = false;
-bool gameEnded = false;
+bool gameEnded   = false;
 
 //int winWidth  = 800;
 //int winHeight = 460;
@@ -128,10 +127,30 @@ void showEndScreen() {
     glClearColor(0.1, 0.1, 0.1, 1.0);
 
 
-    drawText("Game Over", winWidth/2, winHeight/2, Color(1, 1, 1));
+    drawText("Game Over", winWidth / 2, winHeight / 2, Color(1, 1, 1));
 
     glutSwapBuffers();
     glFlush();
+}
+
+void renderHUD() {
+    glColor3f(0.1, 0.1, 0.1);
+    glBegin(GL_POLYGON);
+    glVertex2f(20, winHeight - 20);
+    glVertex2f(20, winHeight - 60);
+    glVertex2f(200, winHeight - 60);
+    glVertex2f(200, winHeight - 20);
+    glEnd();
+
+    std::string text = "health: " + std::to_string(gameWorld.getPlayerHealth());
+
+    drawText(text.c_str(),
+             30 + globals::SPRITE_SIZE,
+             winHeight - 50,
+             Color(1, 1, 1));
+
+    Character* player = gameWorld.getPlayer();
+    player->drawSprite(30, winHeight - 50);
 }
 
 void render() {
@@ -162,6 +181,8 @@ void render() {
         t += deltaTime;
     }
     gameWorld.render();
+
+    renderHUD();
 
     glutSwapBuffers();
     glFlush();
@@ -212,11 +233,20 @@ int main(int argc, char** argv) {
 
     currentTime = clock();
 
-    int top    = winHeight / 2 + globals::SPRITE_SIZE/2;
-    int bottom = winHeight / 2 - globals::SPRITE_SIZE/2;
-    characters[GameWorld::thugClass]   = Bounds<int>(top, bottom, winWidth * 0.25 - globals::SPRITE_SIZE/2, winWidth * 0.25 + globals::SPRITE_SIZE/2);
-    characters[GameWorld::sneakClass]  = Bounds<int>(top, bottom, winWidth * 0.5 - globals::SPRITE_SIZE/2, winWidth * 0.5 + globals::SPRITE_SIZE/2);
-    characters[GameWorld::runnerClass] = Bounds<int>(top, bottom, winWidth * 0.75 - globals::SPRITE_SIZE/2, winWidth * 0.75 + globals::SPRITE_SIZE/2);
+    int top    = winHeight / 2 + globals::SPRITE_SIZE / 2;
+    int bottom = winHeight / 2 - globals::SPRITE_SIZE / 2;
+    characters[GameWorld::thugClass]   = Bounds<int>(top,
+                                                     bottom,
+                                                     winWidth * 0.25 - globals::SPRITE_SIZE / 2,
+                                                     winWidth * 0.25 + globals::SPRITE_SIZE / 2);
+    characters[GameWorld::sneakClass]  = Bounds<int>(top,
+                                                     bottom,
+                                                     winWidth * 0.5 - globals::SPRITE_SIZE / 2,
+                                                     winWidth * 0.5 + globals::SPRITE_SIZE / 2);
+    characters[GameWorld::runnerClass] = Bounds<int>(top,
+                                                     bottom,
+                                                     winWidth * 0.75 - globals::SPRITE_SIZE / 2,
+                                                     winWidth * 0.75 + globals::SPRITE_SIZE / 2);
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);

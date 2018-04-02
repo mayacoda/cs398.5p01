@@ -6,10 +6,6 @@
 #include "../Character.h"
 
 class Sneak: public Character {
-private:
-    double m_attackTimeout;
-    double m_timeLastAttacked;
-
 public:
     Sneak(GameWorld* m_world,
           const Vector2D<double> &pos,
@@ -30,7 +26,7 @@ public:
 
     void render() const override;
 
-    void update(double timeElapsed) override;
+    void drawSprite(int x, int y) const override;
 };
 
 

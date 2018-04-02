@@ -24,6 +24,8 @@ public:
 
     static const char* getMaskPath();
 
+    void drawSprite(int x, int y) const override;
+
     void render() const override;
 };
 

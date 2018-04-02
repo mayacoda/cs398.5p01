@@ -24,6 +24,8 @@ public:
 
     void render() const override;
 
+    void drawSprite(int x, int y) const override;
+
     void turnOnDefaultBehavior() override;
 };
 

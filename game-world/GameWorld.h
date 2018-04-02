@@ -98,6 +98,16 @@ public:
         return m_player->getPos();
     }
 
+    double getPlayerHealth() const {
+        if (m_player == nullptr) return -1;
+
+        return m_player->getHealth();
+    }
+
+    Character* getPlayer() const {
+        return m_player;
+    }
+
     void selectCharacter(characterClass aClass);
 
     void addProjectile(Attack* p) {

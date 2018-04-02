@@ -5,6 +5,7 @@
 #include <cmath>
 #include <random>
 #include <iostream>
+#include <sstream>
 
 #ifndef M_PI
 #define M_PI 3.14159265359
@@ -33,8 +34,8 @@ inline int iRandomRange(int min, int max) {
 
 inline float fRandomRange(int min, int max) {
 
-	float r3 = min + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(max-min)));
-	return r3;
+    float r3 = min + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max - min)));
+    return r3;
 }
 
 inline double r2d(double rad) {

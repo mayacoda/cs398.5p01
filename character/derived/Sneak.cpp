@@ -63,12 +63,14 @@ const char* Sneak::getSpritePath() {
 void Sneak::render() const {
     renderAids();
 
-    drawSpriteWithMask(Sneak::getSpritePath(),
-                       Sneak::getMaskPath(),
-                       m_pos.x - globals::SPRITE_SIZE / 2,
-                       m_pos.y - globals::SPRITE_SIZE / 2);
+    drawSprite(m_pos.x - globals::SPRITE_SIZE / 2,
+            m_pos.y - globals::SPRITE_SIZE / 2);
 }
 
-void Sneak::update(double timeElapsed) {
-    Character::update(timeElapsed);
+
+void Sneak::drawSprite(int x, int y) const {
+    drawSpriteWithMask(Sneak::getSpritePath(),
+                       Sneak::getMaskPath(),
+                       x, y);
+
 }

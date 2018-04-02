@@ -51,8 +51,12 @@ const char* Runner::getSpritePath() {
 void Runner::render() const {
     renderAids();
 
+    drawSprite(m_pos.x - globals::SPRITE_SIZE / 2,
+               m_pos.y - globals::SPRITE_SIZE / 2);
+}
+
+void Runner::drawSprite(int x, int y) const {
     drawSpriteWithMask(Runner::getSpritePath(),
                        Runner::getMaskPath(),
-                       m_pos.x - globals::SPRITE_SIZE / 2,
-                       m_pos.y - globals::SPRITE_SIZE / 2);
+                       x, y);
 }

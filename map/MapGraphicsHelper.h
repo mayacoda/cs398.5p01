@@ -12,7 +12,9 @@
 #ifdef _WIN32
 #include <GL\glut.h>
 #elif __APPLE__
+
 #include <GLUT/glut.h>
+
 #endif
 
 class MapGraphicsHelper {
@@ -43,7 +45,7 @@ private:
         GLuint ID;
 
         // read in the pixel data
-        BITMAPINFO* info;
+        BITMAPINFO   * info;
         unsigned char* pixels = ReadBitmap(fileName, &info);
 
         glGenTextures(1, &ID);
@@ -62,20 +64,22 @@ private:
     }
 
     const char* determineFileName(MapNode::terrainType type) const {
-        std::stringstream format;
-        format << globals::TILE_SIZE;
-
+        std::string str;
         switch (type) {
-            case MapNode::water: {
-                return ("assets/water" + format.str() + ".bmp").c_str();
-            }
+            case MapNode::water:
+                str += "assets/water" + std::to_string(globals::TILE_SIZE) + ".bmp";
+                return str.c_str();
             case MapNode::mountain:
-                return ("assets/mountains" + format.str() + ".bmp").c_str();
+                str = "assets/mountains" + std::to_string(globals::TILE_SIZE) + ".bmp";
+                return str.c_str();
+
             case MapNode::forest:
-                return ("assets/forest" + format.str() + ".bmp").c_str();
+                str = "assets/forest" + std::to_string(globals::TILE_SIZE) + ".bmp";
+                return str.c_str();
             case MapNode::none:
             default:
-                return ("assets/grass" + format.str() + ".bmp").c_str();
+                str = "assets/grass" + std::to_string(globals::TILE_SIZE) + ".bmp";
+                return str.c_str();
         }
     }
 };
