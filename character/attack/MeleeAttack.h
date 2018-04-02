@@ -7,7 +7,7 @@
 
 class MeleeAttack : public Attack {
 public:
-    MeleeAttack(const Character* shooter);
+    MeleeAttack(const Character* shooter, double range, double speed);
 };
 
 

@@ -1,7 +1,7 @@
 
 #include "RangedAttack.h"
 
-RangedAttack::RangedAttack(const Character* shooter) : Attack(shooter,
-                                                              100,
-                                                              100,
-                                                              5) {}
+RangedAttack::RangedAttack(const Character* shooter, double range, double speed) : Attack(shooter,
+                                                                                          speed,
+                                                                                          range,
+                                                                                          5) {}

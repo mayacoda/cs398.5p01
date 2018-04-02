@@ -74,6 +74,7 @@ Path* AStar::shortestPath(Graph* graph, MapNode* start, MapNode* finish, double 
         MapNode* current = findLowestCost(openSet, fScore);
         if (current == finish) {
             // construct the path
+            delete defaultPath;
             return reconstructPath(cameFrom, current);
         }
 

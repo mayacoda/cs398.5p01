@@ -24,7 +24,7 @@ void EvadeSneak::execute(Character* stateMachine) {
 
     if (stateMachine->hasEscaped()) {
 
-        stateMachine->changeState(new StandSneak(stateMachine->getPos() + stateMachine->getHeading()));
+        stateMachine->changeState(new WanderSneak());
     }
 
     State::execute(stateMachine);

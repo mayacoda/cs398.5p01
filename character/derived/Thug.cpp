@@ -14,13 +14,16 @@ Thug::Thug(GameWorld* m_world,
                                                        m_heading,
                                                        m_side,
                                                        1,
-                                                       20 /* maxSpeed */,
-                                                       50 /*range*/,
-                                                       30, /*melee attack distance*/
+                                                       40 /* maxSpeed */,
+                                                       50, /*melee attack distance*/
                                                        -1, /*ranged attack distance*/
                                                        2 /*timeout*/) {}
 
 const double Thug::calculateMaxSpeed() const {
+    // enable thug to "sprint" when he is pursuing an enemy
+    if (m_steeringBehavior->isOn(SteeringBehaviors::fPursue)) {
+        return m_maxSpeed * 1.53;
+    }
     return m_maxSpeed;
 }
 

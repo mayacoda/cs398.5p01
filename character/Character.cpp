@@ -132,7 +132,6 @@ Character::Character(GameWorld* m_world,
                      const Vector2D<double> &m_side,
                      double m_mass,
                      double m_maxSpeed,
-                     double attackRange,
                      double meleeAttackDistance,
                      double rangedAttackDistance,
                      double attackTimeout) : MovingEntity(pos,
@@ -149,7 +148,6 @@ Character::Character(GameWorld* m_world,
                                              m_world(m_world),
                                              m_distanceToAttackMelee(meleeAttackDistance),
                                              m_distanceToAttackRanged(rangedAttackDistance),
-                                             m_attackRange(attackRange),
                                              m_attackTimeout(attackTimeout),
                                              m_timeElapsed(0),
                                              m_leader(nullptr),
@@ -175,6 +173,8 @@ Character::Character(GameWorld* m_world,
     m_steeringBehavior = new SteeringBehaviors(this);
 
     m_autonomousTurning = false;
+
+    m_attackSpeed = 100;
 }
 
 Character* Character::seekEnemies() const {
@@ -217,7 +217,7 @@ void Character::attackRanged(Vector2D<double> target) {
         turnToFace(target);
         m_velocity = Vector2D<double>(0, 0);
 
-        m_world->addProjectile(new RangedAttack(this));
+        m_world->addProjectile(new RangedAttack(this, m_distanceToAttackRanged, m_attackSpeed));
         m_timeLastAttacked = currentTime;
     }
 }
@@ -229,7 +229,7 @@ void Character::attackMelee(Vector2D<double> target) {
         turnToFace(target);
         m_velocity = Vector2D<double>(0, 0);
 
-        m_world->addProjectile(new MeleeAttack(this));
+        m_world->addProjectile(new MeleeAttack(this, m_distanceToAttackMelee, m_attackSpeed * .5));
         m_timeLastAttacked = currentTime;
     }
 }

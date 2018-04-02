@@ -15,10 +15,9 @@ Runner::Runner(GameWorld* m_world,
                                                            m_heading,
                                                            m_side,
                                                            1,
-                                                           40   /* maxSpeed */,
-                                                           100  /* range */,
+                                                           30,   /* maxSpeed */
                                                            30,  /*melee attack distance*/
-                                                           200, /*ranged attack distance*/
+                                                           150, /*ranged attack distance*/
                                                            1    /* timeout */) {}
 
 const double Runner::calculateMaxSpeed() const {
@@ -26,7 +25,7 @@ const double Runner::calculateMaxSpeed() const {
 
     switch (current->getTerrain()) {
         case MapNode::terrainType::none:
-            return m_maxSpeed * 2;
+            return m_maxSpeed * 1.98;
         default:
             return m_maxSpeed;
     }

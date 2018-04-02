@@ -7,7 +7,7 @@
 
 class RangedAttack : public Attack {
 public:
-    RangedAttack(const Character* shooter);
+    RangedAttack(const Character* shooter, double range, double speed);
 
 };
 

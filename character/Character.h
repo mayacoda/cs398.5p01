@@ -40,7 +40,7 @@ protected:
     double m_detectionBoxLength;
     double m_timeLastAttacked;
     double m_attackTimeout;
-    double m_attackRange;
+    double m_attackSpeed;
     double m_health;
 
     bool m_dead;
@@ -64,7 +64,6 @@ public:
               const Vector2D<double> &m_side,
               double m_mass,
               double m_maxSpeed,
-              double attackRange,
               double meleeAttackDistance,
               double rangedAttackDistance,
               double attackTimeout);

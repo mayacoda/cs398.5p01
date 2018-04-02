@@ -9,22 +9,24 @@ void StalkSneak::execute(Character* stateMachine) {
         // if enemy can be attacked, do so
         stateMachine->changeState(new AttackSneak(m_enemy));
 
-    // can no longer detect the enemy
+        // can no longer detect the enemy
     } else if (!stateMachine->canDetect(m_enemy)) {
 
         stateMachine->changeState(new WanderSneak());
 
-    // only recalculate path if enemy has moved enough
-    } else if (m_enemyPos.distanceTo(m_enemy->getPos()) >= m_recalculateThreshold) {
+        // only recalculate path if enemy has moved enough
+    } else if (m_enemyPos.squareDistanceTo(m_enemy->getPos()) >= m_recalculateThreshold * m_recalculateThreshold ||
+               !m_pathInitialized) {
+        m_enemyPos        = m_enemy->getPos();
+        m_pathInitialized = true;
 
-        // @fixme this algorithm is extremely laggy
-//        MapNode* start = stateMachine->getWorld()->getNodeByPosition(stateMachine->getPos());
-//        MapNode* goal  = stateMachine->getWorld()->getNodeByPosition(m_enemy->getPos());
-//
-//        stateMachine->setPath(AStar::shortestPath(stateMachine->getWorld()->getGraph(),
-//                                                  start,
-//                                                  goal,
-//                                                  stateMachine->getCostFunction()));
+        MapNode* start = stateMachine->getWorld()->getNodeByPosition(stateMachine->getPos());
+        MapNode* goal  = stateMachine->getWorld()->getNodeByPosition(m_enemy->getPos());
+
+        stateMachine->setPath(AStar::shortestPath(stateMachine->getWorld()->getGraph(),
+                                                  start,
+                                                  goal,
+                                                  stateMachine->getCostFunction()));
     }
 
     State::execute(stateMachine);

@@ -46,6 +46,11 @@ void Attack::update(double timeElapsed) {
         return;
     };
 
+    if (m_pos.squareDistanceTo(m_origin) >= m_range * m_range) {
+        m_dead = true;
+        return;
+    }
+
     Character* closest = nullptr;
     double closestDist = std::numeric_limits<double>::infinity();
 

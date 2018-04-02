@@ -15,25 +15,32 @@ Sneak::Sneak(GameWorld* m_world,
                                                          m_heading,
                                                          m_side,
                                                          1,
-                                                         30,
-                                                         100  /*range*/,
+                                                         30, /*maxSpeed*/
                                                          -1,  /*melee attack distance*/
-                                                         100, /*ranged attack distance*/
+                                                         250, /*ranged attack distance*/
                                                          1    /*timeout*/) {
-    m_antagonistDetectionDistance = 600;
+    m_antagonistDetectionDistance = 1000;
 }
 
 const double Sneak::calculateMaxSpeed() const {
     MapNode* current = m_world->getNodeByPosition(m_pos);
+    double speed = m_maxSpeed;
 
     switch (current->getTerrain()) {
         case MapNode::terrainType::mountain:
-            return m_maxSpeed * 1.5;
+            speed = m_maxSpeed * 1.48;
+            break;
         case MapNode::terrainType::forest:
-            return m_maxSpeed * 1.75;
-        default:
-            return m_maxSpeed;
+            speed = m_maxSpeed * 1.76;
+            break;
     }
+
+    // enable sneak to run away more quickly
+    if (m_steeringBehavior->isOn(SteeringBehaviors::fEvade)) {
+        speed *= 1.2;
+    }
+
+    return speed;
 }
 
 void Sneak::turnOnDefaultBehavior() {
