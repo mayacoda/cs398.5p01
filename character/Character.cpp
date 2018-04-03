@@ -175,6 +175,8 @@ Character::Character(GameWorld* m_world,
     m_autonomousTurning = false;
 
     m_attackSpeed = 100;
+
+    currentState = new State();
 }
 
 Character* Character::seekEnemies() const {

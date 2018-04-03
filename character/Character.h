@@ -54,7 +54,7 @@ protected:
     SteeringBehaviors* m_steeringBehavior;
 
 public:
-    ~Character();
+    virtual ~Character();
 
     Character(GameWorld* m_world,
               const Vector2D<double> &pos,

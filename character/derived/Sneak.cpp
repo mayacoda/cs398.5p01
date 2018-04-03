@@ -33,6 +33,8 @@ const double Sneak::calculateMaxSpeed() const {
         case MapNode::terrainType::forest:
             speed = m_maxSpeed * 1.76;
             break;
+        case MapNode::none:break;
+        case MapNode::water:break;
     }
 
     // enable sneak to run away more quickly
