@@ -20,7 +20,6 @@ public:
         runnerClass
     };
 
-private:
     struct Boundaries {
         Boundaries(int left, int right, int bottom, int top) : left(left), right(right), bottom(bottom), top(top) {}
 
@@ -28,6 +27,8 @@ private:
 
         int top, bottom, left, right;
     };
+
+private:
 
     Vector2D<double> randomTraversableLocation() const;
 
@@ -45,6 +46,8 @@ private:
     Boundaries m_Boundaries;
 
     Character* m_player;
+
+    Character* m_enemy;
 
     Map* m_map;
 
@@ -92,13 +95,15 @@ public:
 
     void setClippingBoundaries(int left, int right, int bottom, int top);
 
+    Boundaries getClippingBoundaries() const { return m_Boundaries; }
+
     Vector2D<double> getPlayerPos() const {
         if (m_player == nullptr) return Vector2D<double>(0, 0);
 
         return m_player->getPos();
     }
 
-    double getPlayerHealth() const {
+    int getPlayerHealth() const {
         if (m_player == nullptr) return -1;
 
         return m_player->getHealth();
@@ -106,6 +111,10 @@ public:
 
     Character* getPlayer() const {
         return m_player;
+    }
+
+    Character* getEnemy() const {
+        return m_enemy;
     }
 
     void selectCharacter(characterClass aClass);

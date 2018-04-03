@@ -4,6 +4,7 @@
 #include "character/derived/Sneak.h"
 #include "character/derived/Runner.h"
 #include "ui/Bounds.h"
+#include "ui/UI.h"
 
 
 #ifdef _WIN32
@@ -18,16 +19,13 @@
 bool gameStarted = false;
 bool gameEnded   = false;
 
-//int winWidth  = 800;
-//int winHeight = 460;
-int winWidth  = 1600;
-int winHeight = 1000;
+int winWidth  = 800;
+int winHeight = 460;
 
-int       worldWidth  = 1600;
-int       worldHeight = 1000;
-//int       worldWidth  = 3200;
-//int       worldHeight = 2560;
+int       worldWidth  = 3200;
+int       worldHeight = 2560;
 GameWorld gameWorld(worldWidth, worldHeight);
+UI ui(&gameWorld);
 
 double t  = 0.0;
 double dt = 0.0166666666666667;
@@ -133,26 +131,6 @@ void showEndScreen() {
     glFlush();
 }
 
-void renderHUD() {
-    glColor3f(0.1, 0.1, 0.1);
-    glBegin(GL_POLYGON);
-    glVertex2f(20, winHeight - 20);
-    glVertex2f(20, winHeight - 60);
-    glVertex2f(200, winHeight - 60);
-    glVertex2f(200, winHeight - 20);
-    glEnd();
-
-    std::string text = "health: " + std::to_string(gameWorld.getPlayerHealth());
-
-    drawText(text.c_str(),
-             30 + globals::SPRITE_SIZE,
-             winHeight - 50,
-             Color(1, 1, 1));
-
-    Character* player = gameWorld.getPlayer();
-    player->drawSprite(30, winHeight - 50);
-}
-
 void render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -182,7 +160,7 @@ void render() {
     }
     gameWorld.render();
 
-    renderHUD();
+    ui.renderHUD();
 
     glutSwapBuffers();
     glFlush();

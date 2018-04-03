@@ -19,6 +19,8 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
 
     m_map = new Map(m_width, m_height);
 
+    m_enemy = nullptr;
+
     auto obstacles = m_map->getObstacles();
 
     for (auto it = obstacles.begin(); it != obstacles.end(); ++it) {
@@ -142,6 +144,9 @@ void GameWorld::passiveMouseMotionHandler(int x, int y) {
     if (!m_player) return;
     const Vector2D<double> &pos = windowPointToWorldSpace(x, y);
     m_player->turnToFace(pos);
+
+    Character* enemy = characterAtWindowPoint(x, y);
+    m_enemy = enemy && enemy->getId() != m_player->getId() ? enemy : nullptr;
 }
 
 void GameWorld::setClippingBoundaries(int left, int right, int bottom, int top) {

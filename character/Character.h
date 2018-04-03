@@ -41,7 +41,8 @@ protected:
     double m_timeLastAttacked;
     double m_attackTimeout;
     double m_attackSpeed;
-    double m_health;
+
+    int m_health;
 
     bool m_dead;
     bool m_autonomousTurning;
@@ -73,7 +74,7 @@ public:
      * Game play
      */
 
-    double getHealth() const { return m_health; }
+    int getHealth() const { return m_health; }
 
     double getHealthRatio() const { return m_health / 100.; }
 
