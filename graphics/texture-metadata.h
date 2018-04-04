@@ -37,53 +37,53 @@ struct TextureMetadata {
     void parseTextureMatrix(int matrix[][3]) {
         std::string name;
 
-//        std::cout << std::endl;
-//        std::cout << "[" << matrix[0][0] << "  " << matrix[0][1] << "  " << matrix[0][2] << "]" << std::endl;
-//        std::cout << "[" << matrix[1][0] << "  " << matrix[1][1] << "  " << matrix[1][2] << "]" << std::endl;
-//        std::cout << "[" << matrix[2][0] << "  " << matrix[2][1] << "  " << matrix[2][2] << "]" << std::endl;
+        std::cout << std::endl;
+        std::cout << "[" << matrix[0][0] << "  " << matrix[0][1] << "  " << matrix[0][2] << "]" << std::endl;
+        std::cout << "[" << matrix[1][0] << "  " << matrix[1][1] << "  " << matrix[1][2] << "]" << std::endl;
+        std::cout << "[" << matrix[2][0] << "  " << matrix[2][1] << "  " << matrix[2][2] << "]" << std::endl;
         // full
         if (matrix[0][0] && matrix[0][1] && matrix[0][2] &&
             matrix[1][0] && /*matrix[1][1]*/ matrix[1][2] &&
             matrix[2][0] && matrix[2][1] && matrix[2][2]) {
-//            std::cout << "full" << std::endl;
+            std::cout << "full" << std::endl;
             name = "f";
             set(full | left | right | top | bottom);
         }
 
         //c1
-        if (!matrix[0][0] && !matrix[0][1] && /*matrix[0][2]*/
+        if (/*!matrix[0][0] &&*/ !matrix[0][1] && /*matrix[0][2]*/
             !matrix[1][0] && /*matrix[1][1]*/ matrix[1][2] &&
             /* matrix[2][0] */ matrix[2][1] /*matrix[2][2]*/) {
             name = "c3";
-//            std::cout << "corner right bottom" << std::endl;
+            std::cout << "corner right bottom" << std::endl;
             set(corner | right | bottom);
         }
 
         //c2
-        if (/*matrix[0][0]*/  !matrix[0][1] && !matrix[0][2] &&
+        if (/*matrix[0][0]*/  !matrix[0][1] && /*matrix[0][2] &&*/
             matrix[1][0] && /*matrix[1][1]*/ !matrix[1][2] &&
             /*matrix[2][0]*/  matrix[2][1]  /*matrix[2][2]*/) {
             name = "c2";
-//            std::cout << "corner left bottom" << std::endl;
+            std::cout << "corner left bottom" << std::endl;
             set(corner | left | bottom);
         }
 
         //c3
         if (/*matrix[0][0]*/ matrix[0][1] && /*matrix[0][2]*/
             matrix[1][0] && /*matrix[1][1]*/ !matrix[1][2] &&
-            /*matrix[2][0]*/ !matrix[2][1] && !matrix[2][2]) {
+            /*matrix[2][0]*/ !matrix[2][1]/*&& !matrix[2][2]*/) {
 
             name = "c1";
-//            std::cout << "corner top left" << std::endl;
+            std::cout << "corner top left" << std::endl;
             set(corner | top | left);
         }
 
         //c4
         if (/*matrix[0][0]*/ matrix[0][1] && /*matrix[0][2]*/
             !matrix[1][0] && /*matrix[1][1]*/ matrix[1][2] &&
-            !matrix[2][0] && !matrix[2][1]  /*matrix[2][2]*/) {
+            /*!matrix[2][0] &&*/ !matrix[2][1]  /*matrix[2][2]*/) {
             name = "c4";
-//            std::cout << "corner top right" << std::endl;
+            std::cout << "corner top right" << std::endl;
             set(corner | top | right);
         }
 
@@ -92,7 +92,7 @@ struct TextureMetadata {
             matrix[1][0] && /*matrix[1][1]*/ matrix[1][2] &&
             /*!matrix[2][0] &&*/ !matrix[2][1] /*&& !matrix[2][2]*/) {
             name = "e2";
-//            std::cout << "edge top" << std::endl;
+            std::cout << "edge top" << std::endl;
             set(edge | top);
         }
 
@@ -101,7 +101,7 @@ struct TextureMetadata {
             !matrix[1][0] && /*matrix[1][1]*/ matrix[1][2] &&
             /*!matrix[2][0] &&*/ matrix[2][1] /*matrix[2][2]*/) {
             name = "e1";
-//            std::cout << "edge right" << std::endl;
+            std::cout << "edge right" << std::endl;
             set(edge | right);
         }
 
@@ -110,7 +110,7 @@ struct TextureMetadata {
             matrix[1][0] && /*matrix[1][1]*/ matrix[1][2] &&
             /*matrix[2][0] &&*/ matrix[2][1] /*matrix[2][2]*/) {
             name = "e4";
-//            std::cout << "edge bottom" << std::endl;
+            std::cout << "edge bottom" << std::endl;
             set(edge | bottom);
         }
 
@@ -119,7 +119,7 @@ struct TextureMetadata {
             matrix[1][0] && /*matrix[1][1]*/ !matrix[1][2] &&
             /*matrix[2][0] &&*/ matrix[2][1] /*&& !matrix[2][2]*/) {
             name = "e3";
-//            std::cout << "edge left" << std::endl;
+            std::cout << "edge left" << std::endl;
             set(edge | left);
         }
 
@@ -129,7 +129,7 @@ struct TextureMetadata {
             /*matrix[2][0]*/ matrix[2][1] && matrix[2][2]) {
             name = "i1";
             set(innerCorner | top | right);
-//            std::cout << "inner top right" << std::endl;
+            std::cout << "inner top right" << std::endl;
         }
 
         // i2
@@ -137,7 +137,7 @@ struct TextureMetadata {
              matrix[1][0] && /*matrix[1][1]*/ matrix[1][2] &&
              matrix[2][0] && matrix[2][1] && !matrix[2][2]) {
             name = "i4";
-//            std::cout << "inner bottom right" << std::endl;
+            std::cout << "inner bottom right" << std::endl;
             set(innerCorner | bottom | right);
         }
 
@@ -146,7 +146,7 @@ struct TextureMetadata {
             matrix[1][0] && /*matrix[1][1]*/ matrix[1][2] &&
             !matrix[2][0] && matrix[2][1] && matrix[2][2]) {
             name = "i3";
-//            std::cout << "inner bottom left" << std::endl;
+            std::cout << "inner bottom left" << std::endl;
             set(innerCorner | bottom | left);
         }
 
@@ -155,14 +155,14 @@ struct TextureMetadata {
             matrix[1][0] && /*matrix[1][1]*/ matrix[1][2] &&
             matrix[2][0] && matrix[2][1]  /*matrix[2][2]*/) {
             name = "i2";
-//            std::cout << "inner top left" << std::endl;
+            std::cout << "inner top left" << std::endl;
             set(innerCorner | top | left);
         }
 
 
         if (name.empty()) {
             name = "f";
-//            std::cout << "UNNAMED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+            std::cout << "UNNAMED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
         }
 
         extension = name;

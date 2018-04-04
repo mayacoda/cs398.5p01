@@ -5,8 +5,11 @@
 struct TerrainCenter {
     int                  x, y;
     MapNode::terrainType terrain;
+    double size;
 
-    TerrainCenter(int x, int y, MapNode::terrainType terrain) : x(x), y(y), terrain(terrain) {}
+    TerrainCenter(int x, int y, MapNode::terrainType terrain) : x(x), y(y), terrain(terrain) {
+        size = fRandomRange(3, 4);
+    }
 };
 
 double distanceTo(int x1, int x2, int y1, int y2) {
@@ -22,13 +25,13 @@ MapNode::terrainType findClosestTerrainCenter(int row, int column, std::list<Ter
 
     for (auto it = terrainCenters.begin(); it != terrainCenters.end(); ++it) {
         double currentDistance = distanceTo(row, (*it).x, column, (*it).y);
-        if (currentDistance <= closestDistance) {
+        if (currentDistance <= closestDistance && currentDistance <= (*it).size) {
             closestDistance = currentDistance;
             closest         = (*it);
         }
     }
-
-    if (closestDistance >= 100) {
+    
+    if (closestDistance == std::numeric_limits<double>::infinity()) {
         return static_cast<MapNode::terrainType>(0);
     }
 
@@ -48,7 +51,7 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
     }
 
     std::list<TerrainCenter> terrainCenters;
-    int                      numberOfCenters = 50;
+    int                      numberOfCenters = iRandomRange(30, 40);
 
     for (int i = 0; i < numberOfCenters; i++) {
         auto terrain = static_cast<MapNode::terrainType>(iRandomRange(1, globals::MAX_TERRAIN_TYPES));
@@ -65,8 +68,16 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
         for (int j = 0; j < columns; j++) {
             MapNode::terrainType terrain = MapNode::none;
 
-            terrain = findClosestTerrainCenter(i, j, terrainCenters);
-
+            // group terrain types by tiles of 4 for prettier rendering
+            if (i % 2 == 0 && j % 2 == 0) {
+                terrain = findClosestTerrainCenter(i, j, terrainCenters);
+            } else if (i % 2 == 0 && j % 2 != 0) {
+                terrain = map[i][j - 1]->getTerrain();
+            } else if (i % 2 != 0 && j % 2 == 0) {
+                terrain = map[i - 1][j]->getTerrain();
+            } else if (i % 2 != 0 && j % 2 != 0) {
+                terrain = map[i - 1][j - 1]->getTerrain();
+            }
 
             MapNode* node = new MapNode(index,
                                         Vector2D<double>(i * globals::TILE_SIZE + globals::TILE_SIZE / 2,
