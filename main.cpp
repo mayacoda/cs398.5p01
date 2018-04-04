@@ -18,6 +18,7 @@
 
 bool gameStarted = false;
 bool gameEnded   = false;
+bool gameWon     = false;
 
 int winWidth  = 800;
 int winHeight = 460;
@@ -25,7 +26,7 @@ int winHeight = 460;
 int       worldWidth  = 3200;
 int       worldHeight = 2560;
 GameWorld gameWorld(worldWidth, worldHeight);
-UI ui(&gameWorld);
+UI        ui(&gameWorld);
 
 double t  = 0.0;
 double dt = 0.0166666666666667;
@@ -121,16 +122,6 @@ void chooseCharacter(int x, int y) {
     gameStarted = true;
 }
 
-void showEndScreen() {
-    glClearColor(0.1, 0.1, 0.1, 1.0);
-
-
-    drawText("Game Over", winWidth / 2, winHeight / 2, Color(1, 1, 1));
-
-    glutSwapBuffers();
-    glFlush();
-}
-
 void render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -139,8 +130,13 @@ void render() {
         return;
     }
 
+    if (gameWon) {
+        ui.renderWinScreen(winWidth, winHeight);
+        return;
+    }
+
     if (gameEnded) {
-        showEndScreen();
+        ui.renderGameOver(winWidth, winHeight);
         return;
     }
 
@@ -201,8 +197,9 @@ void passiveMouseMotionHandler(int x, int y) {
     gameWorld.passiveMouseMotionHandler(x, y);
 }
 
-void endGame() {
+void endGame(bool won) {
     gameEnded = true;
+    gameWon   = won;
 }
 
 int main(int argc, char** argv) {

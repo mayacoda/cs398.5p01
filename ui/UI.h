@@ -14,6 +14,10 @@ public:
 
     void renderHUD() const;
 
+    void renderGameOver(int width, int height) const;
+
+    void renderWinScreen(int width, int height) const;
+
 };
 
 

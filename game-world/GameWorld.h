@@ -51,7 +51,7 @@ private:
 
     Map* m_map;
 
-    void (* endGame)();
+    void (* endGame)(bool won);
 
 public:
     GameWorld(int m_width, int m_height);
@@ -85,12 +85,12 @@ public:
 
     void passiveMouseMotionHandler(int x, int y);
 
-    void setEndGameCallback(void (* cb)()) {
+    void setEndGameCallback(void (* cb)(bool won)) {
         endGame = cb;
     }
 
-    void callEndGameCallback() {
-        endGame();
+    void callEndGameCallback(bool won) {
+        endGame(won);
     }
 
     void setClippingBoundaries(int left, int right, int bottom, int top);

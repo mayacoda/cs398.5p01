@@ -29,8 +29,6 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
 }
 
 void GameWorld::update(double timeElapsed) {
-    // check if paused
-
     auto c = m_characters.begin();
 
     while (c != m_characters.end()) {
@@ -38,8 +36,12 @@ void GameWorld::update(double timeElapsed) {
 
             if ((*c)->getId() == m_player->getId()) {
                 // player has died, end game
-                callEndGameCallback();
+                callEndGameCallback(false);
                 return;
+            }
+
+            if (m_enemy && (*c)->getId() == m_enemy->getId()) {
+                m_enemy = nullptr;
             }
 
             delete *c;
@@ -48,6 +50,11 @@ void GameWorld::update(double timeElapsed) {
             (*c)->update(timeElapsed);
             ++c;
         }
+    }
+
+    if (m_characters.size() == 1) {
+        // if there is only one player, show win screen
+        callEndGameCallback(true);
     }
 
     for (unsigned int i = 0; i < m_obstacles.size(); i++) {

@@ -25,15 +25,6 @@ public:
         return instance;
     }
 
-    unsigned int getTextureId(MapNode::terrainType type) {
-        if (oldTextures.find(type) == oldTextures.end()) {
-            oldTextures.insert(std::pair<MapNode::terrainType, unsigned int>(type,
-                                                                             loadTexture(determineFileName(type))));
-        }
-
-        return oldTextures[type];
-    }
-
     unsigned int getTextureId(TextureMetadata metadata) {
         if (textures.find(metadata) == textures.end()) {
             textures.insert(std::pair<TextureMetadata, unsigned int>(metadata, loadTextureByMeta(metadata)));
@@ -49,7 +40,6 @@ private:
 
     void operator=(MapGraphicsHelper const &);
 
-    std::map<MapNode::terrainType, unsigned int> oldTextures;
     std::map<TextureMetadata, unsigned int>      textures;
 
     unsigned int loadTextureByMeta(TextureMetadata meta) {
@@ -94,27 +84,6 @@ private:
                      pixels);
 
         return ID;
-    }
-
-    const char* determineFileName(MapNode::terrainType type) const {
-        std::string str;
-        switch (type) {
-            case MapNode::water:
-                str += "assets/water" + std::to_string(globals::TILE_SIZE) + ".bmp";
-                return str.c_str();
-            case MapNode::mountain:
-                str = "assets/mountains" + std::to_string(globals::TILE_SIZE) + ".bmp";
-                return str.c_str();
-
-            case MapNode::forest:
-                str = "assets/forest" + std::to_string(globals::TILE_SIZE) + ".bmp";
-                return str.c_str();
-            case MapNode::none:
-            default:
-                str = "assets/grass" + std::to_string(globals::TILE_SIZE) + ".bmp";
-                std::cout << str << std::endl;
-                return str.c_str();
-        }
     }
 };
 

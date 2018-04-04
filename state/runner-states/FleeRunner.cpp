@@ -22,7 +22,7 @@ void FleeRunner::exit(Character* stateMachine) {
 }
 
 void FleeRunner::execute(Character* stateMachine) {
-    if (!m_enemy->closeEnoughToAttackMelee(stateMachine)) {
+    if (!m_enemy->canDetect(stateMachine)) {
         stateMachine->changeState(new WanderRunner());
     }
 
