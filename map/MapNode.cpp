@@ -11,24 +11,27 @@ MapNode::MapNode(int index,
                                                      m_terrainFlag(terrainFlag),
                                                      m_color() {
 
+    m_textureMeta = TextureMetadata();
+
     switch (terrainFlag) {
         case forest:
-            m_color = Color(0.2, 0.9, 0.6);
+            m_textureMeta.set(TextureMetadata::forest);
             break;
         case mountain:
-            m_color = Color(0.8, 0.5, 0.5);
+            m_textureMeta.set(TextureMetadata::mountains);
             break;
         case water:
-            m_color = Color(0.3, 0.5, 0.8);
+            m_textureMeta.set(TextureMetadata::water);
             break;
+        default:
         case none:
-            m_color = Color(0.3, 0.3, 0.3);
+            m_textureMeta.set(TextureMetadata::none);
             break;
     }
 }
 
 void MapNode::render() const {
-    glBindTexture(GL_TEXTURE_2D, MapGraphicsHelper::getInstance().getTextureId(m_terrainFlag));
+    glBindTexture(GL_TEXTURE_2D, MapGraphicsHelper::getInstance().getTextureId(m_textureMeta));
 
     glEnable(GL_TEXTURE_2D);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -56,4 +59,8 @@ void MapNode::render() const {
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glDisable(GL_TEXTURE_2D);
+}
+
+void MapNode::parseTextureMatrix(int matrix[][3]) {
+    m_textureMeta.parseTextureMatrix(matrix);
 }

@@ -19,17 +19,27 @@
 
 class MapGraphicsHelper {
 public:
+
     static MapGraphicsHelper &getInstance() {
         static MapGraphicsHelper instance;
         return instance;
     }
 
     unsigned int getTextureId(MapNode::terrainType type) {
-        if (textures.find(type) == textures.end()) {
-            textures.insert(std::pair<MapNode::terrainType, unsigned int>(type, loadTexture(determineFileName(type))));
+        if (oldTextures.find(type) == oldTextures.end()) {
+            oldTextures.insert(std::pair<MapNode::terrainType, unsigned int>(type,
+                                                                             loadTexture(determineFileName(type))));
         }
 
-        return textures[type];
+        return oldTextures[type];
+    }
+
+    unsigned int getTextureId(TextureMetadata metadata) {
+        if (textures.find(metadata) == textures.end()) {
+            textures.insert(std::pair<TextureMetadata, unsigned int>(metadata, loadTextureByMeta(metadata)));
+        }
+
+        return textures[metadata];
     }
 
 private:
@@ -39,7 +49,30 @@ private:
 
     void operator=(MapGraphicsHelper const &);
 
-    std::map<MapNode::terrainType, unsigned int> textures;
+    std::map<MapNode::terrainType, unsigned int> oldTextures;
+    std::map<TextureMetadata, unsigned int>      textures;
+
+    unsigned int loadTextureByMeta(TextureMetadata meta) {
+        std::string file = "assets/";
+        file += std::to_string(globals::TILE_SIZE);
+        file += "/";
+
+        // determine what type of terrain it is
+        if (meta.is(TextureMetadata::none)) file += "grass-";
+        if (meta.is(TextureMetadata::mountains)) file += "mountains-";
+        if (meta.is(TextureMetadata::forest)) file += "forest-";
+        if (meta.is(TextureMetadata::water)) file += "water-";
+
+        if (meta.is(TextureMetadata::none)) {
+            file += "f";
+        } else {
+            file += meta.extension;
+        }
+
+        file += ".bmp";
+
+        return loadTexture(file.c_str());
+    }
 
     unsigned int loadTexture(const char* fileName) {
         GLuint ID;
@@ -79,6 +112,7 @@ private:
             case MapNode::none:
             default:
                 str = "assets/grass" + std::to_string(globals::TILE_SIZE) + ".bmp";
+                std::cout << str << std::endl;
                 return str.c_str();
         }
     }

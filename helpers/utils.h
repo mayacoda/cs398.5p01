@@ -28,7 +28,7 @@ double arccosine(T x) {
 }
 
 inline int iRandomRange(int min, int max) {
-    int random = rand() % (max + 1) + min;
+    int random = rand() % (max) + min;
     return random;
 }
 

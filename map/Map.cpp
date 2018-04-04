@@ -28,6 +28,10 @@ MapNode::terrainType findClosestTerrainCenter(int row, int column, std::list<Ter
         }
     }
 
+    if (closestDistance >= 100) {
+        return static_cast<MapNode::terrainType>(0);
+    }
+
     return closest.terrain;
 }
 
@@ -35,21 +39,19 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
     int rows    = h / globals::TILE_SIZE;
     int columns = w / globals::TILE_SIZE;
 
-    m_rows                                   = rows;
-    m_columns                                = columns;
+    m_rows    = rows;
+    m_columns = columns;
 
-	MapNode*** map = new MapNode**[rows];
-	for (int i = 0; i < rows; i++)
-	{
-		map[i] = new MapNode*[columns];
-	}
+    MapNode*** map = new MapNode** [rows];
+    for (int i                               = 0; i < rows; i++) {
+        map[i] = new MapNode* [columns];
+    }
 
     std::list<TerrainCenter> terrainCenters;
-    int                      numberOfCenters = 20;
+    int                      numberOfCenters = 50;
 
     for (int i = 0; i < numberOfCenters; i++) {
-        auto terrain = static_cast<MapNode::terrainType>(iRandomRange(0, globals::MAX_TERRAIN_TYPES - 2));
-//        auto terrain = static_cast<MapNode::terrainType>(0);
+        auto terrain = static_cast<MapNode::terrainType>(iRandomRange(1, globals::MAX_TERRAIN_TYPES));
         auto x       = iRandomRange(0, rows);
         auto y       = iRandomRange(0, columns);
         terrainCenters.push_back(TerrainCenter(x, y, terrain));
@@ -61,14 +63,10 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
-            MapNode::terrainType terrain;
+            MapNode::terrainType terrain = MapNode::none;
 
-            // enclose the island with water
-            if (i == 0 || j == 0 || i == rows - 1 || j == columns - 1) {
-                terrain = MapNode::terrainType::water;
-            } else {
-                terrain = findClosestTerrainCenter(i, j, terrainCenters);
-            }
+            terrain = findClosestTerrainCenter(i, j, terrainCenters);
+
 
             MapNode* node = new MapNode(index,
                                         Vector2D<double>(i * globals::TILE_SIZE + globals::TILE_SIZE / 2,
@@ -85,13 +83,20 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
         }
     }
 
+
     m_graph = new Graph();
     m_graph->setNodes(nodes);
 
+    // create graph and mark texture data in one pass through the matrix
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
             // skip if block is not traversable, it has no connections
-            if (!map[i][j]->isTraversable()) continue;
+            //if (!map[i][j]->isTraversable()) continue;
+            int textures[3][3] = {
+                    {0, 0, 0},
+                    {0, 0, 0},
+                    {0, 0, 0}
+            };
 
             for (int x = -1; x < 2; x++) {
                 for (int y = -1; y < 2; y++) {
@@ -99,23 +104,30 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
                     if (i + x >= 0 &&
                         i + x < rows &&
                         j + y >= 0 &&
-                        j + y < columns &&
-                        map[i + x][j + y]->isTraversable()) {
+                        j + y < columns) {
 
-                        m_graph->addEdge(GraphEdge(map[i][j],
-                                                 map[i + x][j + y],
-                                                 map[i][j]->getTerrain()));
+                        // fill textures from bottom left up to top right, because that's the way OpenGL is oriented
+                        textures[2 - (x + 1)][y + 1] = map[i + x][j + y]->getTerrain() == map[i][j]->getTerrain();
+
+                        if (map[i + x][j + y]->isTraversable() &&
+                            map[i][j]->isTraversable()) {
+                            m_graph->addEdge(GraphEdge(map[i][j],
+                                                       map[i + x][j + y],
+                                                       map[i][j]->getTerrain()));
+                        }
                     }
                 }
             }
+
+            map[i][j]->parseTextureMatrix(textures);
         }
     }
 
-	for (auto i = 0; i < rows; i++) {
-		delete[] map[i];
-	}
+    for (auto i = 0; i < rows; i++) {
+        delete[] map[i];
+    }
 
-	delete[] map;
+    delete[] map;
 }
 
 void Map::render() const {

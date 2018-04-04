@@ -18,6 +18,7 @@
 #include "../game-world/BaseGameEntity.h"
 #include "../helpers/globals.h"
 #include "../graphics/opengl_helpers.h"
+#include "../graphics/texture-metadata.h"
 
 class MapNode : public GraphNode, public BaseGameEntity {
 public:
@@ -34,11 +35,14 @@ private:
 
     Color m_color;
 
+    TextureMetadata m_textureMeta;
+
 public:
 
     MapNode() : GraphNode(invalid_index),
                 BaseGameEntity(globals::tile, Vector2D<double>(), 0),
                 m_terrainFlag(none),
+                m_textureMeta(),
                 m_color() {}
 
     MapNode(int index,
@@ -51,6 +55,9 @@ public:
     bool isTraversable() const {
         return m_terrainFlag != water;
     }
+
+    void parseTextureMatrix(int matrix[3][3]);
+
 
     terrainType getTerrain() const { return m_terrainFlag; }
 };
