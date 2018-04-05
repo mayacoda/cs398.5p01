@@ -27,6 +27,8 @@ public:
     void drawSprite(int x, int y) const override;
 
     void turnOnDefaultBehavior() override;
+
+    void takeDamage(double damage) override;
 };
 
 

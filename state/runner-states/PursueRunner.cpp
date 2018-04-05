@@ -36,7 +36,6 @@ void PursueRunner::execute(Character* stateMachine) {
                stateMachine->closeEnoughToAttackMelee(m_enemy)) {
 
         stateMachine->changeState(new MeleeAttackRunner(m_enemy));
-        stateMachine->attackMelee(m_enemy->getPos());
 
     } else if (stateMachine->getHealth() < m_enemy->getHealth() &&
                stateMachine->closeEnoughToAttackRanged(m_enemy)) {

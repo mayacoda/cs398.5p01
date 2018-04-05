@@ -40,6 +40,15 @@ costFn Runner::getCostFunction() {
     return runnerCost;
 }
 
+void Runner::takeDamage(double damage) {
+    Character::takeDamage(damage);
+
+    // randomly move when taking damage
+    if (iRandomRange(0, 4) == 1) {
+        changeState(new WanderRunner());
+    }
+}
+
 const char* Runner::getMaskPath() {
     return "assets/runner-mask.bmp";
 }
@@ -49,7 +58,7 @@ const char* Runner::getSpritePath() {
 }
 
 void Runner::render() const {
-    renderAids();
+    Character::render();
 
     drawSprite(m_pos.x - globals::SPRITE_SIZE / 2,
                m_pos.y - globals::SPRITE_SIZE / 2);

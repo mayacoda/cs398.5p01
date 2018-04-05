@@ -12,6 +12,10 @@ private:
 public:
     MeleeAttackRunner(Character* m_enemy);
 
+    void enter(Character* stateMachine) override;
+
+    void exit(Character* stateMachine) override;
+
     void execute(Character* stateMachine) override;
 };
 

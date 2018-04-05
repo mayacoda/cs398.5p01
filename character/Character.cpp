@@ -35,7 +35,7 @@ void Character::update(double timeElapsed) {
 
     m_pos.wrapAround(m_world->getWidth(), m_world->getHeight());
 
-    if (m_velocity.squareMagnitude() > 0.00000001 && !m_autonomousTurning) {
+    if (m_velocity.squareMagnitude() > 0.00000001 && !m_isPlayerControlled) {
         m_heading = m_velocity.getNormalized();
 
         m_side = m_heading.ortho();
@@ -108,20 +108,19 @@ void Character::renderAids() const {
 void Character::render() const {
     renderAids();
 
-    // @todo move to local space rather than global
-    glColor3f(m_color.r, m_color.g, m_color.b);
-    glBegin(GL_TRIANGLES);
-    Matrix2D mat;
-    mat.rotate(m_heading, m_side);
-    Vector2D<double> top    = pointToWorldSpace(Vector2D<double>(-10.0, m_boundingRadius), m_heading, m_side, m_pos);
-    Vector2D<double> bottom = pointToWorldSpace(Vector2D<double>(-10.0, -m_boundingRadius), m_heading, m_side, m_pos);
-    Vector2D<double> right  = pointToWorldSpace(Vector2D<double>(40.0, 0), m_heading, m_side, m_pos);
+    if (m_isPlayerControlled && m_steeringBehavior->isOn(SteeringBehaviors::fSeek)) {
+        glColor3f(0.1, 0.1, 0.1);
+        glLineWidth(2);
+        glBegin(GL_LINES);
+        glVertex2d(m_destination.x - 10, m_destination.y);
+        glVertex2d(m_destination.x + 10, m_destination.y);
+        glEnd();
 
-    glVertex2d(top.x, top.y);
-    glVertex2d(bottom.x, bottom.y);
-    glVertex2d(right.x, right.y);
-
-    glEnd();
+        glBegin(GL_LINES);
+        glVertex2d(m_destination.x, m_destination.y - 10);
+        glVertex2d(m_destination.x, m_destination.y + 10);
+        glEnd();
+    }
 }
 
 Character::Character(GameWorld* m_world,
@@ -172,7 +171,7 @@ Character::Character(GameWorld* m_world,
 
     m_steeringBehavior = new SteeringBehaviors(this);
 
-    m_autonomousTurning = false;
+    m_isPlayerControlled = false;
 
     m_attackSpeed = 100;
 

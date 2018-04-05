@@ -22,7 +22,7 @@ Thug::Thug(GameWorld* m_world,
 const double Thug::calculateMaxSpeed() const {
     // enable thug to "sprint" when he is pursuing an enemy
     if (m_steeringBehavior->isOn(SteeringBehaviors::fPursue)) {
-        return m_maxSpeed * 1.53;
+        return m_maxSpeed * 1.23;
     }
     return m_maxSpeed;
 }
@@ -36,6 +36,15 @@ costFn Thug::getCostFunction() {
     return thugCost;
 }
 
+void Thug::takeDamage(double damage) {
+    m_health -= damage * .8;
+    std::cout << "[" << getId() << "] health is: " << m_health << std::endl;
+
+    if (m_health <= 0) {
+        m_dead = true;
+    }
+}
+
 const char* Thug::getSpritePath() {
     return "assets/thug.bmp";
 }
@@ -45,7 +54,7 @@ const char* Thug::getMaskPath() {
 }
 
 void Thug::render() const {
-    renderAids();
+    Character::render();
     drawSprite(m_pos.x - globals::SPRITE_SIZE / 2, m_pos.y - globals::SPRITE_SIZE / 2);
 }
 

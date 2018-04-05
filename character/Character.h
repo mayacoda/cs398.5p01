@@ -22,7 +22,6 @@ private:
     Character* m_leader;
     Character* m_target;
     Vector2D<double>        m_offset;
-    Vector2D<double>        m_destination;
     std::vector<Character*> m_antagonists;
     Vector2D<double>        m_steeringForce;
 
@@ -33,6 +32,7 @@ private:
 
 protected:
     GameWorld* m_world;
+    Vector2D<double> m_destination;
 
     double m_antagonistDetectionDistance;
     double m_distanceToAttackRanged;
@@ -45,7 +45,7 @@ protected:
     int m_health;
 
     bool m_dead;
-    bool m_autonomousTurning;
+    bool m_isPlayerControlled;
 
     /**
     * Rendering
@@ -84,7 +84,7 @@ public:
 
     virtual void attackMelee(Vector2D<double> target);
 
-    void takeDamage(double damage) {
+    virtual void takeDamage(double damage) {
         m_health -= damage;
         std::cout << "[" << getId() << "] health is: " << m_health << std::endl;
 
@@ -114,7 +114,7 @@ public:
 
     bool hasEscaped();
 
-    void setAutonomousTurning(bool turn) { m_autonomousTurning = turn; }
+    void setAutonomousTurning(bool turn) { m_isPlayerControlled = turn; }
 
     /**
      * Rendering

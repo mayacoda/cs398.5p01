@@ -13,6 +13,10 @@ public:
 
     void execute(Character* stateMachine) override;
 
+    void enter(Character* stateMachine) override;
+
+    void exit(Character* stateMachine) override;
+
 };
 
 

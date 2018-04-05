@@ -2,6 +2,7 @@
 #include "Sneak.h"
 #include "../../game-world/GameWorld.h"
 #include "../../state/sneak-states/WanderSneak.h"
+#include "../../state/sneak-states/EvadeSneak.h"
 
 Sneak::Sneak(GameWorld* m_world,
              const Vector2D<double> &pos,
@@ -54,6 +55,15 @@ costFn Sneak::getCostFunction() {
     return sneakCost;
 }
 
+void Sneak::takeDamage(double damage) {
+    Character::takeDamage(damage);
+
+    // randomly move when taking damage
+    if (iRandomRange(0, 4) == 1) {
+        changeState(new WanderSneak());
+    }
+}
+
 const char* Sneak::getMaskPath() {
     return "assets/sneak-mask.bmp";
 }
@@ -63,7 +73,7 @@ const char* Sneak::getSpritePath() {
 }
 
 void Sneak::render() const {
-    renderAids();
+    Character::render();
 
     drawSprite(m_pos.x - globals::SPRITE_SIZE / 2,
             m_pos.y - globals::SPRITE_SIZE / 2);
