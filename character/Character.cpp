@@ -45,7 +45,7 @@ void Character::update(double timeElapsed) {
 void Character::renderAids() const {
 
     // heading vector RED
-    glColor3f(1.0, 0.0, 0.0);
+    glColor3d(1.0, 0.0, 0.0);
     glBegin(GL_LINES);
     glVertex2d(m_pos.x, m_pos.y);
     Vector2D<double> heading = m_heading * 100;
@@ -54,7 +54,7 @@ void Character::renderAids() const {
     glEnd();
 
     // side vector GREEN
-    glColor3f(0.0, 1.0, 0.0);
+    glColor3d(0.0, 1.0, 0.0);
     glBegin(GL_LINES);
     glVertex2d(m_pos.x, m_pos.y);
     Vector2D<double> side = m_side * 100;
@@ -63,7 +63,7 @@ void Character::renderAids() const {
     glEnd();
 
     // steering force BLUE
-    glColor3f(0.0, 0.0, 1.0);
+    glColor3d(0.0, 0.0, 1.0);
     glBegin(GL_LINES);
     glVertex2d(m_pos.x, m_pos.y);
     glVertex2d(m_steeringForce.x + m_pos.x, m_steeringForce.y + m_pos.y);
@@ -71,31 +71,31 @@ void Character::renderAids() const {
 
 
     // detection zone PURPLE
-    glColor3f(.8, 0, .7);
+    glColor3d(.8, 0, .7);
     drawCircle(m_antagonistDetectionDistance, m_pos);
 
     // melee attack zone ORANGE
     if (m_distanceToAttackMelee > 0) {
-        glColor3f(1, .4, .3);
+        glColor3d(1, .4, .3);
         drawCircle(m_distanceToAttackMelee, m_pos);
     }
 
     // ranged attack zone YELLOW
     if (m_distanceToAttackRanged > 0) {
-        glColor3f(1, .8, 0);
+        glColor3d(1, .8, 0);
         drawCircle(m_distanceToAttackRanged, m_pos);
     }
 
     if (m_steeringBehavior->isOn(SteeringBehaviors::fWander)) {
         // wandering target
-        glColor3f(0.0, 0.0, 1.0);
+        glColor3d(0.0, 0.0, 1.0);
         glPointSize(5.0f);
         glBegin(GL_POINTS);
         glVertex2d(wanderTarget.x, wanderTarget.y);
         glEnd();
 
         // wandering circle
-        glColor3f(1.0, 0.0, 1.0);
+        glColor3d(1.0, 0.0, 1.0);
         Vector2D<double> dir = m_heading * m_steeringBehavior->m_wanderDistance;;
         drawCircle(m_steeringBehavior->m_wanderRadius, dir + m_pos);
     }

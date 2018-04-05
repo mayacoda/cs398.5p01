@@ -15,7 +15,7 @@ void UI::renderHUD() const {
     glVertex2f(bounds.left + 180, bounds.top - 20);
     glEnd();
 
-    std::string text = "health: " + std::to_string(m_world->getPlayerHealth());
+    std::string text = "health: " + std::to_string(static_cast<long double>(m_world->getPlayerHealth()));
 
     Character* player = m_world->getPlayer();
     player->drawSprite(bounds.left + 30, bounds.top - sprite - 30);
@@ -33,7 +33,7 @@ void UI::renderHUD() const {
     glVertex2f(bounds.left + 320, bounds.top - 20);
     glEnd();
 
-    std::string enemiesLeft = "enemies: " + std::to_string(m_world->getCharacters().size() - 1);
+    std::string enemiesLeft = "enemies: " + std::to_string(static_cast<long double>(m_world->getCharacters().size() - 1));
 
     drawText(enemiesLeft.c_str(),
              bounds.left + 215,
@@ -50,7 +50,7 @@ void UI::renderHUD() const {
         glVertex2f(bounds.right - 180, bounds.top - 20);
         glEnd();
 
-        std::string enemyHealth = "health: " + std::to_string(enemy->getHealth());
+        std::string enemyHealth = "health: " + std::to_string(static_cast<long double>(enemy->getHealth()));
 
         enemy->drawSprite(bounds.right - 170, bounds.top - sprite - 30);
 
@@ -81,6 +81,17 @@ void UI::renderWinScreen(int width, int height) const {
 
     m_world->getPlayer()->drawSprite(xCenter - globals::SPRITE_SIZE / 2, yCenter - 50);
     drawText("You won!", xCenter - 35, yCenter, Color(1, 1, 1));
+
+    glutSwapBuffers();
+    glFlush();
+}
+
+
+void UI::renderLoading(int width, int height) const {
+    glClearColor(0.1, 0.1, 0.1, 1.0);
+    GameWorld::Boundaries bounds = m_world->getClippingBoundaries();
+
+    drawText("Loading...", bounds.right - width / 2 - 50, bounds.top - height / 2, Color(1, 1, 1));
 
     glutSwapBuffers();
     glFlush();

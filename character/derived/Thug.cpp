@@ -14,7 +14,7 @@ Thug::Thug(GameWorld* m_world,
                                                        m_heading,
                                                        m_side,
                                                        1,
-                                                       40 /* maxSpeed */,
+                                                       60 /* maxSpeed */,
                                                        50, /*melee attack distance*/
                                                        -1, /*ranged attack distance*/
                                                        2 /*timeout*/) {}
@@ -24,12 +24,17 @@ const double Thug::calculateMaxSpeed() const {
     if (m_steeringBehavior->isOn(SteeringBehaviors::fPursue)) {
         return m_maxSpeed * 1.23;
     }
+
+	
+    m_pixels     = ReadBitmap("assets/thug.bmp", &m_info);
+    m_maskPixels = ReadBitmap("assets/thug-mask.bmp", &m_maskInfo);
+
     return m_maxSpeed;
 }
 
 void Thug::turnOnDefaultBehavior() {
     Character::turnOnDefaultBehavior();
-    changeState(new WanderThug());
+	if (!m_isPlayerControlled) changeState(new WanderThug());	
 }
 
 costFn Thug::getCostFunction() {
@@ -59,5 +64,5 @@ void Thug::render() const {
 }
 
 void Thug::drawSprite(int x, int y) const {
-    drawSpriteWithMask(Thug::getSpritePath(), Thug::getMaskPath(), x, y);
+	drawSpriteFromPixels(m_pixels, m_maskPixels, m_info, m_maskInfo, x, y);
 }

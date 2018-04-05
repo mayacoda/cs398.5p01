@@ -51,6 +51,8 @@ protected:
     * Rendering
     */
     void renderAids() const;
+	mutable BITMAPINFO* m_info, * m_maskInfo;
+    mutable unsigned char* m_pixels, * m_maskPixels;
 
     SteeringBehaviors* m_steeringBehavior;
 

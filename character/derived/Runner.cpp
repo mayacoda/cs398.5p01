@@ -15,10 +15,15 @@ Runner::Runner(GameWorld* m_world,
                                                            m_heading,
                                                            m_side,
                                                            1,
-                                                           30,   /* maxSpeed */
+                                                           50,   /* maxSpeed */
                                                            30,  /*melee attack distance*/
                                                            150, /*ranged attack distance*/
-                                                           1    /* timeout */) {}
+                                                           1    /* timeout */)
+{
+	
+	m_pixels     = ReadBitmap("assets/runner.bmp", &m_info);
+    m_maskPixels = ReadBitmap("assets/runner-mask.bmp", &m_maskInfo);
+}
 
 const double Runner::calculateMaxSpeed() const {
     MapNode* current = m_world->getNodeByPosition(m_pos);
@@ -33,7 +38,7 @@ const double Runner::calculateMaxSpeed() const {
 
 void Runner::turnOnDefaultBehavior() {
     Character::turnOnDefaultBehavior();
-    changeState(new WanderRunner());
+    if (!m_isPlayerControlled) changeState(new WanderRunner());
 }
 
 costFn Runner::getCostFunction() {
@@ -42,9 +47,9 @@ costFn Runner::getCostFunction() {
 
 void Runner::takeDamage(double damage) {
     Character::takeDamage(damage);
-
+	
     // randomly move when taking damage
-    if (iRandomRange(0, 4) == 1) {
+    if (iRandomRange(0, 4) == 1 && !m_isPlayerControlled) {
         changeState(new WanderRunner());
     }
 }
@@ -65,7 +70,5 @@ void Runner::render() const {
 }
 
 void Runner::drawSprite(int x, int y) const {
-    drawSpriteWithMask(Runner::getSpritePath(),
-                       Runner::getMaskPath(),
-                       x, y);
+	drawSpriteFromPixels(m_pixels, m_maskPixels, m_info, m_maskInfo, x, y);
 }

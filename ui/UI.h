@@ -18,6 +18,8 @@ public:
 
     void renderWinScreen(int width, int height) const;
 
+	void renderLoading(int width, int height) const;
+
 };
 
 

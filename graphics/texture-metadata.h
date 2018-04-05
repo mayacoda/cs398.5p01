@@ -10,6 +10,8 @@ struct TextureMetadata {
     int         flag;
     std::string extension;
 
+	TextureMetadata(): flag(0) {}
+
     enum terrainPosition {
         edge        = 0x0001,
         top         = 0x0002,

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "game-world/GameWorld.h"
 #include "character/derived/Thug.h"
 #include "character/derived/Sneak.h"
@@ -13,12 +14,13 @@
 #define TIME_CORRECTION 1.0
 #elif __APPLE__
 
-#define TIME_CORRECTION 0.1 // make slower
+#define TIME_CORRECTION 0.3 // make slower
 #endif
 
 bool gameStarted = false;
 bool gameEnded   = false;
 bool gameWon     = false;
+bool gameLoading = false;
 
 int winWidth  = 800;
 int winHeight = 460;

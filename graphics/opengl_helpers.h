@@ -49,7 +49,6 @@ inline void drawText(const char* text, double x, double y, Color color) {
 }
 
 
-// @todo make image cache?
 inline void drawSpriteWithMask(const char* file, const char* mask, int x, int y) {
     BITMAPINFO* info, * maskInfo;
     unsigned char* pixels, * maskPixels;
@@ -57,6 +56,18 @@ inline void drawSpriteWithMask(const char* file, const char* mask, int x, int y)
     pixels     = ReadBitmap(file, &info);
     maskPixels = ReadBitmap(mask, &maskInfo);
 
+    glEnable(GL_COLOR_LOGIC_OP);
+
+    glLogicOp(GL_AND_INVERTED);
+    glRasterPos2i(x, y);
+    glDrawPixels(maskInfo->bmiHeader.biWidth, maskInfo->bmiHeader.biHeight, GL_BGR_EXT, GL_UNSIGNED_BYTE, maskPixels);
+
+    glLogicOp(GL_OR);
+    glDrawPixels(info->bmiHeader.biWidth, info->bmiHeader.biHeight, GL_BGR_EXT, GL_UNSIGNED_BYTE, pixels);
+    glDisable(GL_COLOR_LOGIC_OP);
+}
+
+inline void drawSpriteFromPixels(unsigned char* pixels, unsigned char*maskPixels, BITMAPINFO * info, BITMAPINFO * maskInfo, int x, int y) {
     glEnable(GL_COLOR_LOGIC_OP);
 
     glLogicOp(GL_AND_INVERTED);

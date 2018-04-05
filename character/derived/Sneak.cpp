@@ -16,11 +16,15 @@ Sneak::Sneak(GameWorld* m_world,
                                                          m_heading,
                                                          m_side,
                                                          1,
-                                                         30, /*maxSpeed*/
+                                                         50, /*maxSpeed*/
                                                          -1,  /*melee attack distance*/
                                                          250, /*ranged attack distance*/
                                                          1    /*timeout*/) {
     m_antagonistDetectionDistance = 1000;
+
+	m_pixels     = ReadBitmap("assets/sneak.bmp", &m_info);
+    m_maskPixels = ReadBitmap("assets/sneak-mask.bmp", &m_maskInfo);
+
 }
 
 const double Sneak::calculateMaxSpeed() const {
@@ -48,7 +52,7 @@ const double Sneak::calculateMaxSpeed() const {
 
 void Sneak::turnOnDefaultBehavior() {
     Character::turnOnDefaultBehavior();
-    changeState(new WanderSneak());
+    if (!m_isPlayerControlled) changeState(new WanderSneak());
 }
 
 costFn Sneak::getCostFunction() {
@@ -59,7 +63,7 @@ void Sneak::takeDamage(double damage) {
     Character::takeDamage(damage);
 
     // randomly move when taking damage
-    if (iRandomRange(0, 4) == 1) {
+    if (iRandomRange(0, 2) == 1 && !m_isPlayerControlled) {
         changeState(new WanderSneak());
     }
 }
@@ -81,8 +85,5 @@ void Sneak::render() const {
 
 
 void Sneak::drawSprite(int x, int y) const {
-    drawSpriteWithMask(Sneak::getSpritePath(),
-                       Sneak::getMaskPath(),
-                       x, y);
-
+	drawSpriteFromPixels(m_pixels, m_maskPixels, m_info, m_maskInfo, x, y);
 }
