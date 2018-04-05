@@ -145,7 +145,7 @@ public:
         y = 0;
     }
 
-    Vector2D ortho() const {
+    Vector2D getOrtho() const {
         return Vector2D(-y, x);
     }
 

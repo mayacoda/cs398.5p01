@@ -50,7 +50,7 @@ Path* AStar::shortestPath(Graph* graph, MapNode* start, MapNode* finish, double 
     auto* defaultPath = new Path(start->getPos());
 
     if (!finish->isTraversable()) {
-        std::cout << "AStar::shortestPath: goal cannot be reached" << std::endl;
+        if (globals::debug) std::cout << "AStar::shortestPath: goal cannot be reached" << std::endl;
         return defaultPath;
     }
     

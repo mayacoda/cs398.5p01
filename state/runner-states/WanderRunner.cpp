@@ -20,11 +20,11 @@ void WanderRunner::execute(Character* stateMachine) {
 }
 
 void WanderRunner::enter(Character* stateMachine) {
-    std::cout << *stateMachine << "enter wander runner" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "enter wander runner" << std::endl;
     WanderState::enter(stateMachine);
 }
 
 void WanderRunner::exit(Character* stateMachine) {
-    std::cout << *stateMachine << "exit wander runner" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "exit wander runner" << std::endl;
     WanderState::exit(stateMachine);
 }

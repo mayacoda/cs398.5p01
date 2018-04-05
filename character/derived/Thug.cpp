@@ -38,7 +38,7 @@ costFn Thug::getCostFunction() {
 
 void Thug::takeDamage(double damage) {
     m_health -= damage * .8;
-    std::cout << "[" << getId() << "] health is: " << m_health << std::endl;
+    if (globals::debug) std::cout << "[" << getId() << "] health is: " << m_health << std::endl;
 
     if (m_health <= 0) {
         m_dead = true;

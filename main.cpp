@@ -115,7 +115,7 @@ void chooseCharacter(int x, int y) {
 
     if (i == 3) return;
 
-    std::cout << "chose character: " << i << std::endl;
+    if (globals::debug) std::cout << "chose character: " << i << std::endl;
     // indicate to game world that it should begin
     gameWorld.selectCharacter(static_cast<GameWorld::characterClass> (i));
 

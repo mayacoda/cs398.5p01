@@ -6,6 +6,8 @@ namespace globals {
     const int MAX_TERRAIN_TYPES = 4;
     const int SPRITE_SIZE = 32;
 
+    const bool debug = false;
+
 
     enum entityTypes {
         invalidEntity,

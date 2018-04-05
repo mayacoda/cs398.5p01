@@ -8,7 +8,7 @@ void FleeRunner::enter(Character* stateMachine) {
     stateMachine->setTarget(m_enemy);
 
     stateMachine->turnOnBehavior(SteeringBehaviors::fFlee);
-    std::cout << *stateMachine << "enter flee runner" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "enter flee runner" << std::endl;
 
     State::enter(stateMachine);
 }
@@ -16,7 +16,7 @@ void FleeRunner::enter(Character* stateMachine) {
 void FleeRunner::exit(Character* stateMachine) {
     stateMachine->setTarget(nullptr);
     stateMachine->turnOffBehavior(SteeringBehaviors::fFlee);
-    std::cout << *stateMachine << "exit flee runner" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "exit flee runner" << std::endl;
 
     State::exit(stateMachine);
 }

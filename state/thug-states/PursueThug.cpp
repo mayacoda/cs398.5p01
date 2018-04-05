@@ -5,7 +5,7 @@
 PursueThug::PursueThug(Character* m_enemy) : m_enemy(m_enemy) {}
 
 void PursueThug::enter(Character* stateMachine) {
-    std::cout << *stateMachine << "enter pursue thug" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "enter pursue thug" << std::endl;
 
     stateMachine->setTarget(m_enemy);
     stateMachine->turnOnBehavior(SteeringBehaviors::fPursue);
@@ -13,7 +13,7 @@ void PursueThug::enter(Character* stateMachine) {
 }
 
 void PursueThug::exit(Character* stateMachine) {
-    std::cout << *stateMachine << "exit pursue thug" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "exit pursue thug" << std::endl;
 
     stateMachine->setTarget(nullptr);
     stateMachine->turnOffBehavior(SteeringBehaviors::fPursue);

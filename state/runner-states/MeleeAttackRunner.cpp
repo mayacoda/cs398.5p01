@@ -19,11 +19,11 @@ void MeleeAttackRunner::execute(Character* stateMachine) {
 }
 
 void MeleeAttackRunner::enter(Character* stateMachine) {
-    std::cout << *stateMachine << "enter melee attack runner " << *m_enemy << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "enter melee attack runner " << *m_enemy << std::endl;
     State::enter(stateMachine);
 }
 
 void MeleeAttackRunner::exit(Character* stateMachine) {
-    std::cout << *stateMachine << "exit melee attack runner " << *m_enemy << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "exit melee attack runner " << *m_enemy << std::endl;
     State::exit(stateMachine);
 }

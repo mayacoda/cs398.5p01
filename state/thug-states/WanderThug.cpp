@@ -22,13 +22,13 @@ void WanderThug::execute(Character* stateMachine) {
 }
 
 void WanderThug::enter(Character* stateMachine) {
-    std::cout << *stateMachine << "enter wander thug" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "enter wander thug" << std::endl;
 
     WanderState::enter(stateMachine);
 }
 
 void WanderThug::exit(Character* stateMachine) {
-    std::cout << *stateMachine << "exit wander thug" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "exit wander thug" << std::endl;
 
     WanderState::exit(stateMachine);
 }

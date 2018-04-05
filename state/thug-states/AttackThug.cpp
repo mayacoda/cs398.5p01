@@ -27,13 +27,13 @@ void AttackThug::execute(Character* stateMachine) {
 }
 
 void AttackThug::enter(Character* stateMachine) {
-    std::cout << *stateMachine << "enter attack thug" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "enter attack thug" << std::endl;
 
     State::enter(stateMachine);
 }
 
 void AttackThug::exit(Character* stateMachine) {
-    std::cout << *stateMachine << "exit attack thug" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "exit attack thug" << std::endl;
 
     State::exit(stateMachine);
 }

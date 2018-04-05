@@ -22,7 +22,7 @@ public:
     }
 
     void enter(Character* stateMachine) override {
-        std::cout << *stateMachine << "enter stalk sneak" << std::endl;
+        if (globals::debug) std::cout << *stateMachine << "enter stalk sneak" << std::endl;
         stateMachine->turnOnBehavior(SteeringBehaviors::fFollow_path);
         stateMachine->setPath(new Path(stateMachine->getPos()));
         m_enemyPos = m_enemy->getPos();
@@ -30,7 +30,7 @@ public:
     }
 
     void exit(Character* stateMachine) override {
-        std::cout << *stateMachine << "exit stalk sneak" << std::endl;
+        if (globals::debug) std::cout << *stateMachine << "exit stalk sneak" << std::endl;
         stateMachine->turnOffBehavior(SteeringBehaviors::fFollow_path);
         State::exit(stateMachine);
     }

@@ -174,18 +174,21 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
     double           closestX = std::numeric_limits<double>::infinity();
     Vector2D<double> localPosOfClosest;
 
+    auto velocityNormal = m_vehicle->getVelocity().getNormalized();
+    auto velocityOrtho = velocityNormal.getOrtho();
+
     while (iterator != allObstacles.end()) {
         o = *iterator++;
 
         // filter by box length
-        if (o->getPos().distanceTo(m_vehicle->getPos()) > boxLength) {
+        if (o->getPos().squareDistanceTo(m_vehicle->getPos()) > boxLength * boxLength) {
             // go on to the next obstacle
             continue;
         }
 
         Vector2D<double> obsLocal = pointToLocalSpace(o->getPos(),
-                                                      m_vehicle->getHeading(),
-                                                      m_vehicle->getSide(),
+                                                      velocityNormal,
+                                                      velocityOrtho,
                                                       m_vehicle->getPos());
 
         // filter by x-coordinate
@@ -207,7 +210,7 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
     }
 
     if (closestObs) {
-        double multiplier = 1.0 + (boxLength - localPosOfClosest.x) / boxLength;
+        double multiplier = .5 + (boxLength - localPosOfClosest.x) / boxLength;
 //        double multiplier = 1.0;
 
         steeringForce.y = (closestObs->getBoundingRadius() - localPosOfClosest.y) * multiplier;
@@ -216,7 +219,7 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
 
         steeringForce.x = (closestObs->getBoundingRadius() - localPosOfClosest.x) * brakingWeight;
 
-        return vectorToWorldSpace(steeringForce, m_vehicle->getHeading(), m_vehicle->getSide());
+        return vectorToWorldSpace(steeringForce, velocityNormal, velocityOrtho);
     }
 
     return Vector2D<double>();

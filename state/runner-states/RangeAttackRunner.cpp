@@ -6,12 +6,12 @@
 RangeAttackRunner::RangeAttackRunner(Character* m_enemy) : m_enemy(m_enemy) {}
 
 void RangeAttackRunner::enter(Character* stateMachine) {
-    std::cout << *stateMachine << "enter range attack runner " << *m_enemy << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "enter range attack runner " << *m_enemy << std::endl;
     State::enter(stateMachine);
 }
 
 void RangeAttackRunner::exit(Character* stateMachine) {
-    std::cout << *stateMachine << "exit range attack runner " << *m_enemy << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "exit range attack runner " << *m_enemy << std::endl;
     State::exit(stateMachine);
 }
 

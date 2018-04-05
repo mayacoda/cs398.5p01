@@ -15,12 +15,12 @@ public:
     AttackSneak(Character* m_enemy) : m_enemy(m_enemy) {}
 
     void enter(Character* stateMachine) override {
-        std::cout << *stateMachine << "enter attack sneak" << std::endl;
+        if (globals::debug) std::cout << *stateMachine << "enter attack sneak" << std::endl;
         State::enter(stateMachine);
     }
 
     void exit(Character* stateMachine) override {
-        std::cout << *stateMachine << "enter attack sneak" << std::endl;
+        if (globals::debug) std::cout << *stateMachine << "enter attack sneak" << std::endl;
         State::exit(stateMachine);
     }
 

@@ -5,7 +5,7 @@
 FleeThug::FleeThug(Character* m_enemy) : m_enemy(m_enemy) {}
 
 void FleeThug::enter(Character* stateMachine) {
-    std::cout << *stateMachine << "enter flee thug" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "enter flee thug" << std::endl;
 
     stateMachine->setTarget(m_enemy);
     stateMachine->turnOnBehavior(SteeringBehaviors::fFlee);
@@ -13,7 +13,7 @@ void FleeThug::enter(Character* stateMachine) {
 }
 
 void FleeThug::exit(Character* stateMachine) {
-    std::cout << *stateMachine << "exit flee thug" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "exit flee thug" << std::endl;
 
     stateMachine->setTarget(nullptr);
     stateMachine->turnOffBehavior(SteeringBehaviors::fFlee);

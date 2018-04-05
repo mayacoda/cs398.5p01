@@ -26,13 +26,13 @@ void WanderSneak::execute(Character* stateMachine) {
 }
 
 void WanderSneak::enter(Character* stateMachine) {
-    std::cout << *stateMachine << "enter wander sneak" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "enter wander sneak" << std::endl;
 
     WanderState::enter(stateMachine);
 }
 
 void WanderSneak::exit(Character* stateMachine) {
-    std::cout << *stateMachine << "exit wander sneak" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "exit wander sneak" << std::endl;
 
     WanderState::exit(stateMachine);
 }

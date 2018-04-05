@@ -176,56 +176,76 @@ Vector2D<double> GameWorld::randomTraversableLocation() const {
 }
 
 void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
-    Character* sneak = new Sneak(this,
-                                 randomTraversableLocation(),
-                                 Vector2D<double>(1, 1),
-                                 Vector2D<double>(0, 0),
-                                 Vector2D<double>(0, 1),
-                                 Vector2D<double>(1, 0));
+    for (int i = 0; i < 2; i++) {
+        Character* sneak = new Sneak(this,
+                                     randomTraversableLocation(),
+                                     Vector2D<double>(1, 1),
+                                     Vector2D<double>(0, 0),
+                                     Vector2D<double>(0, 1),
+                                     Vector2D<double>(1, 0));
 
-    Character* thug = new Thug(this,
-                               randomTraversableLocation(),
-                               Vector2D<double>(1, 1),
-                               Vector2D<double>(0, 0),
-                               Vector2D<double>(0, 1),
-                               Vector2D<double>(1, 0));
-
-    Character* runner = new Runner(this,
+        Character* thug = new Thug(this,
                                    randomTraversableLocation(),
                                    Vector2D<double>(1, 1),
                                    Vector2D<double>(0, 0),
                                    Vector2D<double>(0, 1),
                                    Vector2D<double>(1, 0));
-    sneak->addAntagonist(thug);
-    sneak->addAntagonist(runner);
 
-    thug->addAntagonist(sneak);
-    thug->addAntagonist(runner);
+        Character* runner = new Runner(this,
+                                       randomTraversableLocation(),
+                                       Vector2D<double>(1, 1),
+                                       Vector2D<double>(0, 0),
+                                       Vector2D<double>(0, 1),
+                                       Vector2D<double>(1, 0));
 
-    runner->addAntagonist(sneak);
-    runner->addAntagonist(thug);
-
-    m_characters.push_back(sneak);
-    m_characters.push_back(thug);
-    m_characters.push_back(runner);
+        m_characters.push_back(sneak);
+        m_characters.push_back(thug);
+        m_characters.push_back(runner);
+    }
 
     switch (aClass) {
         case runnerClass:
-            m_player = runner;
-            thug->turnOnDefaultBehavior();
-            sneak->turnOnDefaultBehavior();
+            m_player = new Runner(this,
+                                  randomTraversableLocation(),
+                                  Vector2D<double>(1, 1),
+                                  Vector2D<double>(0, 0),
+                                  Vector2D<double>(0, 1),
+                                  Vector2D<double>(1, 0));
             break;
         case thugClass:
-            m_player = thug;
-            sneak->turnOnDefaultBehavior();
-            runner->turnOnDefaultBehavior();
+            m_player = new Thug(this,
+                                randomTraversableLocation(),
+                                Vector2D<double>(1, 1),
+                                Vector2D<double>(0, 0),
+                                Vector2D<double>(0, 1),
+                                Vector2D<double>(1, 0));
             break;
         case sneakClass:
-            m_player = sneak;
-            thug->turnOnDefaultBehavior();
-            runner->turnOnDefaultBehavior();
+            m_player = new Sneak(this,
+                                 randomTraversableLocation(),
+                                 Vector2D<double>(1, 1),
+                                 Vector2D<double>(0, 0),
+                                 Vector2D<double>(0, 1),
+                                 Vector2D<double>(1, 0));
             break;
     }
 
     m_player->setAutonomousTurning(true);
+    m_player->turnOnBehavior(SteeringBehaviors::fAvoid_obs);
+    m_characters.push_back(m_player);
+
+    // turn on bots
+    for (auto it = m_characters.begin(); it != m_characters.end(); ++it) {
+        // if the bot is controlled by the player, don't turn on default behavior
+        if ((*it)->getId() != m_player->getId()) {
+            (*it)->turnOnDefaultBehavior();
+        }
+
+        // for every characters, add all other characters as antagonists
+        for (auto en = m_characters.begin(); en != m_characters.end(); ++en) {
+            if ((*it)->getId() != (*en)->getId()) {
+                (*it)->addAntagonist(*en);
+            }
+        }
+    }
 }

@@ -86,7 +86,7 @@ public:
 
     virtual void takeDamage(double damage) {
         m_health -= damage;
-        std::cout << "[" << getId() << "] health is: " << m_health << std::endl;
+        if (globals::debug) std::cout << "[" << getId() << "] health is: " << m_health << std::endl;
 
         if (m_health <= 0) {
             m_dead = true;
@@ -111,8 +111,6 @@ public:
     bool isDead() const { return m_dead; }
 
     bool canDetect(Character* enemy);
-
-    bool hasEscaped();
 
     void setAutonomousTurning(bool turn) { m_isPlayerControlled = turn; }
 

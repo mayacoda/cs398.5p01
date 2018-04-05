@@ -38,7 +38,7 @@ void Character::update(double timeElapsed) {
     if (m_velocity.squareMagnitude() > 0.00000001 && !m_isPlayerControlled) {
         m_heading = m_velocity.getNormalized();
 
-        m_side = m_heading.ortho();
+        m_side = m_heading.getOrtho();
     }
 }
 
@@ -106,7 +106,7 @@ void Character::renderAids() const {
 }
 
 void Character::render() const {
-    renderAids();
+    if (globals::debug) renderAids();
 
     if (m_isPlayerControlled && m_steeringBehavior->isOn(SteeringBehaviors::fSeek)) {
         glColor3f(0.1, 0.1, 0.1);
@@ -120,6 +120,8 @@ void Character::render() const {
         glVertex2d(m_destination.x, m_destination.y - 10);
         glVertex2d(m_destination.x, m_destination.y + 10);
         glEnd();
+
+        glLineWidth(1);
     }
 }
 
@@ -193,12 +195,6 @@ Character* Character::seekEnemies() const {
     return closest;
 }
 
-bool Character::hasEscaped() {
-    // @todo refactor this logic, it's not very accurate
-    return m_target && m_target->getPos().distanceTo(m_pos) > m_antagonistDetectionDistance;
-}
-
-
 bool Character::canDetect(Character* enemy) {
     return enemy->getPos().distanceTo(m_pos) < m_antagonistDetectionDistance;
 }
@@ -237,7 +233,7 @@ void Character::attackMelee(Vector2D<double> target) {
 
 void Character::turnToFace(Vector2D<double> target) {
     m_heading  = (target - m_pos).getNormalized();
-    m_side = m_heading.ortho();
+    m_side = m_heading.getOrtho();
 }
 
 Character::~Character() {

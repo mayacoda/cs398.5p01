@@ -5,7 +5,7 @@
 #include "EvadeSneak.h"
 
 void StandSneak::enter(Character* stateMachine) {
-    std::cout << *stateMachine << "enter stand sneak" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "enter stand sneak" << std::endl;
 
     stateMachine->setDestination(stateMachine->getPos());
     stateMachine->turnOnBehavior(SteeringBehaviors::fArrive);
@@ -13,7 +13,7 @@ void StandSneak::enter(Character* stateMachine) {
 }
 
 void StandSneak::exit(Character* stateMachine) {
-    std::cout << *stateMachine << "exit stand sneak" << std::endl;
+    if (globals::debug) std::cout << *stateMachine << "exit stand sneak" << std::endl;
 
     State::exit(stateMachine);
 }
