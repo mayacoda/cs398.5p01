@@ -1,34 +1,202 @@
-﻿Build started 2/3/2018 10:16:09 AM.
-     1>Project "C:\Users\Maya\Documents\CS430\cs430-dz04\cs430-dz04.vcxproj" on node 2 (build target(s)).
+﻿Build started 4/6/2018 12:28:27 PM.
+     1>Project "C:\Users\Maya\Documents\CS430\cs398.5p01\cs430-dz04.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Release\cs430-dz04.unsuccessfulbuild".
+         Creating "Release\cs430-dz04.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\Users\Maya\Documents\CS430\cs398.5p01\dependencies\freeglut\include /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt character\attack\Attack.cpp character\attack\MeleeAttack.cpp character\attack\RangedAttack.cpp character\Character.cpp character\costFunctions.cpp character\derived\Runner.cpp character\derived\Sneak.cpp character\derived\Thug.cpp character\SteeringBehaviors.cpp "game-world\GameWorld.cpp" "game-world\Obstacle.cpp" "graphics\bmp-mac.cpp" main.cpp map\AStar.cpp map\Graph.cpp map\Map.cpp map\MapNode.cpp map\Path.cpp "state\runner-states\FleeRunner.cpp" "state\runner-states\MeleeAttackRunner.cpp" "state\runner-states\PursueRunner.cpp" "state\runner-states\RangeAttackRunner.cpp" "state\runner-states\WanderRunner.cpp" "state\sneak-states\EvadeSneak.cpp" "state\sneak-states\StalkSneak.cpp" "state\sneak-states\StandSneak.cpp" "state\sneak-states\WanderSneak.cpp" state\State.cpp "state\thug-states\AttackThug.cpp" "state\thug-states\FleeThug.cpp" "state\thug-states\PursueThug.cpp" "state\thug-states\WanderThug.cpp" state\WanderState.cpp ui\UI.cpp
+         Attack.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\character\attack\../Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         MeleeAttack.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\character\attack\../Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         RangedAttack.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\character\attack\../Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         Character.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\character\Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+     1>character\Character.cpp(112): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>character\Character.cpp(112): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>character\Character.cpp(112): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>character\Character.cpp(158): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>character\Character.cpp(158): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>character\Character.cpp(158): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>character\Character.cpp(164): warning C4244: '=' : conversion from 'time_t' to 'double', possible loss of data
+     1>character\Character.cpp(211): warning C4244: 'initializing' : conversion from 'time_t' to 'double', possible loss of data
+     1>character\Character.cpp(223): warning C4244: 'initializing' : conversion from 'time_t' to 'double', possible loss of data
+         costFunctions.cpp
+         Runner.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\character\derived\../Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+     1>character\derived\Runner.cpp(32): warning C4482: nonstandard extension used: enum 'MapNode::terrainType' used in qualified name
+     1>character\derived\Runner.cpp(69): warning C4244: 'argument' : conversion from 'const double' to 'int', possible loss of data
+     1>character\derived\Runner.cpp(69): warning C4244: 'argument' : conversion from 'const double' to 'int', possible loss of data
+         Sneak.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\character\derived\../Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+     1>character\derived\Sneak.cpp(35): warning C4482: nonstandard extension used: enum 'MapNode::terrainType' used in qualified name
+     1>character\derived\Sneak.cpp(38): warning C4482: nonstandard extension used: enum 'MapNode::terrainType' used in qualified name
+     1>character\derived\Sneak.cpp(83): warning C4244: 'argument' : conversion from 'const double' to 'int', possible loss of data
+     1>character\derived\Sneak.cpp(83): warning C4244: 'argument' : conversion from 'const double' to 'int', possible loss of data
+         Thug.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\character\derived\../Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+     1>character\derived\Thug.cpp(45): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+     1>character\derived\Thug.cpp(63): warning C4244: 'argument' : conversion from 'const double' to 'int', possible loss of data
+     1>character\derived\Thug.cpp(63): warning C4244: 'argument' : conversion from 'const double' to 'int', possible loss of data
+         SteeringBehaviors.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\character\Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         GameWorld.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\game-world\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         Obstacle.cpp
+     1>game-world\Obstacle.cpp(14): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>game-world\Obstacle.cpp(14): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+         bmp-mac.cpp
+     1>graphics\bmp-mac.cpp(172): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>graphics\bmp-mac.cpp(197): warning C4018: '<' : signed/unsigned mismatch
+     1>graphics\bmp-mac.cpp(221): warning C4018: '<' : signed/unsigned mismatch
+         main.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\game-world\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+     1>main.cpp(218): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>main.cpp(218): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>main.cpp(222): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>main.cpp(222): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>main.cpp(226): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>main.cpp(226): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>main.cpp(238): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+     1>main.cpp(238): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+     1>main.cpp(238): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+         AStar.cpp
+         Graph.cpp
+     1>map\Graph.cpp(9): warning C4018: '<' : signed/unsigned mismatch
+     1>map\Graph.cpp(64): warning C4101: 'oor' : unreferenced local variable
+         Map.cpp
+     1>map\Map.cpp(41): warning C4482: nonstandard extension used: enum 'globals::entityTypes' used in qualified name
+         MapNode.cpp
+     1>map\MapNode.cpp(8): warning C4482: nonstandard extension used: enum 'globals::entityTypes' used in qualified name
+         Path.cpp
+         FleeRunner.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         MeleeAttackRunner.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         Generating Code...
+         Compiling...
+         PursueRunner.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         RangeAttackRunner.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         WanderRunner.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         EvadeSneak.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         StalkSneak.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         StandSneak.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         WanderSneak.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         State.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         AttackThug.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         FleeThug.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         PursueThug.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         WanderThug.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         WanderState.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\state\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+         UI.cpp
+     1>c:\users\maya\documents\cs430\cs398.5p01\game-world\../character/Character.h(90): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
+     1>ui\UI.cpp(10): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>ui\UI.cpp(10): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>ui\UI.cpp(10): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>ui\UI.cpp(12): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(12): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(13): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(13): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(14): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(14): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(15): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(15): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(28): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>ui\UI.cpp(28): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>ui\UI.cpp(28): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>ui\UI.cpp(30): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(30): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(31): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(31): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(32): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(32): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(33): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(33): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(45): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>ui\UI.cpp(45): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>ui\UI.cpp(45): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>ui\UI.cpp(47): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(47): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(48): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(48): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(49): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(49): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(50): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(50): warning C4244: 'argument' : conversion from 'int' to 'GLfloat', possible loss of data
+     1>ui\UI.cpp(66): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+     1>ui\UI.cpp(66): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+     1>ui\UI.cpp(66): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+     1>ui\UI.cpp(77): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+     1>ui\UI.cpp(77): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+     1>ui\UI.cpp(77): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+     1>ui\UI.cpp(91): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+     1>ui\UI.cpp(91): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+     1>ui\UI.cpp(91): warning C4305: 'argument' : truncation from 'double' to 'GLclampf'
+         Generating Code...
        ManifestResourceCompile:
-         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Release\cs430-dz04.exe.embed.manifest.res" Release\cs430-dz04_manifest.rc 
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Maya\Documents\CS430\cs430-dz04\Release\cs430-dz04.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Maya\Documents\CS430\cs430-dz04\dependencies\freeglut\lib" freeglut.lib freeglutd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\cs430-dz04.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Maya\Documents\CS430\cs430-dz04\Release\cs430-dz04.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Maya\Documents\CS430\cs430-dz04\Release\cs430-dz04.lib" /MACHINE:X86 "Release\cs430-dz04.exe.embed.manifest.res"
-         Release\GameWorld.obj
-         Release\main.obj
-         Release\SteeringBehaviors.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Maya\Documents\CS430\cs398.5p01\Release\cs430-dz04.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Maya\Documents\CS430\cs398.5p01\dependencies\freeglut\lib freeglut.lib freeglutd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\cs430-dz04.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Maya\Documents\CS430\cs398.5p01\Release\cs430-dz04.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Maya\Documents\CS430\cs398.5p01\Release\cs430-dz04.lib" /MACHINE:X86 "Release\cs430-dz04.exe.embed.manifest.res"
+         Release\Attack.obj
+         Release\MeleeAttack.obj
+         Release\RangedAttack.obj
          Release\Character.obj
+         Release\costFunctions.obj
+         Release\Runner.obj
+         Release\Sneak.obj
+         Release\Thug.obj
+         Release\SteeringBehaviors.obj
+         Release\GameWorld.obj
+         Release\Obstacle.obj
+         "Release\bmp-mac.obj"
+         Release\main.obj
+         Release\AStar.obj
+         Release\Graph.obj
+         Release\Map.obj
+         Release\MapNode.obj
+         Release\Path.obj
+         Release\FleeRunner.obj
+         Release\MeleeAttackRunner.obj
+         Release\PursueRunner.obj
+         Release\RangeAttackRunner.obj
+         Release\WanderRunner.obj
+         Release\EvadeSneak.obj
+         Release\StalkSneak.obj
+         Release\StandSneak.obj
+         Release\WanderSneak.obj
+         Release\State.obj
+         Release\AttackThug.obj
+         Release\FleeThug.obj
+         Release\PursueThug.obj
+         Release\WanderThug.obj
+         Release\WanderState.obj
+         Release\UI.obj
      1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
        Manifest:
          C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Release\cs430-dz04.exe.embed.manifest" /manifest "Release\cs430-dz04.exe.intermediate.manifest"
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"Release\cs430-dz04.exe.embed.manifest.res" Release\cs430-dz04_manifest.rc 
+         All outputs are up-to-date.
        LinkEmbedManifest:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Maya\Documents\CS430\cs430-dz04\Release\cs430-dz04.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\Maya\Documents\CS430\cs430-dz04\dependencies\freeglut\lib" freeglut.lib freeglutd.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\cs430-dz04.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Maya\Documents\CS430\cs430-dz04\Release\cs430-dz04.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Maya\Documents\CS430\cs430-dz04\Release\cs430-dz04.lib" /MACHINE:X86 "Release\cs430-dz04.exe.embed.manifest.res"
-         Release\GameWorld.obj
-         Release\main.obj
-         Release\SteeringBehaviors.obj
-         Release\Character.obj
-     1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
-         cs430-dz04.vcxproj -> C:\Users\Maya\Documents\CS430\cs430-dz04\Release\cs430-dz04.exe
+         All outputs are up-to-date.
+         cs430-dz04.vcxproj -> C:\Users\Maya\Documents\CS430\cs398.5p01\Release\cs430-dz04.exe
        FinalizeBuildStatus:
          Deleting file "Release\cs430-dz04.unsuccessfulbuild".
          Touching "Release\cs430-dz04.lastbuildstate".
-     1>Done Building Project "C:\Users\Maya\Documents\CS430\cs430-dz04\cs430-dz04.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Maya\Documents\CS430\cs398.5p01\cs430-dz04.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.06
+Time Elapsed 00:00:14.00
