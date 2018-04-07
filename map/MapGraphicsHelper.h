@@ -44,7 +44,9 @@ private:
 
     unsigned int loadTextureByMeta(TextureMetadata meta) {
         std::string file = "assets/";
-        file += std::to_string(static_cast<long double>(globals::TILE_SIZE));
+
+        file += toString(globals::TILE_SIZE);
+
         file += "/";
 
         // determine what type of terrain it is

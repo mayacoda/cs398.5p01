@@ -56,6 +56,15 @@ T max(T a, T b) {
     return a < b ? b : a;
 }
 
+template <typename T>
+inline std::string toString(T str) {
+#ifdef _WIN32
+    return std::to_string(static_cast<long double>(str));
+#elif __APPLE__
+    return std::to_string(str);
+#endif
+}
+
 class GraphEdge;
 
 typedef double (* costFn)(const GraphEdge &);

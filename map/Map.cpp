@@ -54,7 +54,7 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
     int                      numberOfCenters = iRandomRange(30, 40);
 
     for (int i = 0; i < numberOfCenters; i++) {
-        auto terrain = static_cast<MapNode::terrainType>(iRandomRange(1, globals::MAX_TERRAIN_TYPES));
+        auto terrain = static_cast<MapNode::terrainType>(iRandomRange(1, globals::MAX_TERRAIN_TYPES - 1));
         auto x       = iRandomRange(0, rows);
         auto y       = iRandomRange(0, columns);
         terrainCenters.push_back(TerrainCenter(x, y, terrain));
@@ -122,9 +122,12 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
 
                         if (map[i + x][j + y]->isTraversable() &&
                             map[i][j]->isTraversable()) {
+
+                            double cost = (map[i][j]->getTerrain() + map[i + x][j + y]->getTerrain()) / 2.0;
+
                             m_graph->addEdge(GraphEdge(map[i][j],
                                                        map[i + x][j + y],
-                                                       map[i][j]->getTerrain()));
+                                                       cost));
                         }
                     }
                 }

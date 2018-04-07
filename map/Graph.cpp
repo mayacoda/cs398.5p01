@@ -44,14 +44,16 @@ void Graph::render() const {
         m_nodes.at(i)->render();
     }
 
-//    for (unsigned int i = 0; i < m_edges.size(); i++) {
-//        std::list<GraphEdge>                 list = m_edges.at(i);
-//        std::list<GraphEdge>::const_iterator iterator;
-//
-//        for (iterator = list.begin(); iterator != list.end(); ++iterator) {
-//            (*iterator).render();
-//        }
-//    }
+    if (!globals::debug) return;
+
+    for (unsigned int i = 0; i < m_edges.size(); i++) {
+        std::list<GraphEdge>                 list = m_edges.at(i);
+        std::list<GraphEdge>::const_iterator iterator;
+
+        for (iterator = list.begin(); iterator != list.end(); ++iterator) {
+            (*iterator).render();
+        }
+    }
 }
 
 GraphEdge Graph::getEdge(const MapNode &from, const MapNode &to) const {

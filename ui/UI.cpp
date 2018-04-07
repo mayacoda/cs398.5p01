@@ -15,7 +15,7 @@ void UI::renderHUD() const {
     glVertex2f(bounds.left + 180, bounds.top - 20);
     glEnd();
 
-    std::string text = "health: " + std::to_string(static_cast<long double>(m_world->getPlayerHealth()));
+    std::string text = "health: " + toString(m_world->getPlayerHealth());
 
     Character* player = m_world->getPlayer();
     player->drawSprite(bounds.left + 30, bounds.top - sprite - 30);
@@ -33,7 +33,8 @@ void UI::renderHUD() const {
     glVertex2f(bounds.left + 320, bounds.top - 20);
     glEnd();
 
-    std::string enemiesLeft = "enemies: " + std::to_string(static_cast<long double>(m_world->getCharacters().size() - 1));
+
+    std::string enemiesLeft = "enemies: " + toString(m_world->getCharacters().size() - 1);
 
     drawText(enemiesLeft.c_str(),
              bounds.left + 215,
@@ -50,7 +51,7 @@ void UI::renderHUD() const {
         glVertex2f(bounds.right - 180, bounds.top - 20);
         glEnd();
 
-        std::string enemyHealth = "health: " + std::to_string(static_cast<long double>(enemy->getHealth()));
+        std::string enemyHealth = "health: " + toString(enemy->getHealth());
 
         enemy->drawSprite(bounds.right - 170, bounds.top - sprite - 30);
 

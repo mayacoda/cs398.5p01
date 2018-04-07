@@ -14,7 +14,7 @@
 #define TIME_CORRECTION 1.0
 #elif __APPLE__
 
-#define TIME_CORRECTION 0.3 // make slower
+#define TIME_CORRECTION 0.1 // make slower
 #endif
 
 bool gameStarted = false;
@@ -166,7 +166,7 @@ void render() {
 
 void timer(int val) {
     glutPostRedisplay();
-    glutTimerFunc(16, timer, 0);
+    glutTimerFunc(0, timer, 0);
 }
 
 void reshape(GLint width, GLint height) {
@@ -229,7 +229,7 @@ int main(int argc, char** argv) {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowPosition(150, 150);
     glutInitWindowSize(winWidth, winHeight);
-    glutCreateWindow("Steering Behavior");
+    glutCreateWindow("Survival Game");
 
     glutMouseFunc(clickHandler);
     glutKeyboardFunc(keyboardHandler);
