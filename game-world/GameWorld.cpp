@@ -95,6 +95,35 @@ void GameWorld::render() {
     for (unsigned int i = 0; i < m_projectiles.size(); i++) {
         m_projectiles.at(i)->render();
     }
+
+    glPushMatrix();
+    glTranslatef(m_Boundaries.left + 10, m_Boundaries.bottom + 10, 0);
+    glScalef(0.05, 0.05, 1);
+    m_map->render();
+    glColor3f(0.1, 0.1, 0.1);
+    glBegin(GL_LINES);
+    glVertex2f(m_Boundaries.left, m_Boundaries.bottom);
+    glVertex2f(m_Boundaries.left, m_Boundaries.top);
+    glVertex2f(m_Boundaries.left, m_Boundaries.top);
+    glVertex2f(m_Boundaries.right, m_Boundaries.top);
+    glVertex2f(m_Boundaries.right, m_Boundaries.top);
+    glVertex2f(m_Boundaries.right, m_Boundaries.bottom);
+    glVertex2f(m_Boundaries.right, m_Boundaries.bottom);
+    glVertex2f(m_Boundaries.left, m_Boundaries.bottom);
+    glEnd();
+
+    glPointSize(2);
+    glBegin(GL_POINTS);
+    for (unsigned int i = 0; i < m_characters.size(); i++) {
+        Character* c = m_characters.at(i);
+        Vector2D<double> pos = c->getPos();
+        glColor3f(1, 0, 0);
+        if (c->isPlayerControlled()) glColor3f(0.1, 0.1, 0.1);
+        glVertex2d(pos.x, pos.y);
+    }
+    glEnd();
+
+    glPopMatrix();
 }
 
 Vector2D<double> GameWorld::windowPointToWorldSpace(int x, int y) const {

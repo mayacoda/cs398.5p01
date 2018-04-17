@@ -85,8 +85,8 @@ void Attack::render() const {
         glEnd();
 
     } else {
-        glPointSize(2);
-        glColor3f(0, 0, 0);
+        glPointSize(3);
+        glColor3f(1, 1, 1);
         glBegin(GL_POINTS);
         glVertex2d(m_pos.x, m_pos.y);
         glEnd();

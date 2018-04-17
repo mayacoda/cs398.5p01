@@ -51,7 +51,8 @@ protected:
     * Rendering
     */
     void renderAids() const;
-	mutable BITMAPINFO* m_info, * m_maskInfo;
+
+    mutable BITMAPINFO* m_info, * m_maskInfo;
     mutable unsigned char* m_pixels, * m_maskPixels;
 
     SteeringBehaviors* m_steeringBehavior;
@@ -79,6 +80,8 @@ public:
     int getHealth() const { return m_health; }
 
     double getHealthRatio() const { return m_health / 100.; }
+
+    bool isPlayerControlled() const { return m_isPlayerControlled; }
 
     Character* seekEnemies() const;
 
