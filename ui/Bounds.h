@@ -13,8 +13,11 @@ struct Bounds {
         return x >= left && x <= right && y >= bottom && y <= top;
     }
 
-    bool isInBounds(double x, double y) {
-        return x >= left && x <= right && y >= bottom && y <= top;
+    void setBounds(T t, T b, T l, T r) {
+        top    = t;
+        bottom = b;
+        left   = l;
+        right  = r;
     }
 };
 

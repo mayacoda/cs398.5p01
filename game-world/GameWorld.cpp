@@ -85,18 +85,16 @@ void GameWorld::render() {
         m_characters.at(i)->render();
     }
 
-    for (unsigned int i = 0; i < m_obstacles.size(); i++) {
-//        m_obstacles.at(i)->render();
+    if (globals::debug) {
+        for (unsigned int i = 0; i < m_obstacles.size(); i++) {
+            m_obstacles.at(i)->render();
+        }
     }
+
 
     for (unsigned int i = 0; i < m_projectiles.size(); i++) {
         m_projectiles.at(i)->render();
     }
-}
-
-void GameWorld::setDimensions(int width, int height) {
-    m_width  = width;
-    m_height = height;
 }
 
 Vector2D<double> GameWorld::windowPointToWorldSpace(int x, int y) const {
@@ -137,12 +135,12 @@ void GameWorld::clickHandler(int button, int state, int x, int y) {
 }
 
 void GameWorld::keyboardHandler(unsigned char key, int x, int y) {
-    Character* enemy;
-    if (key == ' ' && m_player && (enemy = characterAtWindowPoint(x, y))) {
-        if (m_player->closeEnoughToAttackMelee(enemy)) {
-            m_player->attackMelee(enemy->getPos());
-        } else if (m_player->closeEnoughToAttackRanged(enemy)) {
-            m_player->attackRanged(enemy->getPos());
+    Vector2D<double> pos = windowPointToWorldSpace(x, y);
+    if (key == ' ' && m_player) {
+        if (m_player->closeEnoughToAttackMelee(pos)) {
+            m_player->attackMelee(pos);
+        } else if (m_player->closeEnoughToAttackRanged(pos)) {
+            m_player->attackRanged(pos);
         }
     }
 }
@@ -175,7 +173,10 @@ Vector2D<double> GameWorld::randomTraversableLocation() const {
     return vec;
 }
 
-void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
+void GameWorld::initializeWorld() {
+    // get rid of characters from a previous run if necessary
+    m_characters.clear();
+
     for (int i = 0; i < 2; i++) {
         Character* sneak = new Sneak(this,
                                      randomTraversableLocation(),
@@ -202,6 +203,11 @@ void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
         m_characters.push_back(thug);
         m_characters.push_back(runner);
     }
+}
+
+
+void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
+    initializeWorld();
 
     switch (aClass) {
         case runnerClass:

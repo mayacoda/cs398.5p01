@@ -96,19 +96,26 @@ public:
     }
 
     bool closeEnoughToAttackMelee(Character* enemy) {
+        return closeEnoughToAttackMelee(enemy->getPos());
+    }
+
+    bool closeEnoughToAttackMelee(Vector2D<double> pos) {
         return m_distanceToAttackMelee > 0 &&
-               enemy->getPos().squareDistanceTo(m_pos) <= m_distanceToAttackMelee * m_distanceToAttackMelee;
+               pos.squareDistanceTo(m_pos) <= m_distanceToAttackMelee * m_distanceToAttackMelee;
     }
 
     bool closeEnoughToAttackRanged(Character* enemy) {
+        return closeEnoughToAttackRanged(enemy->getPos());
+    }
+
+    bool closeEnoughToAttackRanged(Vector2D<double> pos) {
         return m_distanceToAttackRanged > 0 &&
-               enemy->getPos().squareDistanceTo(m_pos) <= m_distanceToAttackRanged * m_distanceToAttackRanged;
+               pos.squareDistanceTo(m_pos) <= m_distanceToAttackRanged * m_distanceToAttackRanged;
     }
 
     bool closeEnoughToAttack(Character* enemy) {
         return closeEnoughToAttackRanged(enemy) || closeEnoughToAttackMelee(enemy);
     }
-
 
     bool isDead() const { return m_dead; }
 

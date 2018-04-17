@@ -20,6 +20,15 @@ public:
         runnerClass
     };
 
+    enum gameState {
+        play,
+        menu,
+        select,
+        over,
+        win,
+        exit,
+    };
+
     struct Boundaries {
         Boundaries(int left, int right, int bottom, int top) : left(left), right(right), bottom(bottom), top(top) {}
 
@@ -53,6 +62,8 @@ private:
 
     void (* endGame)(bool won);
 
+    void initializeWorld();
+
 public:
     GameWorld(int m_width, int m_height);
 
@@ -64,8 +75,6 @@ public:
     void update(double timeElapsed);
 
     void render();
-
-    void setDimensions(int width, int height);
 
     int getWidth() const { return m_width; }
 

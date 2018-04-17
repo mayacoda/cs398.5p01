@@ -1,5 +1,4 @@
 #include <iostream>
-#include <ctime>
 #include "game-world/GameWorld.h"
 #include "character/derived/Thug.h"
 #include "character/derived/Sneak.h"
@@ -17,10 +16,7 @@
 #define TIME_CORRECTION 0.1 // make slower
 #endif
 
-bool gameStarted = false;
-bool gameEnded   = false;
-bool gameWon     = false;
-bool gameLoading = false;
+GameWorld::gameState state = GameWorld::menu;
 
 int winWidth  = 800;
 int winHeight = 460;
@@ -34,8 +30,6 @@ double t  = 0.0;
 double dt = 0.0166666666666667;
 
 clock_t currentTime;
-
-Bounds<int> characters[3];
 
 void setClippingPlane() {
     Vector2D<double> playerPos = gameWorld.getPlayerPos();
@@ -70,78 +64,7 @@ void setClippingPlane() {
     gameWorld.setClippingBoundaries(x1, x2, y1, y2);
 }
 
-void showCharacterSelection() {
-    int x = winWidth / 2 - 70;
-    int y = winHeight - 100;
-
-    drawText("Select a character", x, y, Color(1, 1, 1));
-
-    drawSpriteWithMask(Thug::getSpritePath(),
-                       Thug::getMaskPath(),
-                       characters[GameWorld::thugClass].left,
-                       characters[GameWorld::thugClass].bottom);
-    drawText("Thug",
-             characters[GameWorld::thugClass].left - 10,
-             characters[GameWorld::thugClass].bottom - 20,
-             Color(1, 1, 1));
-
-    drawSpriteWithMask(Sneak::getSpritePath(),
-                       Sneak::getMaskPath(),
-                       characters[GameWorld::sneakClass].left,
-                       characters[GameWorld::sneakClass].bottom);
-    drawText("Sneak",
-             characters[GameWorld::sneakClass].left - 10,
-             characters[GameWorld::sneakClass].bottom - 20,
-             Color(1, 1, 1));
-
-    drawSpriteWithMask(Runner::getSpritePath(),
-                       Runner::getMaskPath(),
-                       characters[GameWorld::runnerClass].left,
-                       characters[GameWorld::runnerClass].bottom);
-    drawText("Runner",
-             characters[GameWorld::runnerClass].left - 10,
-             characters[GameWorld::runnerClass].bottom - 20,
-             Color(1, 1, 1));
-
-
-    glutSwapBuffers();
-    glFlush();
-}
-
-void chooseCharacter(int x, int y) {
-    // check which character is underneath the coordinates (if any)
-    int i;
-    for (i = 0; i < 3; i++) {
-        if (characters[i].isInBounds(x, y)) break;
-    }
-
-    if (i == 3) return;
-
-    if (globals::debug) std::cout << "chose character: " << i << std::endl;
-    // indicate to game world that it should begin
-    gameWorld.selectCharacter(static_cast<GameWorld::characterClass> (i));
-
-    gameStarted = true;
-}
-
-void render() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    if (!gameStarted) {
-        showCharacterSelection();
-        return;
-    }
-
-    if (gameWon) {
-        ui.renderWinScreen(winWidth, winHeight);
-        return;
-    }
-
-    if (gameEnded) {
-        ui.renderGameOver(winWidth, winHeight);
-        return;
-    }
-
+void gameLoop() {
     glLoadIdentity();
 
     setClippingPlane();
@@ -164,6 +87,30 @@ void render() {
     glFlush();
 }
 
+void render() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    switch (state) {
+        case GameWorld::play:
+            gameLoop();
+            break;
+        case GameWorld::menu:
+            ui.renderMenu(winWidth, winHeight);
+            break;
+        case GameWorld::select:
+            ui.renderCharacterSelection(winWidth, winHeight);
+            break;
+        case GameWorld::over:
+            ui.renderGameOver(winWidth, winHeight);
+            break;
+        case GameWorld::win:
+            ui.renderWinScreen(winWidth, winHeight);
+            break;
+        case GameWorld::exit:
+            exit(0);
+    }
+}
+
 void timer(int val) {
     glutPostRedisplay();
     glutTimerFunc(0, timer, 0);
@@ -182,12 +129,22 @@ void reshape(GLint width, GLint height) {
 }
 
 void clickHandler(int b, int s, int x, int y) {
-    if (gameStarted && !gameEnded) {
+    if (state == GameWorld::play) {
         gameWorld.clickHandler(b, s, x, y);
 
-    } else if (!gameEnded && b == GLUT_LEFT_BUTTON && s == GLUT_UP) {
-        // choose character clicked on (if any) and initialize game
-        chooseCharacter(x, y);
+    } else if (b == GLUT_LEFT_BUTTON && s == GLUT_UP) {
+        switch (state) {
+            case GameWorld::menu:
+                state = ui.chooseMenuOption(x, y);
+                break;
+            case GameWorld::select:
+                state = ui.chooseCharacter(x, y);
+                break;
+            case GameWorld::over:
+            case GameWorld::win:
+                state = GameWorld::menu;
+                break;
+        }
     }
 }
 
@@ -200,8 +157,11 @@ void passiveMouseMotionHandler(int x, int y) {
 }
 
 void endGame(bool won) {
-    gameEnded = true;
-    gameWon   = won;
+    if (won) {
+        state = GameWorld::win;
+    } else {
+        state = GameWorld::over;
+    }
 }
 
 int main(int argc, char** argv) {
@@ -209,21 +169,6 @@ int main(int argc, char** argv) {
     srand(static_cast<unsigned int>(time(nullptr)));
 
     currentTime = clock();
-
-    int top    = winHeight / 2 + globals::SPRITE_SIZE / 2;
-    int bottom = winHeight / 2 - globals::SPRITE_SIZE / 2;
-    characters[GameWorld::thugClass]   = Bounds<int>(top,
-                                                     bottom,
-                                                     winWidth * 0.25 - globals::SPRITE_SIZE / 2,
-                                                     winWidth * 0.25 + globals::SPRITE_SIZE / 2);
-    characters[GameWorld::sneakClass]  = Bounds<int>(top,
-                                                     bottom,
-                                                     winWidth * 0.5 - globals::SPRITE_SIZE / 2,
-                                                     winWidth * 0.5 + globals::SPRITE_SIZE / 2);
-    characters[GameWorld::runnerClass] = Bounds<int>(top,
-                                                     bottom,
-                                                     winWidth * 0.75 - globals::SPRITE_SIZE / 2,
-                                                     winWidth * 0.75 + globals::SPRITE_SIZE / 2);
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
