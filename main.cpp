@@ -16,7 +16,9 @@
 #define TIME_CORRECTION 0.1 // make slower
 #endif
 
-GameWorld::gameState state = GameWorld::menu;
+GameWorld::gameState state         = GameWorld::menu;
+bool                 fullScreen    = false;
+Bounds<int>          currentWindow = Bounds<int>(610, 150, 150, 950);
 
 int winWidth  = 800;
 int winHeight = 460;
@@ -152,6 +154,23 @@ void keyboardHandler(unsigned char key, int x, int y) {
     gameWorld.keyboardHandler(key, x, y);
 }
 
+void specialHandler(int key, int x, int y) {
+    if (key == GLUT_KEY_F1) {
+        fullScreen = !fullScreen;
+        if (fullScreen) {
+            int left      = glutGet(GLUT_WINDOW_X);
+            int top       = glutGet(GLUT_WINDOW_Y);
+            int right     = left + glutGet(GLUT_WINDOW_WIDTH);
+            int bottom    = top - glutGet(GLUT_WINDOW_HEIGHT);
+            currentWindow = Bounds<int>(top, bottom, left, right);
+            glutFullScreen();
+        } else {
+            glutReshapeWindow(currentWindow.right - currentWindow.left, currentWindow.top - currentWindow.bottom);
+            glutPositionWindow(currentWindow.left, currentWindow.top);
+        }
+    }
+}
+
 void passiveMouseMotionHandler(int x, int y) {
     gameWorld.passiveMouseMotionHandler(x, y);
 }
@@ -178,6 +197,7 @@ int main(int argc, char** argv) {
 
     glutMouseFunc(clickHandler);
     glutKeyboardFunc(keyboardHandler);
+    glutSpecialFunc(specialHandler);
     glutPassiveMotionFunc(passiveMouseMotionHandler);
 
     glClearColor(0.1, 0.1, 0.1, 1.0);
