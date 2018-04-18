@@ -90,27 +90,24 @@ inline double distanceToLineSegment(Vector2D<double> a,
     const Vector2D<double> projection = a + d * t;
 
     return point.distanceTo(projection);
+}
 
 
-//    //if the angle is obtuse between PA and AB is obtuse then the closest
-//    //vertex must be A
-//    const double dotA = (point.x - segA.x) * (segB.x - segA.x) + (point.y - segA.y) * (segB.y - segA.y);
-//
-//    if (dotA <= 0) return segA.distanceTo(point);
-//
-//    //if the angle is obtuse between PB and AB is obtuse then the closest
-//    //vertex must be B
-//    const double dotB = (point.x - segB.x) * (segA.x - segB.x) + (point.y - segB.y) * (segA.y - segB.y);
-//
-//    if (dotB <= 0) return segB.distanceTo(point);
-//
-//    //calculate the point along AB that is the closest to p
-//    Vector2D<double> d = segB - segA;
-//
-//    Vector2D<double> Point = segA + (d * dotA / (dotA + dotB));
-//
-//    //calculate the distance p-Point
-//    return point.distanceTo(Point);
+inline double distanceSqToLineSegment(Vector2D<double> a,
+                                      Vector2D<double> b,
+                                      Vector2D<double> point) {
+
+    const double l2 = a.squareDistanceTo(b);
+
+    // a and b are the same, return distance from point to point
+    if (l2 == 0.0) { return point.squareDistanceTo(a); }
+
+    const double t = max(0., min(1., (point - a).dotProduct(b - a)) / l2);
+
+    Vector2D<double>       d          = (b - a);
+    const Vector2D<double> projection = a + d * t;
+
+    return point.squareDistanceTo(projection);
 }
 
 #endif //DZ04_GEOMETRY_H

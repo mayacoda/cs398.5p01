@@ -15,6 +15,7 @@ protected:
     double m_maxSpeed;
     double m_maxForce;
     double m_maxTurnRate;
+    double m_effectiveSpeed;
 
 
 public:
@@ -33,6 +34,7 @@ public:
                                          m_side(m_side),
                                          m_mass(m_mass),
                                          m_maxSpeed(m_maxSpeed),
+                                         m_effectiveSpeed(m_maxSpeed),
                                          m_maxForce(m_maxForce),
                                          m_maxTurnRate(m_maxTurnRate) {}
 

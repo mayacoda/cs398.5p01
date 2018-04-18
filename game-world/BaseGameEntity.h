@@ -5,6 +5,7 @@
 
 #include <ostream>
 #include "../geometry/Vector2D.h"
+#include "Event.h"
 
 class BaseGameEntity {
 public:
@@ -50,6 +51,8 @@ public:
         os << "[" << entity.m_id << "] ";
         return os;
     }
+
+    virtual void notify(Event e) {};
 
     virtual void update(double timeElapsed) {};
 

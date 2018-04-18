@@ -29,6 +29,8 @@ public:
     void render() const override;
 
     void takeDamage(double damage) override;
+
+    void notify(Event e) override;
 };
 
 

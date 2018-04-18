@@ -7,14 +7,14 @@ namespace globals {
     const int SPRITE_SIZE = 32;
 
     const bool debug = false;
-	
 
     enum entityTypes {
         invalidEntity,
         terrain,
         tile,
         graph,
-        character
+        character,
+        trap
     };
 }
 

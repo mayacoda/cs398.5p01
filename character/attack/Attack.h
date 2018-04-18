@@ -10,7 +10,8 @@ class GameWorld;
 
 class Attack : public MovingEntity {
 protected:
-    const Character* m_shooter;
+    Character* m_shooter;
+    Character* m_victim;
     Vector2D<double> m_origin;
     GameWorld* m_world;
 
@@ -24,13 +25,15 @@ protected:
     void countdown(double time);
 
 public:
-    Attack(const Character* shooter, double maxSpeed, double range, double damage);
+    Attack(Character* shooter, double maxSpeed, double range, double damage);
 
     void update(double timeElapsed) override;
 
     void render() const override;
 
     bool isDead() const { return m_dead; }
+
+    void notify(Event e) override;
 };
 
 

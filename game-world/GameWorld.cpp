@@ -12,6 +12,9 @@
 #include "../character/derived/Sneak.h"
 #include "../character/derived/Thug.h"
 #include "../character/derived/Runner.h"
+#include "traps/VisibilityTrap.h"
+#include "traps/MovementTrap.h"
+#include "../geometry/geometry.h"
 
 GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
                                                   m_height(m_height),
@@ -20,6 +23,8 @@ GameWorld::GameWorld(int m_width, int m_height) : m_width(m_width),
     m_map = new Map(m_width, m_height);
 
     m_enemy = nullptr;
+
+    m_eventHub = new EventHub();
 
     auto obstacles = m_map->getObstacles();
 
@@ -44,6 +49,7 @@ void GameWorld::update(double timeElapsed) {
                 m_enemy = nullptr;
             }
 
+            m_eventHub->removeEntityFromList(*c);
             delete *c;
             c = m_characters.erase(c);
         } else {
@@ -57,14 +63,25 @@ void GameWorld::update(double timeElapsed) {
         callEndGameCallback(true);
     }
 
-    for (unsigned int i = 0; i < m_obstacles.size(); i++) {
-        m_obstacles.at(i)->update(timeElapsed);
+    auto t = m_traps.begin();
+    while (t != m_traps.end()) {
+        if ((*t)->isDead()) {
+
+            m_eventHub->removeEntityFromList(*t);
+            delete *t;
+            t = m_traps.erase(t);
+        } else {
+            (*t)->update(timeElapsed);
+            ++t;
+        }
     }
 
     auto it = m_projectiles.begin();
 
     while (it != m_projectiles.end()) {
         if ((*it)->isDead()) {
+
+            m_eventHub->removeEntityFromList(*it);
             delete *it;
             it = m_projectiles.erase(it);
         } else {
@@ -85,6 +102,10 @@ void GameWorld::render() {
         m_characters.at(i)->render();
     }
 
+    for (unsigned int i = 0; i < m_traps.size(); i++) {
+        m_traps.at(i)->render();
+    }
+
     if (globals::debug) {
         for (unsigned int i = 0; i < m_obstacles.size(); i++) {
             m_obstacles.at(i)->render();
@@ -101,15 +122,11 @@ void GameWorld::render() {
     glScalef(0.05, 0.05, 1);
     m_map->render();
     glColor3f(0.1, 0.1, 0.1);
-    glBegin(GL_LINES);
+    glBegin(GL_LINE_LOOP);
     glVertex2f(m_Boundaries.left, m_Boundaries.bottom);
     glVertex2f(m_Boundaries.left, m_Boundaries.top);
-    glVertex2f(m_Boundaries.left, m_Boundaries.top);
-    glVertex2f(m_Boundaries.right, m_Boundaries.top);
     glVertex2f(m_Boundaries.right, m_Boundaries.top);
     glVertex2f(m_Boundaries.right, m_Boundaries.bottom);
-    glVertex2f(m_Boundaries.right, m_Boundaries.bottom);
-    glVertex2f(m_Boundaries.left, m_Boundaries.bottom);
     glEnd();
 
     glPointSize(2);
@@ -145,21 +162,17 @@ void GameWorld::clickHandler(int button, int state, int x, int y) {
     const Vector2D<double> &pos = windowPointToWorldSpace(x, y);
 
     if (button == GLUT_RIGHT_BUTTON && state == GLUT_UP) {
-        auto goal  = m_map->getNodeByPosition(pos);
-        auto start = m_map->getNodeByPosition(m_player->getPos());
 
+    } else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+        auto goal = m_map->getNodeByPosition(pos);
         if (!goal->isTraversable()) return;
+
+        auto start = m_map->getNodeByPosition(m_player->getPos());
 
         Path* p = AStar::shortestPath(m_map->getGraph(), start, goal, m_player->getCostFunction());
 
         m_player->setPath(p);
         m_player->turnOnBehavior(SteeringBehaviors::fFollow_path);
-    } else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
-        auto goal = m_map->getNodeByPosition(pos);
-        if (!goal->isTraversable()) return;
-
-        m_player->setDestination(pos);
-        m_player->turnOnBehavior(SteeringBehaviors::fSeek);
     }
 }
 
@@ -205,6 +218,7 @@ Vector2D<double> GameWorld::randomTraversableLocation() const {
 void GameWorld::initializeWorld() {
     // get rid of characters from a previous run if necessary
     m_characters.clear();
+    m_eventHub->clear();
 
     for (int i = 0; i < 2; i++) {
         Character* sneak = new Sneak(this,
@@ -231,6 +245,22 @@ void GameWorld::initializeWorld() {
         m_characters.push_back(sneak);
         m_characters.push_back(thug);
         m_characters.push_back(runner);
+
+        m_eventHub->addEntityToList(sneak);
+        m_eventHub->addEntityToList(thug);
+        m_eventHub->addEntityToList(runner);
+    }
+
+    for (int i = 0; i < 5; i++) {
+        Trap* t = new VisibilityTrap(this, randomTraversableLocation());
+        m_traps.push_back(t);
+        m_eventHub->addEntityToList(t);
+    }
+
+    for (int i = 0; i < 5; i++) {
+        Trap* t = new MovementTrap(this, randomTraversableLocation());
+        m_traps.push_back(t);
+        m_eventHub->addEntityToList(t);
     }
 }
 
@@ -268,6 +298,7 @@ void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
     m_player->setAutonomousTurning(true);
     m_player->turnOnBehavior(SteeringBehaviors::fAvoid_obs);
     m_characters.push_back(m_player);
+    m_eventHub->addEntityToList(m_player);
 
     // turn on bots
     for (auto it = m_characters.begin(); it != m_characters.end(); ++it) {
@@ -283,4 +314,17 @@ void GameWorld::selectCharacter(GameWorld::characterClass aClass) {
             }
         }
     }
+}
+
+Obstacle* GameWorld::firstObsBetweenPoints(Vector2D<double> a, Vector2D<double> b) {
+    for (auto it = m_obstacles.begin(); it != m_obstacles.end(); ++it) {
+        const Vector2D<double> &point = (*it)->getPos();
+        double                 d      = distanceSqToLineSegment(b, a, point);
+        double                 radius = (*it)->getBoundingRadius();
+        if (d < (radius * radius)) {
+            return *it;
+        }
+    }
+
+    return nullptr;
 }

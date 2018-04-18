@@ -53,7 +53,7 @@ public:
     void render() const override;
 
     bool isTraversable() const {
-        return m_terrainFlag != water;
+        return m_terrainFlag == none;
     }
 
     void parseTextureMatrix(int matrix[3][3]);

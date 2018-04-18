@@ -25,11 +25,6 @@ private:
     std::vector<Character*> m_antagonists;
     Vector2D<double>        m_steeringForce;
 
-    /**
-     * Updating
-     */
-    double m_timeElapsed;
-
 protected:
     GameWorld* m_world;
     Vector2D<double> m_destination;
@@ -38,6 +33,7 @@ protected:
     double m_distanceToAttackRanged;
     double m_distanceToAttackMelee;
     double m_detectionBoxLength;
+    double m_trackingAdvantage;
     double m_timeLastAttacked;
     double m_attackTimeout;
     double m_attackSpeed;
@@ -89,14 +85,7 @@ public:
 
     virtual void attackMelee(Vector2D<double> target);
 
-    virtual void takeDamage(double damage) {
-        m_health -= damage;
-        if (globals::debug) std::cout << "[" << getId() << "] health is: " << m_health << std::endl;
-
-        if (m_health <= 0) {
-            m_dead = true;
-        }
-    }
+    virtual void takeDamage(double damage);
 
     bool closeEnoughToAttackMelee(Character* enemy) {
         return closeEnoughToAttackMelee(enemy->getPos());
@@ -150,9 +139,11 @@ public:
 
     double getDetectionBoxLength() const { return m_detectionBoxLength; }
 
-    virtual const double calculateMaxSpeed() const { return m_maxSpeed; };
+    virtual const double calculateMaxSpeed() const { return m_effectiveSpeed; }
 
     void turnToFace(Vector2D<double> target);
+
+    double getTrackingAdvantage() const { return m_trackingAdvantage; }
 
     std::vector<Character*> getAntagonists() const { return m_antagonists; }
 
@@ -204,6 +195,12 @@ public:
     State* currentState;
 
     void changeState(State* newState);
+
+    /**
+     * Events
+     */
+
+    void notify(Event e) override;
 
     /**
      * Game Loop

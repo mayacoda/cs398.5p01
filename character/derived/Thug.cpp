@@ -1,5 +1,6 @@
 
 #include "Thug.h"
+#include "../../game-world/GameWorld.h"
 #include "../../state/thug-states/WanderThug.h"
 
 Thug::Thug(GameWorld* m_world,
@@ -17,19 +18,19 @@ Thug::Thug(GameWorld* m_world,
                                                        60 /* maxSpeed */,
                                                        50, /*melee attack distance*/
                                                        -1, /*ranged attack distance*/
-                                                       2 /*timeout*/) {}
+                                                       2 /*timeout*/) {
+
+    m_pixels     = ReadBitmap("assets/thug.bmp", &m_info);
+    m_maskPixels = ReadBitmap("assets/thug-mask.bmp", &m_maskInfo);
+}
 
 const double Thug::calculateMaxSpeed() const {
     // enable thug to "sprint" when he is pursuing an enemy
     if (m_steeringBehavior->isOn(SteeringBehaviors::fPursue)) {
-        return m_maxSpeed * 1.23;
+        return m_effectiveSpeed * 1.23;
     }
 
-	
-    m_pixels     = ReadBitmap("assets/thug.bmp", &m_info);
-    m_maskPixels = ReadBitmap("assets/thug-mask.bmp", &m_maskInfo);
-
-    return m_maxSpeed;
+    return m_effectiveSpeed;
 }
 
 void Thug::turnOnDefaultBehavior() {
@@ -66,3 +67,12 @@ void Thug::render() const {
 void Thug::drawSprite(int x, int y) const {
 	drawSpriteFromPixels(m_pixels, m_maskPixels, m_info, m_maskInfo, x, y);
 }
+
+void Thug::notify(Event e) {
+    Character::notify(e);
+
+    if (e.type == Event::enemyKill && m_world->getCharacters().size() == 2) {
+        changeState(new WanderThug());
+    }
+}
+

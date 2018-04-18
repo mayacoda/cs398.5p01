@@ -30,9 +30,9 @@ const double Runner::calculateMaxSpeed() const {
 
     switch (current->getTerrain()) {
         case MapNode::terrainType::none:
-            return m_maxSpeed * 1.98;
+            return m_effectiveSpeed * 1.98;
         default:
-            return m_maxSpeed;
+            return m_effectiveSpeed;
     }
 }
 
@@ -71,4 +71,12 @@ void Runner::render() const {
 
 void Runner::drawSprite(int x, int y) const {
 	drawSpriteFromPixels(m_pixels, m_maskPixels, m_info, m_maskInfo, x, y);
+}
+
+void Runner::notify(Event e) {
+    Character::notify(e);
+
+    if (e.type == Event::enemyKill && m_world->getCharacters().size() == 2) {
+        changeState(new WanderRunner());
+    }
 }

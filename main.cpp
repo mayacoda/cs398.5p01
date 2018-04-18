@@ -151,7 +151,11 @@ void clickHandler(int b, int s, int x, int y) {
 }
 
 void keyboardHandler(unsigned char key, int x, int y) {
-    gameWorld.keyboardHandler(key, x, y);
+    if (key == 27) {
+        state = GameWorld::menu;
+    } else {
+        gameWorld.keyboardHandler(key, x, y);
+    }
 }
 
 void specialHandler(int key, int x, int y) {

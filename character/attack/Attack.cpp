@@ -8,7 +8,7 @@
 #elif __APPLE__
 #endif
 
-Attack::Attack(const Character* shooter,
+Attack::Attack(Character* shooter,
                double maxSpeed,
                double range,
                double damage) : MovingEntity(shooter->getPos(),
@@ -71,7 +71,10 @@ void Attack::update(double timeElapsed) {
     }
 
     if (closest) {
-        closest->takeDamage(m_damage);
+        m_victim = closest;
+        m_world->emit(Event(Event::attack, m_pos, this, m_victim, static_cast<void*>(&m_damage)));
+        m_world->emit(Event(Event::attackImpacted, m_pos, this, m_victim, nullptr));
+        m_world->emit(Event(Event::attackImpacted, m_pos, this, m_shooter, nullptr));
         m_impacted = true;
     }
 }
@@ -98,5 +101,22 @@ void Attack::countdown(double time) {
 
     if (m_timeTillDeath >= .5) {
         m_dead = true;
+        // both shooter and victim might have died in the meantime.
+        // @todo refactor to use smart pointers here instead of raw pointers, so setting to null isn't necessary
+        // https://stackoverflow.com/questions/15730827/how-to-detect-if-a-pointer-was-deleted-and-securely-delete-it
+        if (m_victim) {
+            m_world->emit(Event(Event::attackEnded, m_pos, this, m_victim, nullptr));
+        }
+        if (m_shooter) {
+            m_world->emit(Event(Event::attackEnded, m_pos, this, m_shooter, nullptr));
+        }
     }
 }
+
+void Attack::notify(Event e) {
+    if (e.type == Event::enemyKill) {
+        if (e.sender == m_victim) m_victim   = nullptr;
+        if (e.sender == m_shooter) m_shooter = nullptr;
+    }
+}
+

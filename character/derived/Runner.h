@@ -29,6 +29,8 @@ public:
     void turnOnDefaultBehavior() override;
 
     void takeDamage(double damage) override;
+
+    void notify(Event e) override;
 };
 
 

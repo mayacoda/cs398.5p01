@@ -24,19 +24,18 @@ Sneak::Sneak(GameWorld* m_world,
 
 	m_pixels     = ReadBitmap("assets/sneak.bmp", &m_info);
     m_maskPixels = ReadBitmap("assets/sneak-mask.bmp", &m_maskInfo);
-
 }
 
 const double Sneak::calculateMaxSpeed() const {
     MapNode* current = m_world->getNodeByPosition(m_pos);
-    double speed = m_maxSpeed;
+    double speed = m_effectiveSpeed;
 
     switch (current->getTerrain()) {
         case MapNode::terrainType::mountain:
-            speed = m_maxSpeed * 1.48;
+            speed = m_effectiveSpeed * 1.48;
             break;
         case MapNode::terrainType::forest:
-            speed = m_maxSpeed * 1.76;
+            speed = m_effectiveSpeed * 1.76;
             break;
         case MapNode::none:break;
         case MapNode::water:break;
@@ -86,4 +85,12 @@ void Sneak::render() const {
 
 void Sneak::drawSprite(int x, int y) const {
 	drawSpriteFromPixels(m_pixels, m_maskPixels, m_info, m_maskInfo, x, y);
+}
+
+void Sneak::notify(Event e) {
+    Character::notify(e);
+
+    if (e.type == Event::enemyKill && m_world->getCharacters().size() == 2) {
+        changeState(new WanderSneak());
+    }
 }

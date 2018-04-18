@@ -36,6 +36,17 @@ inline void drawCircle(double radius, Vector2D<double> pos) {
     glEnd();
 }
 
+inline void drawPercentageOfCircle(double radius, double percent, Vector2D<double> pos) {
+    glBegin(GL_LINE_STRIP);
+
+    for (int i = 0; i < 360 * percent; i++) {
+        double degInRad = (i + 90) * DEG2RAD;
+        glVertex2d(cos(degInRad) * radius + pos.x, sin(degInRad) * radius + pos.y);
+    }
+
+    glEnd();
+}
+
 inline void drawText(const char* text, double x, double y, Color color) {
     const char* c;
     glPushMatrix();

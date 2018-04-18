@@ -163,7 +163,7 @@ Vector2D<double> SteeringBehaviors::avoidObstacles() {
     Vector2D<double> steeringForce = Vector2D<double>();
 
     double boxLength = m_vehicle->getDetectionBoxLength() +
-                       (m_vehicle->getSpeed() / m_vehicle->calculateMaxSpeed()) *
+                       (m_vehicle->getSpeed() / max(m_vehicle->calculateMaxSpeed(), .001)) *
                        m_vehicle->getDetectionBoxLength();
 
     std::vector<Obstacle*> allObstacles = m_vehicle->getWorld()->getObstacles();

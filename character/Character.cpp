@@ -15,7 +15,6 @@
 
 
 void Character::update(double timeElapsed) {
-    m_timeElapsed = timeElapsed;
 
     if (currentState) {
         currentState->execute(this);
@@ -136,7 +135,7 @@ Character::Character(GameWorld* m_world,
                      double meleeAttackDistance,
                      double rangedAttackDistance,
                      double attackTimeout) : MovingEntity(pos,
-                                                          globals::SPRITE_SIZE/2,
+                                                          globals::SPRITE_SIZE / 2,
                                                           scale,
                                                           m_velocity,
                                                           m_heading,
@@ -150,7 +149,6 @@ Character::Character(GameWorld* m_world,
                                              m_distanceToAttackMelee(meleeAttackDistance),
                                              m_distanceToAttackRanged(rangedAttackDistance),
                                              m_attackTimeout(attackTimeout),
-                                             m_timeElapsed(0),
                                              m_leader(nullptr),
                                              m_color(0.3, 0.3, 0.6),
                                              m_dead(false),
@@ -171,6 +169,8 @@ Character::Character(GameWorld* m_world,
 
     m_antagonistDetectionDistance = 400;
 
+    m_trackingAdvantage = 0;
+
     m_steeringBehavior = new SteeringBehaviors(this);
 
     m_isPlayerControlled = false;
@@ -185,7 +185,15 @@ Character* Character::seekEnemies() const {
     double smallestDist = std::numeric_limits<double>::infinity();
 
     for (auto it = m_antagonists.begin(); it != m_antagonists.end(); ++it) {
-        double distanceTo = (*it)->getPos().distanceTo(m_pos);
+        // "trackingAdvantage" is how easy or difficult an enemy is to find.
+        // negative advantage means can be spotted at greater distances
+        double distanceTo = (*it)->getPos().distanceTo(m_pos) + (*it)->getTrackingAdvantage();
+
+        // detect any obstacles between the agent and target, they obscure visibility
+        if (m_world->firstObsBetweenPoints(m_pos, (*it)->getPos()) != nullptr) {
+            distanceTo *= 2;
+        }
+
         if (distanceTo <= smallestDist && distanceTo <= m_antagonistDetectionDistance) {
             smallestDist = distanceTo;
             closest      = *it;
@@ -232,11 +240,63 @@ void Character::attackMelee(Vector2D<double> target) {
 }
 
 void Character::turnToFace(Vector2D<double> target) {
-    m_heading  = (target - m_pos).getNormalized();
-    m_side = m_heading.getOrtho();
+    m_heading = (target - m_pos).getNormalized();
+    m_side    = m_heading.getOrtho();
 }
 
 Character::~Character() {
     delete m_steeringBehavior;
     delete currentState;
+}
+
+void Character::notify(Event e) {
+//    if (globals::debug) std::cout << e << std::endl;
+
+    switch (e.type) {
+        case Event::trapAttach: {
+            int type = (*(int*) (e.data));
+            if (type == Trap::visibility) {
+                m_trackingAdvantage -= 800;
+            } else if (type == Trap::movement) {
+                m_effectiveSpeed = 0;
+            }
+            break;
+        }
+        case Event::trapExpire: {
+            int type = (*(int*) (e.data));
+            if (type == Trap::visibility) {
+                m_trackingAdvantage += 800;
+            } else if (type == Trap::movement) {
+                m_effectiveSpeed = m_maxSpeed;
+            }
+            break;
+        }
+        case Event::attack:
+            takeDamage(*(double*) (e.data));
+            break;
+        case Event::enemyKill:
+            if (m_world->getCharacters().size() == 2) {
+                // make character more obvious
+                m_trackingAdvantage -= 1600;
+            }
+            break;
+        case Event::attackImpacted:
+            m_trackingAdvantage -= 1600;
+            break;
+        case Event::attackEnded:
+            m_trackingAdvantage += 1600;
+            break;
+    }
+}
+
+void Character::takeDamage(double damage) {
+    m_health -= damage;
+    if (globals::debug) std::cout << "[" << getId() << "] health is: " << m_health << std::endl;
+
+    if (m_health <= 0) {
+        m_dead = true;
+        Event killEvent = Event(Event::enemyKill, m_pos, this, nullptr, nullptr);
+
+        m_world->emit(killEvent);
+    }
 }

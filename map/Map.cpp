@@ -8,7 +8,7 @@ struct TerrainCenter {
     double size;
 
     TerrainCenter(int x, int y, MapNode::terrainType terrain) : x(x), y(y), terrain(terrain) {
-        size = fRandomRange(3, 4);
+        size = fRandomRange(2, 3);
     }
 };
 
@@ -51,7 +51,7 @@ Map::Map(int h, int w) : BaseGameEntity(globals::entityTypes::terrain, Vector2D<
     }
 
     std::list<TerrainCenter> terrainCenters;
-    int                      numberOfCenters = iRandomRange(30, 40);
+    int                      numberOfCenters = iRandomRange(40, 60);
 
     for (int i = 0; i < numberOfCenters; i++) {
         auto terrain = static_cast<MapNode::terrainType>(iRandomRange(1, globals::MAX_TERRAIN_TYPES - 1));

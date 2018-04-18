@@ -7,6 +7,8 @@
 #include "Obstacle.h"
 #include "../map/Map.h"
 #include "../character/attack/Attack.h"
+#include "EventHub.h"
+#include "traps/Trap.h"
 #include <vector>
 
 class Wall2D;
@@ -48,6 +50,7 @@ private:
     std::vector<Character*> m_characters;
     std::vector<Obstacle*>  m_obstacles;
     std::vector<Attack*>    m_projectiles;
+    std::vector<Trap*>      m_traps;
 
     int m_width;
     int m_height;
@@ -60,6 +63,8 @@ private:
 
     Map* m_map;
 
+    EventHub* m_eventHub;
+
     void (* endGame)(bool won);
 
     void initializeWorld();
@@ -70,6 +75,7 @@ public:
     ~GameWorld() {
         delete m_player;
         delete m_map;
+        delete m_eventHub;
     }
 
     void update(double timeElapsed);
@@ -87,6 +93,8 @@ public:
     MapNode* getNodeByPosition(Vector2D<double> pos) const {
         return m_map->getNodeByPosition(pos);
     }
+
+    void emit(Event e) { m_eventHub->emit(e); }
 
     void clickHandler(int button, int state, int x, int y);
 
@@ -130,7 +138,10 @@ public:
 
     void addProjectile(Attack* p) {
         m_projectiles.push_back(p);
+        m_eventHub->addEntityToList(p);
     }
+
+    Obstacle* firstObsBetweenPoints(Vector2D<double> a, Vector2D<double> b);
 
     Graph* getGraph() const {
         return m_map->getGraph();

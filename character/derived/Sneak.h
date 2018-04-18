@@ -29,6 +29,8 @@ public:
     void drawSprite(int x, int y) const override;
 
     void takeDamage(double damage) override;
+
+    void notify(Event e) override;
 };
 
 
